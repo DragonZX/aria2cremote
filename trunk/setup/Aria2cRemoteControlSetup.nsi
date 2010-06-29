@@ -4,7 +4,7 @@
 !define PRODUCT_NAME "Aria2c Remote Control"
 !define PRODUCT_VERSION "0.1.0"
 !define PRODUCT_PUBLISHER "Zoltan Molnar"
-!define PRODUCT_WEB_SITE "molnarzoltan.sourceforge.org"
+!define PRODUCT_WEB_SITE "https://sourceforge.net/projects/aria2cremote/files"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\Aria2cRemoteControl.exe"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_UNINST_ROOT_KEY "HKLM"
