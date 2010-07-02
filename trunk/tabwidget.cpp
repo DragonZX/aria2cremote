@@ -69,6 +69,7 @@ void DetailsTabView::changeEvent(QEvent *e)
 void DetailsTabView::setTabPages(xmlrpc::XmlRPC &dw)
 {
     setTabPageGeneral(dw);
+    setTabPageTrackers(dw);
     setTabPagePeers(dw);
     setTabPageFiles(dw);
 }
@@ -118,7 +119,6 @@ void DetailsTabView::setTabPageGeneral(xmlrpc::XmlRPC &dw)
     ui->label_Downloaded->setText(util::ConvertNumberToSuffixString(dw.getCompletedLength()));
     ui->label_DownloadSpeed->setText(util::ConvertNumberToSuffixString(dw.getDownloadSpeed()) + "/s");
     ui->label_Seeds->setText(dw.getsSeeders());
-    ui->label_Tracker->setText(dw.getsTracker());
 
     ui->label_Error->setText(dw.getErrorCode());
     ui->label_Uploaded->setText(util::ConvertNumberToSuffixString(dw.getUploadLength()));
@@ -135,6 +135,54 @@ void DetailsTabView::setTabPageGeneral(xmlrpc::XmlRPC &dw)
     ui->label_Pieces->setText(QString::number(dw.getNumPieces()));
     ui->label_Comment->setText(dw.getComment());
     ui->label_Path->setText(dw.getDir());
+}
+
+void DetailsTabView::setTabPageTrackers(xmlrpc::XmlRPC &dw)
+{
+    QMap<QString, TRACKERS_LIST> d;
+    QList<QTreeWidgetItemEx*> newItemsTracker;
+
+    foreach (QString t, dw.getAnnounceList())
+    {
+        TRACKERS_LIST list;
+        if (!m_tabViewTrackers.contains(t))
+        {
+            list.item = new QTreeWidgetItemEx;
+            newItemsTracker << list.item;
+        }
+        else
+        {
+            list = m_tabViewTrackers.find(t).value();
+        }
+        list.name = t;
+        d.insert(t, list);
+    }
+    foreach(QTreeWidgetItemEx * itemEx, newItemsTracker)
+    {
+        ui->treeWidget_trackers->addTopLevelItem( itemEx );
+    }
+
+    //erase not visibled trackers
+    foreach(QString t, m_tabViewTrackers.keys() )
+    {
+        if (!d.contains(t))
+        {
+            TRACKERS_LIST list;
+            list.item = 0;
+            QTreeWidgetItemEx *item = m_tabViewTrackers.value(t, list).item;
+            if (item != 0)
+            {
+                ui->treeWidget_trackers->takeTopLevelItem(ui->treeWidget_trackers->indexOfTopLevelItem( item ));
+                delete item;
+            }
+            m_tabViewTrackers.erase(m_tabViewTrackers.find(t));
+        }
+    }
+    m_tabViewTrackers.clear();
+    m_tabViewTrackers = d;
+
+    bool isTorrent = (dw.getType() == TORRENT) || (dw.getType() == MAGNETLINK);
+    ui->tab_Tracker->setEnabled(isTorrent);
 }
 
 void DetailsTabView::setTabPagePeers(xmlrpc::XmlRPC &dw)

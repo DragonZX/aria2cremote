@@ -36,6 +36,12 @@ namespace Ui {
     class TabWidget_Details;
 }
 
+typedef struct Trackers_List
+{
+    QString name;
+    QTreeWidgetItemEx* item;
+}TRACKERS_LIST, *PTRACKERS_LIST;
+
 typedef struct Peer_List
 {
     QString host;
@@ -82,9 +88,11 @@ private:
 
     QMap<QString, SERVER_PEER_LIST> m_tabViewPeersServers;
     QMap<QString, FILES_LIST> m_tabViewFiles;
+    QMap<QString, TRACKERS_LIST> m_tabViewTrackers;
     XML_TYPE m_currentType;
 
     void setTabPageGeneral(xmlrpc::XmlRPC &dw);
+    void setTabPageTrackers(xmlrpc::XmlRPC &dw);
     void setTabPagePeers(xmlrpc::XmlRPC &dw);
     void setTabPageFiles(xmlrpc::XmlRPC &dw);
 };
