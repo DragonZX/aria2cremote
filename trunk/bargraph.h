@@ -46,12 +46,17 @@ class bargraph: public QWidget {
 private:
   QPixmap pixmap;
   quint64 m_max_value;
+  QColor m_BackColor;
 
 public:
-  bargraph(QWidget *parent): QWidget(parent)
+  bargraph(QWidget *parent):
+          QWidget(parent),
+          m_BackColor(Qt::white)
   {
       setFixedHeight(BAR_HEIGHT);
   }
+
+  void setBackColor(QColor backcolor) { m_BackColor = backcolor; }
 
   void setDoneBar(quint64 totalLength, quint64 completeLength)
   {
@@ -172,7 +177,7 @@ protected:
 
   QColor getPieceColor(int avail)
   {
-      QColor Ret(Qt::red);
+      QColor Ret(m_BackColor);
 
       if (avail > 0)
       {

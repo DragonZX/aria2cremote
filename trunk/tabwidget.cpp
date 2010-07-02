@@ -37,6 +37,7 @@ DetailsTabView::DetailsTabView(QWidget *parent) :
     m_pieces = new bargraph(this);
     m_availability = new bargraph(this);
     m_availability->setEnabled(false);
+    m_availability->setBackColor(Qt::red);
 
     ui->horizontalLayout_Progress->insertWidget(1, m_progress);
     m_progress->setVisible(true);
