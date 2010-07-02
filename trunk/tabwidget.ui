@@ -945,7 +945,7 @@ background-color: rgb(216, 216, 216);</string>
       </column>
       <column>
        <property name="text">
-        <string>Upspeed</string>
+        <string>Up speed</string>
        </property>
       </column>
      </widget>
