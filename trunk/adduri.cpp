@@ -57,7 +57,7 @@ AddURI::AddURI(QWidget *parent) :
 
 AddURI::~AddURI()
 {
-    disconnect(m_rT, SIGNAL( ResponseGetGlobalOptions(QVariant) ), this, SLOT( GetGlobalOptions(QVariant) ));
+   // disconnect(m_rT, SIGNAL( ResponseGetGlobalOptions(QVariant) ), this, SLOT( GetGlobalOptions(QVariant) ));
     delete ui;
 }
 
@@ -76,7 +76,7 @@ void AddURI::changeEvent(QEvent *e)
  void AddURI::setRequestThread(reguestThread *rt)
 {
      m_rT = rt;
-     connect(m_rT, SIGNAL( ResponseGetGlobalOptions(QVariant) ), this, SLOT( GetGlobalOptions(QVariant) ));
+    // connect(m_rT, SIGNAL( ResponseGetGlobalOptions(QVariant) ), this, SLOT( GetGlobalOptions(QVariant) ));
 }
 
  void AddURI::Add()
