@@ -212,6 +212,7 @@ void Aria2cRemote::on_action_AddURI()
 
     ui->action_AddURI->setEnabled(false);
     a.setRequestThread(&m_requestThread);
+    connect(&m_requestThread, SIGNAL(ResponseGetGlobalOptions(QVariant)), &a, SLOT(GetGlobalOptions(QVariant)));
     if (a.exec() == QDialog::Accepted)
     {
         QList<Download> dlist = a.getDownloadList();
@@ -222,6 +223,7 @@ void Aria2cRemote::on_action_AddURI()
             m_requestThread.wakeUp();
         }
     }
+    disconnect(&m_requestThread, SIGNAL(ResponseGetGlobalOptions(QVariant)), &a, SLOT(GetGlobalOptions(QVariant)));
     ui->action_AddURI->setEnabled(true);
 }
 
@@ -1157,6 +1159,23 @@ void Aria2cRemote::on_actionForce_power_off_Aria2c_triggered()
 
 void Aria2cRemote::on_actionGlobal_Options_triggered()
 {
+    Download d;
+    QMap<QString, Variant> vCurrentParam;
+
+    d.addGetGlobalOptions(vCurrentParam);
+    connect(&m_requestThread, SIGNAL(ResponseGetGlobalOptions(QVariant)), this, SLOT(GetGlobalOptions(QVariant)));
+    m_requestThread.addRequest(d);
+    m_requestThread.setDescriptionText(tr("Get global variables"));
+    m_requestThread.wakeUp();
+}
+
+void Aria2cRemote::GetGlobalOptions(QVariant value)
+{
+    XmlRPC x;
+    m_globalOptions = x.OptionToMap(value);
+
+    disconnect(&m_requestThread, SIGNAL(ResponseGetGlobalOptions(QVariant)), this, SLOT(GetGlobalOptions(QVariant)));
+
     GlobalOptions g(this);
     g.SetGlobalOptions(m_globalOptions);
     if (g.exec() == QDialog::Accepted)

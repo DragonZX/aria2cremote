@@ -87,6 +87,7 @@ private slots:
     void processFaultToUI( int requestId, int errorCode, QString errorString );
     void ShowTransferDialog(QString sDescription);
     void HideTransferDialog();
+    void GetGlobalOptions(QVariant value);
 
 private:
     Ui::Aria2cRemote *ui;
