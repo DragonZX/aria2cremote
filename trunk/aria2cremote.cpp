@@ -146,6 +146,7 @@ Aria2cRemote::Aria2cRemote(QWidget *parent) :
     ui->actionAdd_Torrent->setEnabled(false);
     ui->actionAdd_MagnetLink->setEnabled(false);
     ui->actionAdd_Metalink->setEnabled(false);
+    ui->actionGlobal_Options->setEnabled(false);
     //set Action state
     ui->action_Start->setEnabled(false);
     ui->actionStart_all->setEnabled(false);
@@ -551,6 +552,7 @@ void Aria2cRemote::processFaultToUI( int requestId, int errorCode, QString error
         ui->actionAdd_Torrent->setEnabled(m_bConnected);
         ui->actionAdd_MagnetLink->setEnabled(m_bConnected);
         ui->actionAdd_Metalink->setEnabled(m_bConnected);
+        ui->actionGlobal_Options->setEnabled(m_bConnected);
 
         ui->action_Start->setEnabled(m_bConnected);
         ui->actionStart_all->setEnabled(m_bConnected);
@@ -610,6 +612,7 @@ void Aria2cRemote::ResponseXML(XML_RPC_RESPONSE_MAP tellActive, XML_RPC_RESPONSE
         ui->actionAdd_Torrent->setEnabled(m_bConnected);
         ui->actionAdd_MagnetLink->setEnabled(m_bConnected);
         ui->actionAdd_Metalink->setEnabled(m_bConnected);
+        ui->actionGlobal_Options->setEnabled(m_bConnected);
 
         ui->actionPower_off_Aria2c->setEnabled(m_bConnected);
         ui->actionForce_power_off_Aria2c->setEnabled(m_bConnected);
