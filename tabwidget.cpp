@@ -148,13 +148,14 @@ void DetailsTabView::setTabPageTrackers(xmlrpc::XmlRPC &dw)
         if (!m_tabViewTrackers.contains(t))
         {
             list.item = new QTreeWidgetItemEx;
+            list.name = t;
             newItemsTracker << list.item;
         }
         else
         {
             list = m_tabViewTrackers.find(t).value();
         }
-        list.name = t;
+        list.item->setText(0, list.name);
         d.insert(t, list);
     }
     foreach(QTreeWidgetItemEx * itemEx, newItemsTracker)
@@ -196,7 +197,7 @@ void DetailsTabView::setTabPagePeers(xmlrpc::XmlRPC &dw)
 
     if (type != m_currentType)
     {
-        setTabText(1, isTorrent ? tr("Peers") : tr("Servers"));
+        setTabText(2, isTorrent ? tr("Peers") : tr("Servers"));
 
         //erase all items
         foreach (QString iIndex, m_tabViewPeersServers.keys() )
@@ -261,7 +262,9 @@ void DetailsTabView::setTabPagePeers(xmlrpc::XmlRPC &dw)
 
             list.item->setText(0, ipAddress);
             list.item->setText(1, util::ConvertNumberToSuffixString(peer.download) + "/s");
+            list.item->setData(1, Qt::UserRole, peer.download);
             list.item->setText(2, util::ConvertNumberToSuffixString(peer.uploadSpeed) + "/s");
+            list.item->setData(2, Qt::UserRole, peer.uploadSpeed);
             d.insert(ipAddress, list);
         }
         foreach(QTreeWidgetItemEx * itemEx, newItemsPeer)
@@ -316,6 +319,7 @@ void DetailsTabView::setTabPagePeers(xmlrpc::XmlRPC &dw)
                     child->setText(0, s.uri);
                     child->setText(1, s.currentUri);
                     child->setText(2, util::ConvertNumberToSuffixString(s.downloadSpeed) + "/s");
+                    child->setData(2, Qt::UserRole, s.downloadSpeed);
                     list.item->addChild(child);
                 }
             }
@@ -374,6 +378,7 @@ void DetailsTabView::setTabPageFiles(xmlrpc::XmlRPC &dw)
 
         list.item->setText(0, f.path);
         list.item->setText(1, util::ConvertNumberToSuffixString(f.length));
+        list.item->setData(1, Qt::UserRole, f.length);
         list.item->setText(2, sDesc);
         list.item->setIcon(2, icon);
 
