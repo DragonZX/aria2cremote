@@ -37,6 +37,7 @@
 #include <QClipboard>
 #include <QMutex>
 #include <QTreeWidgetItem>
+#include <QStatusBar>
 #include "tabwidget.h"
 #include "listview.h"
 #include "mainlistview.h"
@@ -49,6 +50,7 @@
 #include "reguestthread.h"
 #include "transfer.h"
 #include "QTreeWidgetItemEx.h"
+#include "statusbarex.h"
 
 namespace Ui {
     class Aria2cRemote;
@@ -96,7 +98,6 @@ private:
     MainListView *m_mainListView;
     QSplitter *m_mainSplitter;
     QSplitter *m_mainSplitter1;
-    QLabel *m_Aria2cVersionInfo;
     QSystemTrayIcon *m_SystemTrayIcon;
 
     workThread m_workThread;
@@ -139,6 +140,9 @@ private:
     quint64 m_error;
     quint64 m_waiting;
     quint64 m_remove;
+
+    //status bar
+    StatusBarEx *statusBarEx;
 
 private:
     void setTreeWidgetItem(QTreeWidgetItemEx *item, XmlRPC& x);

@@ -83,11 +83,10 @@ Aria2cRemote::Aria2cRemote(QWidget *parent) :
     m_mainSplitter1->setCollapsible(0, false);
     m_mainSplitter1->setCollapsible(1, false);
 
-    m_Aria2cVersionInfo = new QLabel;
-    m_Aria2cVersionInfo->setIndent(3);
-
-
-    statusBar()->addWidget(m_Aria2cVersionInfo);
+    //init status bar
+    statusBar()->setStyleSheet("QStatusBar::item { border: 0px solid black }; ");
+    statusBarEx = new StatusBarEx();
+    statusBar()->addPermanentWidget(statusBarEx);
 
 
     //SystemTrayIcon
@@ -786,6 +785,8 @@ void Aria2cRemote::ResponseXML(XML_RPC_RESPONSE_MAP tellActive, XML_RPC_RESPONSE
     bool bPauseAll = false;
     bool bRemove = false;
     bool bPurge = false;
+    quint64 uOverAllDownloadSpeed = 0;
+    quint64 uOverAllUploadSpeed = 0;
 
     m_currentGID = -1;
     foreach(DOWNLOAD_LIST dl, m_downloadView)
@@ -804,6 +805,9 @@ void Aria2cRemote::ResponseXML(XML_RPC_RESPONSE_MAP tellActive, XML_RPC_RESPONSE
         bUnPauseAll |= (status == STATUS_PAUSED); //start All
         bPauseAll |= (status == STATUS_ACTIVE); //pause all
         bPurge |= ( (status == STATUS_COMPLETE) || (status == STATUS_ERROR) || (status == STATUS_REMOVED) );
+
+        uOverAllDownloadSpeed += dl.list.getDownloadSpeed();
+        uOverAllUploadSpeed += dl.list.getUploadSpeed();
     }
 
     //Main view update
@@ -833,6 +837,9 @@ void Aria2cRemote::ResponseXML(XML_RPC_RESPONSE_MAP tellActive, XML_RPC_RESPONSE
     ui->actionForce_remove->setEnabled(bRemove);
 
     m_DetailsTab->setTabPages(currentDownload);
+
+    //update status bar
+    statusBarEx->setStatusBar(uOverAllDownloadSpeed, uOverAllUploadSpeed);
 
     //Set current download's GID
     m_workThread.setCurrentGID(m_currentGID);
