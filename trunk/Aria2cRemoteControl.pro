@@ -36,7 +36,8 @@ SOURCES += main.cpp \
     addserver.cpp \
     server.cpp \
     aria2options.cpp \
-    qtreewidgetitemex.cpp
+    qtreewidgetitemex.cpp \
+    statusbarex.cpp
 HEADERS += aria2cremote.h \
     tabwidget.h \
     listview.h \
@@ -62,7 +63,8 @@ HEADERS += aria2cremote.h \
     server.h \
     aria2options.h \
     bargraph.h \
-    qtreewidgetitemex.h
+    qtreewidgetitemex.h \
+    statusbarex.h
 FORMS += aria2cremote.ui \
     tabwidget.ui \
     listview.ui \

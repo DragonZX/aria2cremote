@@ -70,5 +70,9 @@
         <file>icon/logo.png</file>
         <file>icon/transfer_wait.mng</file>
         <file>icon/liststate/remove_arrow.png</file>
+        <file>icon/down0up0.png</file>
+        <file>icon/down0up1.png</file>
+        <file>icon/down1up0.png</file>
+        <file>icon/down1up1.png</file>
     </qresource>
 </RCC>
