@@ -119,13 +119,13 @@ void reguestThread::run()
 
 void reguestThread::processReturnValue( int iTypes, qint64 iGID, int requestId, QVariant value )
 {
-    QVariantList vl;
-    QString errorMessage;
-
     //transfer dialog done
     emit HideTransferDialog();
 
+#ifdef XMLRPC_DEBUG
+    QVariantList vl;
     vl << value;
+
     QFile kiiras(QApplication::applicationDirPath() + "/aria_response.xml");
     if (kiiras.open(QIODevice::ReadWrite))
     {
@@ -133,6 +133,7 @@ void reguestThread::processReturnValue( int iTypes, qint64 iGID, int requestId, 
         kiiras.write(xmlrpc::Response(vl).composeResponse(1));
         kiiras.close();
     }
+#endif
 
     if (iTypes & GET_GLOBAL_OPTIONS)
     {
