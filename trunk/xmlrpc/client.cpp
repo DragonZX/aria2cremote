@@ -201,6 +201,7 @@ int Client::request( QList<Variant> &params, QString methodName, int iTypes, qin
     d->iGID = iGID;
     d->http->close();
 
+#ifdef XMLRPC_DEBUG
     QFile kiiras(QApplication::applicationDirPath() + "/aria_request.xml");
     if (kiiras.open(QIODevice::ReadWrite))
     {
@@ -208,6 +209,8 @@ int Client::request( QList<Variant> &params, QString methodName, int iTypes, qin
         kiiras.write(Request(methodName,params).composeRequest(1));
         kiiras.close();
     }
+#endif
+
 #ifdef XMLRPC_DEBUG
     qDebug() << "xmlrpc request(" << id << "): " << methodName;
     qDebug() << Variant(params).pprint();
