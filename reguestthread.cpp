@@ -96,7 +96,10 @@ void reguestThread::run()
         }
         if (v.size() != 0)
         {
-            emit ShowTransferDialog(m_sDescription);
+            if (m_sDescription.size() != 0)
+            {
+                emit ShowTransferDialog(m_sDescription);
+            }
 
             RequestCall << Variant(v);
             //send new request to Aria2c
@@ -139,8 +142,6 @@ void reguestThread::processReturnValue( int iTypes, qint64 iGID, int requestId, 
     {
         emit ResponseGetLocalOptions(value);
     }
-
-    //emit Response(responseXML);
 }
 
 void reguestThread::processFault( int requestId, int errorCode, QString errorString )
