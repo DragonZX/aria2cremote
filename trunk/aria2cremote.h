@@ -87,6 +87,7 @@ private slots:
     void on_actionOption_triggered();
     void ResponseXML(XML_RPC_RESPONSE_MAP tellActive, XML_RPC_RESPONSE_MAP tellStopped, XML_RPC_RESPONSE_MAP tellWaiting);
     void processFaultToUI( int requestId, int errorCode, QString errorString );
+    void ResponseVersionInfo(QVariant params);
     void ShowTransferDialog(QString sDescription);
     void HideTransferDialog();
     void GetGlobalOptions(QVariant value);
@@ -143,6 +144,10 @@ private:
 
     //status bar
     StatusBarEx *statusBarEx;
+
+    //status bar connect state + Aria2c version
+    QLabel m_connectStateIcon;
+    QLabel m_connectStateText;
 
 private:
     void setTreeWidgetItem(QTreeWidgetItemEx *item, XmlRPC& x);

@@ -382,6 +382,35 @@ namespace xmlrpc
             m_peerList << peer;
         }
     }
+	
+    void XmlRPC::versionInfo(const QVariant &value)
+    {
+        QVariantList values = value.toList();
+        QVariantList itemVersionInfoList(values[0].toList());
+        int itemVersioninfoSize = itemVersionInfoList.size();
+
+        for (int i = 0; i < itemVersioninfoSize; i++)
+        {
+             QVariant &item(itemVersionInfoList[i]);
+             if (Variant::Map == item.type())
+             {
+                 QMapIterator<QString,QVariant> it(item.toMap());
+                 while( it.hasNext() )
+                 {
+                     it.next();
+
+                     QString key = it.key();
+                     if (key == "version")
+                     {
+                         m_versionInfo.version = it.value().toString();
+                     } else if (key == "enabledFeatures")
+                     {
+                         m_versionInfo.enabledFeatures = it.value().toStringList();
+                     }
+                 }
+             }
+        }
+    }
 
     QString XmlRPC::getName()
     {
