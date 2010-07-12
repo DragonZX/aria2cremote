@@ -88,6 +88,12 @@ Aria2cRemote::Aria2cRemote(QWidget *parent) :
     statusBarEx = new StatusBarEx();
     statusBar()->addPermanentWidget(statusBarEx);
 
+    //statusbar version
+    m_connectStateText.setText(tr("Disconnected"));
+    m_connectStateText.setToolTip("");
+    m_connectStateIcon.setPixmap(QPixmap::QPixmap(":/icon/block.png").scaled(16, 16));
+    statusBar()->addWidget(&m_connectStateIcon);
+    statusBar()->addWidget(&m_connectStateText);
 
     //SystemTrayIcon
     QMenu *m_SystemTrayMenu = new QMenu;
@@ -129,6 +135,7 @@ Aria2cRemote::Aria2cRemote(QWidget *parent) :
     connect(&m_requestThread, SIGNAL(ShowTransferDialog(QString)), this, SLOT(ShowTransferDialog(QString)));
     connect(&m_requestThread, SIGNAL(HideTransferDialog()), this, SLOT(HideTransferDialog()));
     connect(&m_requestThread, SIGNAL(processFaultToUI(int, int, QString)), this, SLOT(processFaultToUI(int, int, QString)));
+    connect(&m_requestThread, SIGNAL(ResponseVersionInfo(QVariant)), this, SLOT(ResponseVersionInfo(QVariant)));
     m_requestThread.start();
 
     QFileIconProvider fileIconProvider;
@@ -594,8 +601,31 @@ void Aria2cRemote::processFaultToUI( int requestId, int errorCode, QString error
         m_mainListView->setEnabled(m_bConnected);
         m_DetailsTab->setEnabled(m_bConnected);
         m_listView->setEnabled(m_bConnected);
+
+        //set status bar connect state
+        m_connectStateText.setText(tr("Disconnected"));
+        m_connectStateText.setToolTip("");
+        m_connectStateIcon.setPixmap(QPixmap::QPixmap(":/icon/block.png").scaled(16, 16));
+
         QMessageBox::warning(this, tr("Request failed"), QString(tr("XML-RPC request  failed.\n\nFault code: %1\n%2\n")).arg(errorCode).arg(errorString), QMessageBox::Ok );
     }
+}
+
+void Aria2cRemote::ResponseVersionInfo(QVariant params)
+{
+    xmlrpc::XmlRPC versioninfo;
+    XMLRPC_VERSION_INFO vInfo;
+
+    versioninfo.versionInfo(params);
+    vInfo = versioninfo.getVersionInfo();
+    m_connectStateText.setText("Aria2c " + vInfo.version);
+
+    QString tooltip(QString("<b>%1:</b>").arg(tr("Enabled features")));
+    foreach (QString t, vInfo.enabledFeatures)
+    {
+        tooltip += ("<br/>" + t);
+    }
+    m_connectStateText.setToolTip(tooltip);
 }
 
 void Aria2cRemote::ResponseXML(XML_RPC_RESPONSE_MAP tellActive, XML_RPC_RESPONSE_MAP tellStopped, XML_RPC_RESPONSE_MAP tellWaiting)
@@ -621,6 +651,17 @@ void Aria2cRemote::ResponseXML(XML_RPC_RESPONSE_MAP tellActive, XML_RPC_RESPONSE
         m_mainListView->setEnabled(m_bConnected);
         m_DetailsTab->setEnabled(m_bConnected);
         m_listView->setEnabled(m_bConnected);
+
+        //set status bar connect state
+        m_connectStateText.setText(tr("Connected"));
+        m_connectStateText.setToolTip("");
+        m_connectStateIcon.setPixmap(QPixmap::QPixmap(":/icon/tick.png").scaled(16, 16));
+
+        Download d;
+        QMap<QString, Variant> vCurrentParam;
+        d.addVersionInfo(vCurrentParam);
+        m_requestThread.addRequest(d);
+        m_requestThread.wakeUp();
     }
 
     //clear

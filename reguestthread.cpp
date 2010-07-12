@@ -142,6 +142,10 @@ void reguestThread::processReturnValue( int iTypes, qint64 iGID, int requestId, 
     {
         emit ResponseGetLocalOptions(value);
     }
+    else if (iTypes & VERSION_INFO)
+    {
+        emit ResponseVersionInfo(value);
+    }
 }
 
 void reguestThread::processFault( int requestId, int errorCode, QString errorString )

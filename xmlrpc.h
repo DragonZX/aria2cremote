@@ -69,6 +69,12 @@ namespace xmlrpc
         STATUS_REMOVED  = 6
     };
 
+    typedef struct xmlrpc_version_info
+    {
+        QList<QString> enabledFeatures;
+        QString version;
+    }XMLRPC_VERSION_INFO, *PXMLRPC_VERSION_INFO;
+
     typedef struct xmlrpc_server
     {
         QString uri;
@@ -165,6 +171,10 @@ namespace xmlrpc
         const QList<XMLRPC_PEER_LIST>& getPeerList(){ return m_peerList;}
         const QList<XMLRPC_SERVER_LIST>& getServerList() {return m_serverList;}
 
+        //version info
+        void versionInfo(const QVariant &value);
+        XMLRPC_VERSION_INFO getVersionInfo(){ return m_versionInfo; }
+
         //Options
         QMap<QString, Variant> OptionToMap(const QVariant &value);
 
@@ -216,6 +226,9 @@ namespace xmlrpc
         //error
         QString m_sError;
         quint32 m_iError;
+
+        //version info
+        XMLRPC_VERSION_INFO m_versionInfo;
     };
 };
 

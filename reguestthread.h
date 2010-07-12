@@ -49,6 +49,7 @@ signals:
     void Response(int iValue, QString sError);
     void ResponseGetGlobalOptions(QVariant params);
     void ResponseGetLocalOptions(QVariant params);
+    void ResponseVersionInfo(QVariant params);
     void processFaultToUI( int requestId, int errorCode, QString errorString );
     void ShowTransferDialog(QString sDescription);
     void HideTransferDialog();
