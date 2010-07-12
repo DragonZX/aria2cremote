@@ -74,5 +74,6 @@
         <file>icon/down0up1.png</file>
         <file>icon/down1up0.png</file>
         <file>icon/down1up1.png</file>
+        <file>icon/qtlogo.png</file>
     </qresource>
 </RCC>

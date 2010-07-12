@@ -198,12 +198,12 @@ void Aria2cRemote::changeEvent(QEvent *e)
 
 void Aria2cRemote::on_actionAbout_Qt_triggered()
 {
-    QMessageBox::aboutQt(this, "About Qt...");
+    QMessageBox::aboutQt(this, "About Qt");
 }
 
 void Aria2cRemote::on_actionAbout_triggered()
 {
-    QMessageBox::about(this, tr("About..."),
+    QMessageBox::about(this, tr("About"),
             //QString("<p><center><big><b>%1</b></big><br/>%2<br/><br/>%3<br/><small>%4</small><br/></center></p>")
             QString("<big><b>%1</b></big><br/>%2<br/><br/>%3<br/><small>%4</small><br/>")
             .arg(tr("Aria2c Remote Control %1").arg(QCoreApplication::applicationVersion()))
