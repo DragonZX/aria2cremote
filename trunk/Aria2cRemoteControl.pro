@@ -37,7 +37,8 @@ SOURCES += main.cpp \
     server.cpp \
     aria2options.cpp \
     qtreewidgetitemex.cpp \
-    statusbarex.cpp
+    statusbarex.cpp \
+    about.cpp
 HEADERS += aria2cremote.h \
     tabwidget.h \
     listview.h \
@@ -64,7 +65,8 @@ HEADERS += aria2cremote.h \
     aria2options.h \
     bargraph.h \
     qtreewidgetitemex.h \
-    statusbarex.h
+    statusbarex.h \
+    about.h
 FORMS += aria2cremote.ui \
     tabwidget.ui \
     listview.ui \
@@ -76,7 +78,8 @@ FORMS += aria2cremote.ui \
     localoptions.ui \
     transfer.ui \
     addserver.ui \
-    aria2options.ui
+    aria2options.ui \
+    about.ui
 RESOURCES += Aria2cRemote.qrc
 
 win32 {

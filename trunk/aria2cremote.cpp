@@ -91,7 +91,9 @@ Aria2cRemote::Aria2cRemote(QWidget *parent) :
     //statusbar version
     m_connectStateText.setText(tr("Disconnected"));
     m_connectStateText.setToolTip("");
-    m_connectStateIcon.setPixmap(QPixmap::QPixmap(":/icon/block.png").scaled(16, 16));
+    QIcon iconConnect(":/icon/block.png");
+    QSize size = iconConnect.actualSize(QSize(16, 16));
+    m_connectStateIcon.setPixmap(iconConnect.pixmap(size));
     statusBar()->addWidget(&m_connectStateIcon);
     statusBar()->addWidget(&m_connectStateText);
 
@@ -203,13 +205,9 @@ void Aria2cRemote::on_actionAbout_Qt_triggered()
 
 void Aria2cRemote::on_actionAbout_triggered()
 {
-    QMessageBox::about(this, tr("About"),
-            //QString("<p><center><big><b>%1</b></big><br/>%2<br/><br/>%3<br/><small>%4</small><br/></center></p>")
-            QString("<big><b>%1</b></big><br/>%2<br/><br/>%3<br/><small>%4</small><br/>")
-            .arg(tr("Aria2c Remote Control %1").arg(QCoreApplication::applicationVersion()))
-            .arg(tr("Copyright &copy; 2010 Zoltán Molnár"))
-            .arg("build date: " + QString::fromLocal8Bit(BUILDDATE) + " " + QString::fromLocal8Bit(BUILDTIME))
-            .arg(tr("Released under the <a href=\"http://www.gnu.org/licenses/gpl.html\">GPL 3</a> license")));
+    About a(this);
+
+    a.exec();
 }
 
 void Aria2cRemote::on_action_AddURI()
@@ -605,7 +603,9 @@ void Aria2cRemote::processFaultToUI( int requestId, int errorCode, QString error
         //set status bar connect state
         m_connectStateText.setText(tr("Disconnected"));
         m_connectStateText.setToolTip("");
-        m_connectStateIcon.setPixmap(QPixmap::QPixmap(":/icon/block.png").scaled(16, 16));
+        QIcon iconConnect(":/icon/block.png");
+        QSize size = iconConnect.actualSize(QSize(16, 16));
+        m_connectStateIcon.setPixmap(iconConnect.pixmap(size));
 
         QMessageBox::warning(this, tr("Request failed"), QString(tr("XML-RPC request  failed.\n\nFault code: %1\n%2\n")).arg(errorCode).arg(errorString), QMessageBox::Ok );
     }
@@ -655,7 +655,9 @@ void Aria2cRemote::ResponseXML(XML_RPC_RESPONSE_MAP tellActive, XML_RPC_RESPONSE
         //set status bar connect state
         m_connectStateText.setText(tr("Connected"));
         m_connectStateText.setToolTip("");
-        m_connectStateIcon.setPixmap(QPixmap::QPixmap(":/icon/tick.png").scaled(16, 16));
+        QIcon iconConnect(":/icon/tick.png");
+        QSize size = iconConnect.actualSize(QSize(16, 16));
+        m_connectStateIcon.setPixmap(iconConnect.pixmap(size));
 
         Download d;
         QMap<QString, Variant> vCurrentParam;

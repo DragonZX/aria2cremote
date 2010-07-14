@@ -51,6 +51,7 @@
 #include "transfer.h"
 #include "QTreeWidgetItemEx.h"
 #include "statusbarex.h"
+#include "about.h"
 
 namespace Ui {
     class Aria2cRemote;
