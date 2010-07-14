@@ -51,7 +51,7 @@ SetCompressor /SOLID lzma
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
 OutFile "Aria2cRemoteControlSetup.exe"
-InstallDir "$PROGRAMFILES\Aria2c Remote Control"
+InstallDir "$PROGRAMFILES\${PRODUCT_NAME}"
 InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 ShowInstDetails show
 ShowUnInstDetails show
@@ -62,7 +62,7 @@ FunctionEnd
 
 Section "MainSection" SEC01
   SetOverwrite ifnewer
-  CreateDirectory "$SMPROGRAMS\Aria2c Remote Control"
+  CreateDirectory "$SMPROGRAMS\${PRODUCT_NAME}"
  
   SetOutPath "$INSTDIR"
   File "QtNetwork4.dll"
@@ -71,22 +71,25 @@ Section "MainSection" SEC01
   File "mingwm10.dll"
   File "license.txt"
   File "libgcc_s_dw2-1.dll"
-  File "configuration.xml"
   File "Aria2cRemoteControl.exe"
   File "QtXml4.dll"
   
   CreateDirectory "$INSTDIR\imageformats"
   SetOutPath "$INSTDIR\imageformats"
   File "imageformats\qmng4.dll"
+
+  CreateDirectory "$APPDATA\${PRODUCT_NAME}"
+  SetOutPath "$APPDATA\${PRODUCT_NAME}"
+  File "configuration.xml"
   
-  CreateShortCut "$SMPROGRAMS\Aria2c Remote Control\Aria2c Remote Control.lnk" "$INSTDIR\Aria2cRemoteControl.exe"
-  CreateShortCut "$DESKTOP\Aria2c Remote Control.lnk" "$INSTDIR\Aria2cRemoteControl.exe"
+  CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}\${PRODUCT_NAME}.lnk" "$INSTDIR\Aria2cRemoteControl.exe"
+  CreateShortCut "$DESKTOP\${PRODUCT_NAME}.lnk" "$INSTDIR\Aria2cRemoteControl.exe"
 SectionEnd
 
 Section -AdditionalIcons
   WriteIniStr "$INSTDIR\${PRODUCT_NAME}.url" "InternetShortcut" "URL" "${PRODUCT_WEB_SITE}"
-  CreateShortCut "$SMPROGRAMS\Aria2c Remote Control\Website.lnk" "$INSTDIR\${PRODUCT_NAME}.url"
-  CreateShortCut "$SMPROGRAMS\Aria2c Remote Control\Uninstall.lnk" "$INSTDIR\uninst.exe"
+  CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}\Website.lnk" "$INSTDIR\${PRODUCT_NAME}.url"
+  CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}\Uninstall.lnk" "$INSTDIR\uninst.exe"
 SectionEnd
 
 Section -Post
@@ -117,7 +120,7 @@ Section Uninstall
   Delete "$INSTDIR\imageformats\qmng4.dll"
   Delete "$INSTDIR\QtXml4.dll"
   Delete "$INSTDIR\Aria2cRemoteControl.exe"
-  Delete "$INSTDIR\configuration.xml"
+  Delete "$APPDATA\${PRODUCT_NAME}\configuration.xml"
   Delete "$INSTDIR\libgcc_s_dw2-1.dll"
   Delete "$INSTDIR\license.txt"
   Delete "$INSTDIR\mingwm10.dll"
@@ -125,13 +128,14 @@ Section Uninstall
   Delete "$INSTDIR\QtGui4.dll"
   Delete "$INSTDIR\QtNetwork4.dll"
 
-  Delete "$SMPROGRAMS\Aria2c Remote Control\Uninstall.lnk"
-  Delete "$SMPROGRAMS\Aria2c Remote Control\Website.lnk"
-  Delete "$DESKTOP\Aria2c Remote Control.lnk"
-  Delete "$SMPROGRAMS\Aria2c Remote Control\Aria2c Remote Control.lnk"
+  Delete "$SMPROGRAMS\${PRODUCT_NAME}\Uninstall.lnk"
+  Delete "$SMPROGRAMS\${PRODUCT_NAME}\Website.lnk"
+  Delete "$DESKTOP\${PRODUCT_NAME}.lnk"
+  Delete "$SMPROGRAMS\${PRODUCT_NAME}\${PRODUCT_NAME}.lnk"
 
+  RMDir "$APPDATA\${PRODUCT_NAME}"
   RMDir "$INSTDIR\imageformats"
-  RMDir "$SMPROGRAMS\Aria2c Remote Control"
+  RMDir "$SMPROGRAMS\${PRODUCT_NAME}"
   RMDir "$INSTDIR"
 
   DeleteRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}"

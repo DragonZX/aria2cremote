@@ -126,7 +126,7 @@ void reguestThread::processReturnValue( int iTypes, qint64 iGID, int requestId, 
     QVariantList vl;
     vl << value;
 
-    QFile kiiras(QApplication::applicationDirPath() + "/aria_response.xml");
+    QFile kiiras(util::getHomePath() + "aria_response.xml");
     if (kiiras.open(QIODevice::ReadWrite))
     {
         kiiras.seek(kiiras.size());

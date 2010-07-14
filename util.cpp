@@ -251,7 +251,7 @@ void util::deletePrePostSpace(QString &str)
 void util::LoadConnectionList(QString &host, QString &user, QString &password, int &port, QString &proxyServer, QString &proxyUser, QString &proxyPassword, int &proxyPort)
 {
     QDomDocument doc("Aria2cRemoteConfiguration");
-    QFile file(QApplication::applicationDirPath() + "/configuration.xml");
+    QFile file(util::getHomePath() + "configuration.xml");
     if (file.open(QIODevice::ReadOnly))
     {
         QString errorMsg;
@@ -308,10 +308,26 @@ void util::SaveConnectionList(QString &host, QString &user, QString &password, i
 
     root.appendChild(elem);
 
-    QFile file(QApplication::applicationDirPath() + "/configuration.xml");
+    QFile file(util::getHomePath() + "configuration.xml");
     if (file.open(QIODevice::WriteOnly))
     {
         file.write(doc.toByteArray());
         file.close();
     }
+}
+
+QString util::getHomePath()
+{
+    QString sRet(QDir::homePath() + QDir::separator());
+
+    sRet = QDir::toNativeSeparators(sRet);
+#if defined(Q_WS_WIN)
+    sRet += (QString("Application Data") + QDir::separator());
+#endif
+#if defined(Q_WS_LINUX)
+     sRet += (QString(".config") + QDir::separator());
+#endif
+
+    sRet += (QString("Aria2c Remote Control") + QDir::separator());
+    return sRet;
 }

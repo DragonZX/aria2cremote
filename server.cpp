@@ -31,7 +31,7 @@ Server::Server()
 void Server::LoadServerList()
 {
     QDomDocument doc("ServerConfiguration");
-    QFile file(QApplication::applicationDirPath() + "/serverconfig.xml");
+    QFile file(util::getHomePath() + "serverconfig.xml");
     if (file.open(QIODevice::ReadOnly))
     {
         QString errorMsg;
@@ -100,7 +100,7 @@ void Server::SaveServerList()
         root.appendChild(elem);
     }
 
-    QFile file(QApplication::applicationDirPath() + "/serverconfig.xml");
+    QFile file(util::getHomePath() + "serverconfig.xml");
     if (file.open(QIODevice::WriteOnly))
     {
         file.write(doc.toByteArray());
