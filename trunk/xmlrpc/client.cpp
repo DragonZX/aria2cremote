@@ -202,7 +202,7 @@ int Client::request( QList<Variant> &params, QString methodName, int iTypes, qin
     d->http->close();
 
 #ifdef XMLRPC_DEBUG
-    QFile kiiras(QApplication::applicationDirPath() + "/aria_request.xml");
+    QFile kiiras(util::getHomePath() + "aria_request.xml");
     if (kiiras.open(QIODevice::ReadWrite))
     {
         kiiras.seek(kiiras.size());
