@@ -155,46 +155,58 @@ void workThread::processReturnValue( int iTypes, qint64 iGID, int requestId, QVa
         XML_RPC_RESPONSE_MAP responseTellWaiting;
         QVariantList values = value.toList();
 
-        QVariantList itemtellActiveList(values[0].toList()[0].toList());
-        int itemtellActiveListSize = itemtellActiveList.size();
-        for (int i = 0; i < itemtellActiveListSize; i++)
+        QVariantList tmpList = values[0].toList();
+        if (tmpList.size() > 0)
         {
-             QVariant &item(itemtellActiveList[i]);
-             if (Variant::Map == item.type())
-             {
-                 xmlrpc::XmlRPC x;
-                 x.ParseResponseXML(item);
-                 qint64 gid = x.getGID();
-                 responseTellActive[gid] = x;
-             }
+            QVariantList itemtellActiveList(tmpList[0].toList());
+            int itemtellActiveListSize = itemtellActiveList.size();
+            for (int i = 0; i < itemtellActiveListSize; i++)
+            {
+                 QVariant &item(itemtellActiveList[i]);
+                 if (Variant::Map == item.type())
+                 {
+                     xmlrpc::XmlRPC x;
+                     x.ParseResponseXML(item);
+                     qint64 gid = x.getGID();
+                     responseTellActive[gid] = x;
+                 }
+            }
         }
 
-        QVariantList itemtellStoppedList(values[1].toList()[0].toList());
-        int itemtellStoppedListSize = itemtellStoppedList.size();
-        for (int i = 0; i < itemtellStoppedListSize; i++)
+        tmpList = values[1].toList();
+        if (tmpList.size() > 0)
         {
-             QVariant &item(itemtellStoppedList[i]);
-             if (Variant::Map == item.type())
-             {
-                 xmlrpc::XmlRPC x;
-                 x.ParseResponseXML(item);
-                 qint64 gid = x.getGID();
-                 responseTellStopped[gid] = x;
-             }
+            QVariantList itemtellStoppedList(tmpList[0].toList());
+            int itemtellStoppedListSize = itemtellStoppedList.size();
+            for (int i = 0; i < itemtellStoppedListSize; i++)
+            {
+                 QVariant &item(itemtellStoppedList[i]);
+                 if (Variant::Map == item.type())
+                 {
+                     xmlrpc::XmlRPC x;
+                     x.ParseResponseXML(item);
+                     qint64 gid = x.getGID();
+                     responseTellStopped[gid] = x;
+                 }
+            }
         }
 
-        QVariantList itemtellWaitingList(values[2].toList()[0].toList());
-        int itemtellWaitingListSize = itemtellWaitingList.size();
-        for (int i = 0; i < itemtellWaitingListSize; i++)
+        tmpList = values[2].toList();
+        if (tmpList.size() > 0)
         {
-             QVariant &item(itemtellWaitingList[i]);
-             if (Variant::Map == item.type())
-             {
-                 xmlrpc::XmlRPC x;
-                 x.ParseResponseXML(item);
-                 qint64 gid = x.getGID();
-                 responseTellWaiting[gid] = x;
-             }
+            QVariantList itemtellWaitingList(tmpList[0].toList());
+            int itemtellWaitingListSize = itemtellWaitingList.size();
+            for (int i = 0; i < itemtellWaitingListSize; i++)
+            {
+                 QVariant &item(itemtellWaitingList[i]);
+                 if (Variant::Map == item.type())
+                 {
+                     xmlrpc::XmlRPC x;
+                     x.ParseResponseXML(item);
+                     qint64 gid = x.getGID();
+                     responseTellWaiting[gid] = x;
+                 }
+            }
         }
 
         if (values.size() == 5)
