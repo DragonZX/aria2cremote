@@ -623,6 +623,12 @@ void Aria2cRemote::ResponseVersionInfo(QVariant params)
     QString tooltip(QString("<b>%1:</b>").arg(tr("Enabled features")));
     foreach (QString t, vInfo.enabledFeatures)
     {
+        if (t.compare("gzip", Qt::CaseInsensitive) == 0)
+        {
+            m_requestThread.SetGZipEnabled();
+            m_workThread.SetGZipEnabled();
+        }
+
         tooltip += ("<br/>" + t);
     }
     m_connectStateText.setToolTip(tooltip);

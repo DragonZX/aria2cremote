@@ -10,6 +10,8 @@
 #include <qbuffer.h>
 #include <QtNetwork>
 #include <QAuthenticator>
+#include "util.h"
+#include "gzip/zlib.h"
 
 namespace  xmlrpc {
 
@@ -32,6 +34,8 @@ public:
     QMap<int,QBuffer*> serverResponses;
     int iTypes;
 
+    bool bGZip;
+
     //current selected download item
     qint64 iGID;
 };
@@ -41,7 +45,7 @@ public:
  */
 Client::Client(QObject * parent)
 : QObject( parent ),
-  bHeaderGZip(true)
+  m_bHeaderGZip(false)
 {
     d = new Private;
     d->port = 6800;
@@ -179,9 +183,9 @@ int Client::request( QList<Variant> &params, QString methodName, int iTypes, qin
     header.setValue( "User-Agent", d->userAgent );
     header.setValue("Accept","*/*");
 
-    if (bHeaderGZip)
+    if (m_bHeaderGZip)
     {
-       // header.setValue("Accept-Encoding", "deflate, gzip");
+        header.setValue("Accept-Encoding", "gzip");
     }
 
     if ( !d->userName.isEmpty() ) {
@@ -197,6 +201,7 @@ int Client::request( QList<Variant> &params, QString methodName, int iTypes, qin
     d->serverResponses[id] = outBuffer;
     d->iTypes = iTypes;
     d->iGID = iGID;
+    d->bGZip = m_bHeaderGZip;
     d->http->close();
 
 #ifdef QT_DEBUG
@@ -207,9 +212,7 @@ int Client::request( QList<Variant> &params, QString methodName, int iTypes, qin
         kiiras.write(Request(methodName,params).composeRequest(1));
         kiiras.close();
     }
-#endif
 
-#ifdef QT_DEBUG
     qDebug() << "xmlrpc request(" << id << "): " << methodName;
     qDebug() << Variant(params).pprint();
 #endif
@@ -286,11 +289,8 @@ void Client::requestFinished(int id, bool error)
 #endif
 
     if ( error ) {
-        //if ( d->serverResponses.count(id) )
-
         QBuffer *buffer = d->serverResponses.take(id);
         delete buffer;
-
 
         emit failed(id, d->http->error(), d->http->errorString() );
         return;
@@ -300,7 +300,10 @@ void Client::requestFinished(int id, bool error)
         QBuffer *buffer = d->serverResponses.take(id);
         QByteArray buf = buffer->buffer();
 
-        //qDebug() << "xml-rpc server response:\n" << QString(buf);
+        if (d->bGZip)
+        {
+            buf = gzipDecompress(buf);
+        }
 
         Response response;
 
@@ -332,7 +335,53 @@ void Client::requestFinished(int id, bool error)
 	
 }
 
+QByteArray Client::gzipDecompress( QByteArray compressData )
+{
+    //decompress GZIP data
+
+    //strip header and trailer
+      compressData.remove(0, 10);
+      compressData.chop(8);
+
+      const int buffersize = 16384;
+      quint8 buffer[buffersize];
+
+      z_stream cmpr_stream;
+      cmpr_stream.next_in = (unsigned char *)compressData.data();
+      cmpr_stream.avail_in = compressData.size();
+      cmpr_stream.total_in = 0;
+
+      cmpr_stream.next_out = buffer;
+      cmpr_stream.avail_out = buffersize;
+      cmpr_stream.total_out = 0;
+
+      cmpr_stream.zalloc = Z_NULL;
+      cmpr_stream.zalloc = Z_NULL;
+
+      if( inflateInit2(&cmpr_stream, -8 ) != Z_OK) {
+              qDebug() << "cmpr_stream error!";
+      }
+
+        QByteArray uncompressed;
+        do {
+                int status = inflate( &cmpr_stream, Z_SYNC_FLUSH );
+
+                if(status == Z_OK || status == Z_STREAM_END) {
+                        uncompressed.append(QByteArray::fromRawData((char *)buffer, buffersize - cmpr_stream.avail_out));
+                        cmpr_stream.next_out = buffer;
+                        cmpr_stream.avail_out = buffersize;
+                } else {
+                         inflateEnd(&cmpr_stream);
+                        }
+
+                if(status == Z_STREAM_END) {
+                    inflateEnd(&cmpr_stream);
+                    break;
+                }
+
+        }while(cmpr_stream.avail_out == 0);
+
+        return uncompressed;
+}
 
 } 
-
-
