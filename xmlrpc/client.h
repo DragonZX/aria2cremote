@@ -53,6 +53,8 @@ public:
     void setUser ( const QString & userName, const QString & password = QString() );
 
     void setUserAgent( const QString & userAgent );
+    void setGZipEnabled() { m_bHeaderGZip = true; }
+    QByteArray gzipDecompress( QByteArray compressData );
 
 	virtual ~Client();
 
@@ -83,7 +85,7 @@ protected slots:
 private:
 	class Private;
 	Private *d;
-        bool bHeaderGZip;
+    bool m_bHeaderGZip;
 }; 
 
 } // namespace

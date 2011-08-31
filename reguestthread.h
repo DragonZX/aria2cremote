@@ -44,6 +44,7 @@ public:
     void setDescriptionText(QString s) {m_sDescription = s; }
     void wakeUp() {m_waitCondition.wakeOne();}
     void setConnection(QString &host, QString &user, QString &password, int &port, QString &proxyServer, QString &proxyUser, QString &proxyPassword, int &proxyPort);
+    void SetGZipEnabled() { client.setGZipEnabled(); }
 
 signals:
     void Response(int iValue, QString sError);
