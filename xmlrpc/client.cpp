@@ -11,8 +11,6 @@
 #include <QtNetwork>
 #include <QAuthenticator>
 
-//#define XMLRPC_DEBUG
-
 namespace  xmlrpc {
 
 class Client::Private
@@ -110,7 +108,7 @@ void Client::setProxy( const QString & host, int port,
                     const QString & userName, const QString & password )
 {
 
-#ifdef XMLRPC_DEBUG
+#ifdef QT_DEBUG
     qDebug() << "xmlrpc client: set proxy" << host << port << userName << password;
 #endif
 
@@ -201,7 +199,7 @@ int Client::request( QList<Variant> &params, QString methodName, int iTypes, qin
     d->iGID = iGID;
     d->http->close();
 
-#ifdef XMLRPC_DEBUG
+#ifdef QT_DEBUG
     QFile kiiras(util::getHomePath() + "aria_request.xml");
     if (kiiras.open(QIODevice::ReadWrite))
     {
@@ -211,7 +209,7 @@ int Client::request( QList<Variant> &params, QString methodName, int iTypes, qin
     }
 #endif
 
-#ifdef XMLRPC_DEBUG
+#ifdef QT_DEBUG
     qDebug() << "xmlrpc request(" << id << "): " << methodName;
     qDebug() << Variant(params).pprint();
 #endif
@@ -283,7 +281,7 @@ void Client::requestFinished(int id, bool error)
         return;
     }
 
-#ifdef XMLRPC_DEBUG
+#ifdef QT_DEBUG
     qDebug() << "request" <<  "finished, id=" << id << ", isError:" << error;
 #endif
 
@@ -314,7 +312,7 @@ void Client::requestFinished(int id, bool error)
                 qDebug() << "request failed:" << response.faultCode() << response.faultString();
                 emit failed(id, response.faultCode(), response.faultString() );
             } else {
-#ifdef XMLRPC_DEBUG
+#ifdef QT_DEBUG
                 qDebug() << response.returnValue().pprint();
 #endif
                 emit done( d->iTypes, d->iGID, id, response.returnValue() );
@@ -322,7 +320,7 @@ void Client::requestFinished(int id, bool error)
 
         } else {
 
-#ifdef XMLRPC_DEBUG
+#ifdef QT_DEBUG
             qDebug() << "incorrect xmlrpc response:" << errorMessage;
             qDebug() << QString(buf);
 #endif

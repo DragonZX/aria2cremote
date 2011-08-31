@@ -854,7 +854,7 @@ void Aria2cRemote::ResponseXML(XML_RPC_RESPONSE_MAP tellActive, XML_RPC_RESPONSE
     }
 
     //Main view update
-#ifdef XMLRPC_DEBUG
+#ifdef QT_DEBUG
     qDebug() << m_seeding << m_downloading << m_complete << m_pause << m_error << m_waiting << m_remove;
 #endif
     quint64 all = m_seeding + m_downloading + m_complete + m_pause + m_error + m_waiting + m_remove;

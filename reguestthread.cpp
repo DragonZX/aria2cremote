@@ -122,7 +122,7 @@ void reguestThread::processReturnValue( int iTypes, qint64 iGID, int requestId, 
     //transfer dialog done
     emit HideTransferDialog();
 
-#ifdef XMLRPC_DEBUG
+#ifdef QT_DEBUG
     QVariantList vl;
     vl << value;
 
