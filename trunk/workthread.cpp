@@ -138,7 +138,7 @@ void workThread::processReturnValue( int iTypes, qint64 iGID, int requestId, QVa
     QByteArray array(xmlrpc::Response(vl).composeResponse());
     xmlrpc::Response re;
 
-#ifdef XMLRPC_DEBUG
+#ifdef QT_DEBUG
     QFile kiiras(util::getHomePath() + "aria_response.xml");
     if (kiiras.open(QIODevice::ReadWrite))
     {
