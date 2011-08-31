@@ -43,6 +43,7 @@ public:
     void setRequestResponseSynchronize(QMutex *Syncronize) {m_syncronize = Syncronize; }
     void setCurrentGID(int gid) { m_currentGID = gid; }
     void setConnection(QString &host, QString &user, QString &password, int &port, QString &proxyServer, QString &proxyUser, QString &proxyPassword, int &proxyPort);
+    void SetGZipEnabled() { client.setGZipEnabled(); }
 
 signals:
     void Response(XML_RPC_RESPONSE_MAP tellActive, XML_RPC_RESPONSE_MAP tellStopped, XML_RPC_RESPONSE_MAP tellWaiting);
