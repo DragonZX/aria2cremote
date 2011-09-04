@@ -38,7 +38,11 @@ SOURCES += main.cpp \
     aria2options.cpp \
     qtreewidgetitemex.cpp \
     statusbarex.cpp \
-    about.cpp
+    about.cpp \
+    gzip/zutil.c \
+    gzip/trees.c \
+    gzip/deflate.c \
+    gzip/compress.c
 HEADERS += aria2cremote.h \
     tabwidget.h \
     listview.h \
@@ -66,7 +70,12 @@ HEADERS += aria2cremote.h \
     bargraph.h \
     qtreewidgetitemex.h \
     statusbarex.h \
-    about.h
+    about.h \
+    gzip/zlib.h \
+    gzip/zconf.h \
+    gzip/trees.h \
+    gzip/deflate.h \
+    gzip/zutil.h
 FORMS += aria2cremote.ui \
     tabwidget.ui \
     listview.ui \
