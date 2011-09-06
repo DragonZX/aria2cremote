@@ -21,6 +21,7 @@
  *************************************************************************/
 
 #include "reguestthread.h"
+#include "util.h"
 
 reguestThread::reguestThread():
         m_exit(false),
@@ -126,12 +127,12 @@ void reguestThread::processReturnValue( int iTypes, qint64 iGID, int requestId, 
     QVariantList vl;
     vl << value;
 
-    QFile kiiras(util::getHomePath() + "aria_response.xml");
-    if (kiiras.open(QIODevice::ReadWrite))
+    QFile ResponseWriteToFile(util::getHomePath() + "aria_response.xml");
+    if (ResponseWriteToFile.open(QIODevice::ReadWrite))
     {
-        kiiras.seek(kiiras.size());
-        kiiras.write(xmlrpc::Response(vl).composeResponse(1));
-        kiiras.close();
+        ResponseWriteToFile.seek(ResponseWriteToFile.size());
+        ResponseWriteToFile.write(xmlrpc::Response(vl).composeResponse(1));
+        ResponseWriteToFile.close();
     }
 #endif
 

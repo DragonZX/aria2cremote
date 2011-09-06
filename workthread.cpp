@@ -24,6 +24,7 @@
 #include <QtGui/QApplication>
 #include <QMessageBox>
 #include <QByteArray>
+#include "util.h"
 
 workThread::workThread() :
         m_exit(false),
@@ -139,12 +140,12 @@ void workThread::processReturnValue( int iTypes, qint64 iGID, int requestId, QVa
     xmlrpc::Response re;
 
 #ifdef QT_DEBUG
-    QFile kiiras(util::getHomePath() + "aria_response.xml");
-    if (kiiras.open(QIODevice::ReadWrite))
+    QFile ResposeWriteToFile(util::getHomePath() + "aria_response.xml");
+    if (ResposeWriteToFile.open(QIODevice::ReadWrite))
     {
-        kiiras.seek(kiiras.size());
-        kiiras.write(array);
-        kiiras.close();
+        ResposeWriteToFile.seek(ResposeWriteToFile.size());
+        ResposeWriteToFile.write(array);
+        ResposeWriteToFile.close();
     }
 #endif
 

@@ -205,12 +205,12 @@ int Client::request( QList<Variant> &params, QString methodName, int iTypes, qin
     d->http->close();
 
 #ifdef QT_DEBUG
-    QFile kiiras(util::getHomePath() + "aria_request.xml");
-    if (kiiras.open(QIODevice::ReadWrite))
+    QFile RequestWriteToFile(util::getHomePath() + "aria_request.xml");
+    if (RequestWriteToFile.open(QIODevice::ReadWrite))
     {
-        kiiras.seek(kiiras.size());
-        kiiras.write(Request(methodName,params).composeRequest(1));
-        kiiras.close();
+        RequestWriteToFile.seek(RequestWriteToFile.size());
+        RequestWriteToFile.write(Request(methodName,params).composeRequest(1));
+        RequestWriteToFile.close();
     }
 
     qDebug() << "xmlrpc request(" << id << "): " << methodName;
