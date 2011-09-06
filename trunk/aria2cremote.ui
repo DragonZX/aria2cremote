@@ -24,7 +24,7 @@
      <x>0</x>
      <y>0</y>
      <width>617</width>
-     <height>21</height>
+     <height>18</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuDownload">
@@ -53,8 +53,15 @@
     <property name="title">
      <string>Tools</string>
     </property>
+    <widget class="QMenu" name="menuLanguages">
+     <property name="title">
+      <string>Languages</string>
+     </property>
+    </widget>
     <addaction name="actionOption"/>
     <addaction name="actionGlobal_Options"/>
+    <addaction name="separator"/>
+    <addaction name="menuLanguages"/>
    </widget>
    <widget class="QMenu" name="menuAction">
     <property name="title">
@@ -359,6 +366,11 @@
    </property>
    <property name="text">
     <string>Global options...</string>
+   </property>
+  </action>
+  <action name="actionDefault">
+   <property name="text">
+    <string>Default</string>
    </property>
   </action>
  </widget>

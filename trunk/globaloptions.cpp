@@ -247,7 +247,7 @@ void GlobalOptions::SetAdvanced1Options()
 
     ui->comboBox_ProxyMethod->setCurrentIndex(iPos);
 
-    ui->checkBox_XMLRPC_Enable->setCheckState(m_globalOptions.value("enable-xml-rpc", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
+    ui->checkBox_XMLRPC_Enable->setCheckState(m_globalOptions.value("enable-rpc"/*"enable-xml-rpc"*/, false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     ui->checkBox_XMLRPC_ListenAll->setCheckState(m_globalOptions.value("xml-rpc-listen-all", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     ui->spinBox_XMLRPC_ListenPort->setValue(m_globalOptions.value("xml-rpc-listen-port", 6800).toInt());
     ui->spinBox_XMLRPC_MaxRequestSize->setValue(m_globalOptions.value("xml-rpc-max-request-size", 2097152).toInt() / 1024);

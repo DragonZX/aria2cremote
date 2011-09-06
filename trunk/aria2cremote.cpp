@@ -193,6 +193,14 @@ void Aria2cRemote::changeEvent(QEvent *e)
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
         break;
+    // this event is send, if the system, language changes
+    case QEvent::LocaleChange:
+        {
+            QString locale = QLocale::system().name();
+            locale.truncate(locale.lastIndexOf('_'));
+            loadLanguage(locale);
+        }
+        break;
     default:
         break;
     }
@@ -1258,5 +1266,78 @@ void Aria2cRemote::GetGlobalOptions(QVariant value)
             m_requestThread.setDescriptionText(tr("Change global variables"));
             m_requestThread.wakeUp();
         }
+    }
+}
+
+// we create the menu entries dynamically, dependant on the existing translations.
+void Aria2cRemote::createLanguageMenu(void)
+{
+    QActionGroup* langGroup = new QActionGroup(ui->menuBar);
+    langGroup->setExclusive(true);
+
+    connect(langGroup, SIGNAL(triggered(QAction *)), this, SLOT(slotLanguageChanged(QAction *)));
+
+    // format systems language
+    QString defaultLocale = QLocale::system().name();       // e.g. "hu_HU"
+    defaultLocale.truncate(defaultLocale.lastIndexOf('_')); // e.g. "hu"
+
+    m_langPath = QApplication::applicationDirPath();
+    m_langPath.append("/languages");
+    QDir dir(m_langPath);
+    QStringList fileNames = dir.entryList(QStringList("Aria2cRemoteControl_*.qm"));
+
+    for (int i = 0; i < fileNames.size(); ++i)
+    {
+        // get locale extracted by filename
+        QString locale;
+        locale = fileNames[i];                  // "Aria2cRemoteControl_hu.qm"
+        locale.truncate(locale.lastIndexOf('.'));   // "Aria2cRemoteControl_hu"
+        locale.remove(0, locale.indexOf('_') + 1);   // "hu"
+
+        QString lang = QLocale::languageToString(QLocale(locale).language());
+        QAction *action = new QAction(QIcon(QString(":/icon/flag/%1.png").arg(locale)), lang, this);
+        action->setCheckable(true);
+        action->setData(locale);
+
+        ui->menuLanguages->addAction(action);
+        langGroup->addAction(action);
+
+        // set default translators and language checked
+        if (defaultLocale == locale)
+        {
+            action->setChecked(true);
+            switchTranslator(m_translator, QString("%1/Aria2cRemoteControl_%2.qm").arg(m_langPath).arg(locale));
+        }
+    }
+}
+
+// Called every time, when a menu entry of the language menu is called
+void Aria2cRemote::slotLanguageChanged(QAction* action)
+{
+    if (0 != action)
+    {
+        // load the language dependant on the action content
+        loadLanguage(action->data().toString());
+    }
+}
+
+void Aria2cRemote::switchTranslator(QTranslator& translator, const QString& filename)
+{
+    // remove the old translator
+    qApp->removeTranslator(&translator);
+
+    // load the new translator
+    if(translator.load(filename))
+       qApp->installTranslator(&translator);
+}
+
+void Aria2cRemote::loadLanguage(const QString& rLanguage)
+{
+    if(m_currLang != rLanguage)
+    {
+        m_currLang = rLanguage;
+        QLocale locale = QLocale(m_currLang);
+        QLocale::setDefault(locale);
+        switchTranslator(m_translator, QString("%1/Aria2cRemoteControl_%2.qm").arg(m_langPath).arg(rLanguage));
     }
 }
