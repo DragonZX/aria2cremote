@@ -359,7 +359,7 @@ QByteArray Client::gzipDecompress( QByteArray compressData )
 
     //strip header and trailer
       compressData.remove(0, 10);
-      compressData.chop(8);
+      compressData.chop(4);
 
       const int buffersize = 16384;
       quint8 buffer[buffersize];
