@@ -39,7 +39,8 @@ public:
     ~GlobalOptions();
 
     void SetGlobalOptions(QMap<QString, Variant> options);
-    QMap<QString, Variant> GetNewGlobalOptions() { return m_newGlobalOptions;};
+    void SetCurrentAria2cVersion(quint64 uiVersion) { uiAria2cVersion = uiVersion; }
+    QMap<QString, Variant> GetNewGlobalOptions() { return m_newGlobalOptions; }
     void SetBasicOptions();
     void SetHTTPOptions();
     void SetFTPOptions();
@@ -55,6 +56,8 @@ private:
     Ui::GlobalOptions *ui;
     QMap<QString, Variant> m_globalOptions;
     QMap<QString, Variant> m_newGlobalOptions;
+
+    quint64 uiAria2cVersion; // hexa format: Aria2c 1.12.1 -> 0x011201
 
 private slots:
     void MaxOverallDownloadLimitChanged( int );

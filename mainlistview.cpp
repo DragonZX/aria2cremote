@@ -50,30 +50,3 @@ void MainListView::changeEvent(QEvent *e)
     }
 }
 
-void MainListView::createLanguageMenu()
-{
-//    languageMenu = new QMenu(this);
-//    languageActionGroup = new QActionGroup(this);
-//    connect(languageActionGroup, SIGNAL(triggered(QAction *)),
-//    this, SLOT(switchLanguage(QAction *)));
-//    QDir dir(qmPath);
-//    QStringList fileNames = dir.entryList(QStringList("Aria2cRemoteControl_*.qm"));
-//    for (int i = 0; i < fileNames.size(); ++i)
-//    {
-//        QString locale = fileNames[i];
-//
-//        //locale.remove(0, locale.indexOf(’_’) + 1);
-//        //locale.truncate(locale.lastIndexOf(’.’));
-//        QTranslator translator;
-//        translator.load(fileNames[i], qmPath);
-//        QString language = translator.translate("MainWindow", "English");
-//        QAction *action = new QAction(tr("&%1 %2").arg(i + 1).arg(language), this);
-//        action->setCheckable(true);
-//        action->setData(locale);
-//        languageMenu->addAction(action);
-//        languageActionGroup->addAction(action);
-//        if (language == "English")
-//            action->setChecked(true);
-//    }
-}
-

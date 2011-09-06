@@ -33,5 +33,6 @@ int main(int argc, char *argv[])
     Aria2cRemote w;
 
     w.show();
+    w.createLanguageMenu();
     return a.exec();
 }

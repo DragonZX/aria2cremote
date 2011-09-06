@@ -68,9 +68,12 @@ class Aria2cRemote : public QMainWindow {
 public:
     Aria2cRemote(QWidget *parent = 0);
     ~Aria2cRemote();
+    void createLanguageMenu(void);
 
 protected:
     void changeEvent(QEvent *e);
+    void switchTranslator(QTranslator& translator, const QString& filename);
+    void loadLanguage(const QString& rLanguage);
 
 private slots:
     void on_actionGlobal_Options_triggered();
@@ -92,6 +95,7 @@ private slots:
     void ShowTransferDialog(QString sDescription);
     void HideTransferDialog();
     void GetGlobalOptions(QVariant value);
+    void slotLanguageChanged(QAction* action);
 
 private:
     Ui::Aria2cRemote *ui;
@@ -149,6 +153,13 @@ private:
     //status bar connect state + Aria2c version
     QLabel m_connectStateIcon;
     QLabel m_connectStateText;
+
+
+    //language
+    QTranslator     m_translator;   // contains the translations for this application
+    QTranslator     m_translatorQt; // contains the translations for qt
+    QString         m_currLang;     // contains the currently loaded language
+    QString         m_langPath;     // Path of language files. This is always fixed to /languages.
 
 private:
     void setTreeWidgetItem(QTreeWidgetItemEx *item, XmlRPC& x);

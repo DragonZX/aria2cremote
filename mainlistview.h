@@ -37,7 +37,6 @@ public:
 
 protected:
     void changeEvent(QEvent *e);
-    void createLanguageMenu();
 
 private:
     Ui::MainListView *ui;

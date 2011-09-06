@@ -91,10 +91,13 @@ FORMS += aria2cremote.ui \
     about.ui
 RESOURCES += Aria2cRemote.qrc
 
+TRANSLATIONS = translations/Aria2cRemoteControl_en.ts \
+               translations/Aria2cRemoteControl_hu.ts 
+
 win32 {
     RC_FILE = Aria2cRemoteControl.rc
-    DEFINES += BUILDTIME=\\\"$$system('echo %time%')\\\"
-    DEFINES += BUILDDATE=\\\"$$system('echo %date%')\\\"
+    #DEFINES += BUILDTIME=\\\"$$system('echo %time%')\\\"
+    #DEFINES += BUILDDATE=\\\"$$system('echo %date%')\\\"
 } else {
     DEFINES += BUILDTIME=\\\"$$system(date '+%H:%M.%s')\\\"
     DEFINES += BUILDDATE=\\\"$$system(date '+%d/%m/%y')\\\"
