@@ -302,7 +302,25 @@ void Client::requestFinished(int id, bool error)
 
         if (d->bGZip)
         {
+            #ifdef QT_DEBUG
+                QFile debug_writeToFile(util::getHomePath() + "compressed_response.dat");
+                if (debug_writeToFile.open(QIODevice::ReadWrite))
+                {
+                    debug_writeToFile.seek(debug_writeToFile.size());
+                    debug_writeToFile.write(buf);
+                    debug_writeToFile.close();
+                }
+            #endif
             buf = gzipDecompress(buf);
+            #ifdef QT_DEBUG
+                QFile debug_writeToFile1(util::getHomePath() + "uncompressed_response.dat");
+                if (debug_writeToFile1.open(QIODevice::ReadWrite))
+                {
+                    debug_writeToFile1.seek(debug_writeToFile1.size());
+                    debug_writeToFile1.write(buf);
+                    debug_writeToFile1.close();
+                }
+            #endif
         }
 
         Response response;
