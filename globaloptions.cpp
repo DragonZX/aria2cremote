@@ -22,6 +22,9 @@
 
 #include "GlobalOptions.h"
 #include "ui_GlobalOptions.h"
+#include "util.h"
+
+extern quint32 g_uiAria2cVersion;
 
 GlobalOptions::GlobalOptions(QWidget *parent) :
     QDialog(parent),
@@ -246,10 +249,9 @@ void GlobalOptions::SetAdvanced1Options()
         iPos = 1;
 
     ui->comboBox_ProxyMethod->setCurrentIndex(iPos);
-
-    ui->checkBox_XMLRPC_Enable->setCheckState(m_globalOptions.value("enable-rpc"/*"enable-xml-rpc"*/, false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
-    ui->checkBox_XMLRPC_ListenAll->setCheckState(m_globalOptions.value("xml-rpc-listen-all", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
-    ui->spinBox_XMLRPC_ListenPort->setValue(m_globalOptions.value("xml-rpc-listen-port", 6800).toInt());
-    ui->spinBox_XMLRPC_MaxRequestSize->setValue(m_globalOptions.value("xml-rpc-max-request-size", 2097152).toInt() / 1024);
+    ui->checkBox_XMLRPC_Enable->setCheckState(m_globalOptions.value((g_uiAria2cVersion >= util::ARIA2C_VERSION_1110) ? "enable-rpc" : "enable-xml-rpc", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
+    ui->checkBox_XMLRPC_ListenAll->setCheckState(m_globalOptions.value((g_uiAria2cVersion >= util::ARIA2C_VERSION_1110) ? "xml-rpc-listen-all" : "rpc-listen-all", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
+    ui->spinBox_XMLRPC_ListenPort->setValue(m_globalOptions.value((g_uiAria2cVersion >= util::ARIA2C_VERSION_1110) ? "xml-rpc-listen-port" : "rpc-listen-port", 6800).toInt());
+    ui->spinBox_XMLRPC_MaxRequestSize->setValue(m_globalOptions.value((g_uiAria2cVersion >= util::ARIA2C_VERSION_1110) ? "xml-rpc-max-request-size" : "rpc-max-request-size", 2097152).toInt() / 1024);
 }
 
