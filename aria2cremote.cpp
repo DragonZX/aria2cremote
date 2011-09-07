@@ -626,8 +626,32 @@ void Aria2cRemote::ResponseVersionInfo(QVariant params)
 
     versioninfo.versionInfo(params);
     vInfo = versioninfo.getVersionInfo();
-    m_connectStateText.setText("Aria2c " + vInfo.version);
 
+    g_uiAria2cVersion = 0;
+    qint32 iFirstDot = vInfo.version.indexOf(".");
+    qint32 iLastDot = vInfo.version.lastIndexOf(".");
+    if ( (iFirstDot != -1) && (iLastDot != -1))
+    {
+        QString sVer(vInfo.version);
+        bool ok;
+
+        //major version number
+        sVer.remove(iFirstDot, sVer.size());
+        g_uiAria2cVersion = sVer.toUInt(&ok, 16);
+
+        //minor version number
+        sVer = vInfo.version;
+        sVer.remove(iLastDot, sVer.size());
+        sVer.remove(0, iFirstDot + 1);
+        g_uiAria2cVersion = (g_uiAria2cVersion << 8 ) + sVer.toUInt(&ok, 16);
+
+        //release version number
+        sVer = vInfo.version;
+        sVer.remove(0, iLastDot + 1);
+        g_uiAria2cVersion = (g_uiAria2cVersion << 8 ) + sVer.toUInt(&ok, 16);
+    }
+
+    m_connectStateText.setText("Aria2c " + vInfo.version);
     QString tooltip(QString("<b>%1:</b>").arg(tr("Enabled features")));
     foreach (QString t, vInfo.enabledFeatures)
     {

@@ -56,6 +56,7 @@
 namespace Ui {
     class Aria2cRemote;
 }
+extern quint32 g_uiAria2cVersion;
 
 typedef struct downloadList
 {
