@@ -23,6 +23,8 @@
 #include <QtGui/QApplication>
 #include "aria2cremote.h"
 
+quint32 g_uiAria2cVersion = 0x000000;
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);

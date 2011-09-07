@@ -38,6 +38,27 @@ namespace Ui {
     class LocalOptions;
 }
 
+const quint32 ARIA2C_VERSION_191 = 0x010901;
+const quint32 ARIA2C_VERSION_192 = 0x010902;
+const quint32 ARIA2C_VERSION_193 = 0x010903;
+const quint32 ARIA2C_VERSION_194 = 0x010904;
+const quint32 ARIA2C_VERSION_195 = 0x010905;
+const quint32 ARIA2C_VERSION_1100 = 0x010A00;
+const quint32 ARIA2C_VERSION_1101 = 0x010A01;
+const quint32 ARIA2C_VERSION_1102 = 0x010A02;
+const quint32 ARIA2C_VERSION_1103 = 0x010A03;
+const quint32 ARIA2C_VERSION_1104 = 0x010A04;
+const quint32 ARIA2C_VERSION_1105 = 0x010A05;
+const quint32 ARIA2C_VERSION_1106 = 0x010A06;
+const quint32 ARIA2C_VERSION_1107 = 0x010A07;
+const quint32 ARIA2C_VERSION_1108 = 0x010A08;
+const quint32 ARIA2C_VERSION_1109 = 0x010A09;
+const quint32 ARIA2C_VERSION_1110 = 0x010B00;
+const quint32 ARIA2C_VERSION_1111 = 0x010B01;
+const quint32 ARIA2C_VERSION_1112 = 0x010B02;
+const quint32 ARIA2C_VERSION_1120 = 0x010C00;
+const quint32 ARIA2C_VERSION_1121 = 0x010C01;
+
 class LocalOptions : public QDialog {
     Q_OBJECT
 public:
@@ -62,6 +83,7 @@ private:
 //    QList<SERVER_ITEM> m_Proxy_serverList[4];
 //    int m_Proxy_CurrentItem[4];
 
+    template <class T> T SetProperties(T widget, quint32 uiMinAria2cVersion = ARIA2C_VERSION_191);
     //global option
     QMap<QString, Variant> m_globalOptions;
     QMap<QString, Variant> m_localOptions;
