@@ -57,8 +57,6 @@ private:
     QMap<QString, Variant> m_globalOptions;
     QMap<QString, Variant> m_newGlobalOptions;
 
-    quint64 uiAria2cVersion; // hexa format: Aria2c 1.12.1 -> 0x011201
-
 private slots:
     void MaxOverallDownloadLimitChanged( int );
     void MaxOverallUploadLimitChanged( int );
