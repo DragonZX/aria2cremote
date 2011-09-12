@@ -663,7 +663,9 @@ void LocalOptions::SetBasicOptions()
     SetProperties(ui->spinBox_LowestSpeedLimit)->setValue(Update(QString("lowest-speed-limit"), 0).toInt() / 1024);
     SetProperties(ui->spinBox_MaxDownloadLimit)->setValue(Update("max-download-limit", 0).toInt() / 1024);
     SetProperties(ui->spinBox_MaxFileNotFound)->setValue(Update("max-file-not-found", 0).toInt());
-    SetProperties(ui->spinBox_MaxResumeFailureTries)->setValue(Update("max-resume-failure-tries", 0).toInt());
+    SetProperties(ui->spinBox_MaxResumeFailureTries, util::ARIA2C_VERSION_191)->setValue(Update("max-resume-failure-tries", 0).toInt());
+    SetProperties(ui->spinBox_MinSplitSize, util::ARIA2C_VERSION_1100)->setValue(Update("min-split-size", 20971520).toInt() / 1024);
+    SetProperties(ui->spinBox_MaxConnectionPerServer, util::ARIA2C_VERSION_1100)->setValue(Update("max-connection-per-server", 1).toInt());
     SetProperties(ui->checkBox_ContinueDownload)->setCheckState(Update("continue", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
 }
 
@@ -681,16 +683,17 @@ void LocalOptions::SetHTTPOptions()
 {
     SetProperties(ui->checkBox_HTTPKeepAlive)->setCheckState(Update("enable-http-keep-alive", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     SetProperties(ui->checkBox_HTTPPipelining)->setCheckState(Update("enable-http-pipelining", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
-    SetProperties(ui->checkBox_AcceptGzip)->setCheckState(Update("http-accept-gzip", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
+    SetProperties(ui->checkBox_AcceptGzip, util::ARIA2C_VERSION_191)->setCheckState(Update("http-accept-gzip", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     SetProperties(ui->checkBox_AuthChallenge)->setCheckState(Update("http-auth-challenge", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     SetProperties(ui->checkBox_HTTPNoCache)->setCheckState(Update("http-no-cache", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
+    SetProperties(ui->checkBox_HTTPConditionalGet, util::ARIA2C_VERSION_1100)->setCheckState(Update("conditional-get", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     SetProperties(ui->lineEdit_UserAgent)->setText(Update("user-agent", QString("aria2/")).toString());
     SetProperties(ui->spinBox_ConnectTimeout)->setValue(Update("connect-timeout", 60).toInt());
 }
 
 void LocalOptions::SetBittorrentOptions()
 {
-    SetProperties(ui->checkBox_EnableLpd)->setCheckState(Update("bt-enable-lpd", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
+    SetProperties(ui->checkBox_EnableLpd, util::ARIA2C_VERSION_190)->setCheckState(Update("bt-enable-lpd", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     SetProperties(ui->checkBox_HashCheckSeed)->setCheckState(Update("bt-hash-check-seed", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     SetProperties(ui->checkBox_MetadataOnly)->setCheckState(Update("bt-metadata-only", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     SetProperties(ui->checkBox_RequireCrypto)->setCheckState(Update("bt-require-crypto", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
@@ -755,8 +758,8 @@ void LocalOptions::SetBittorrentOptions()
     // ------- new elems ----------
 
     SetProperties(ui->spinBox_TrackerInterval)->setValue(Update("bt-tracker-interval", 0).toInt());
-    SetProperties(ui->spinBox_TrackerTimeout)->setValue(Update("bt-tracker-timeout", 60).toInt());
-    SetProperties(ui->spinBox_TrackerConnectTimeout)->setValue(Update("bt-tracker-connect-timeout", 60).toInt());
+    SetProperties(ui->spinBox_TrackerTimeout, util::ARIA2C_VERSION_191)->setValue(Update("bt-tracker-timeout", 60).toInt());
+    SetProperties(ui->spinBox_TrackerConnectTimeout, util::ARIA2C_VERSION_191)->setValue(Update("bt-tracker-connect-timeout", 60).toInt());
     SetProperties(ui->lineEdit_PeerIDPrefix)->setText(Update("peer-id-prefix", QString("aria2/-")).toString());
     SetProperties(ui->spinBox_RequestPeerSpeedLimit)->setValue(Update("bt-request-peer-speed-limit", 51200).toInt() / 1024);
 
@@ -768,6 +771,8 @@ void LocalOptions::SetBittorrentOptions()
         iPos = 1;
 
     SetProperties(ui->comboBox_MinCryptoLevel)->setCurrentIndex(iPos);
+    SetProperties(ui->lineEdit_BtTracker, util::ARIA2C_VERSION_1101)->setText(Update("bt-tracker", QString("")).toString());
+    SetProperties(ui->lineEdit_BtExcludeTracker, util::ARIA2C_VERSION_1101)->setText(Update("bt-exclude-tracker", QString("")).toString());
 }
 
 void LocalOptions::SetMetalinkOptions()
@@ -780,6 +785,7 @@ void LocalOptions::SetMetalinkOptions()
     SetProperties(ui->checkBox_FollowMetalink)->setCheckState(Update("follow-metalink", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     SetProperties(ui->checkBox_UniqueProtocol)->setCheckState(Update("metalink-enable-unique-protocol", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     SetProperties(ui->spinBox_MetalinkServers)->setValue(Update("metalink-servers", 5).toInt());
+    SetProperties(ui->lineEdit_BaseURI, util::ARIA2C_VERSION_1112)->setText(Update("metalink-base-uri", QString("")).toString());
 
     // ------- new elems ----------
     //Language
@@ -800,19 +806,21 @@ void LocalOptions::SetAdvancedOptions()
 {
     SetProperties(ui->checkBox_AllowOverwrite)->setCheckState(Update("allow-overwrite", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     SetProperties(ui->checkBox_AllowPieceLengthChange)->setCheckState(Update("allow-piece-length-change", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
-    SetProperties(ui->checkBox_AlwayResume)->setCheckState(Update("always-resume", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
+    SetProperties(ui->checkBox_AlwayResume, util::ARIA2C_VERSION_191)->setCheckState(Update("always-resume", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     SetProperties(ui->checkBox_AsyncDns)->setCheckState(Update("async-dns", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
+    SetProperties(ui->checkBox_AsyncDns6, util::ARIA2C_VERSION_1101)->setCheckState(Update("async-dns6", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     SetProperties(ui->checkBox_AutoFileRenaming)->setCheckState(Update("auto-file-renaming", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     SetProperties(ui->checkBox_CheckIntegrity)->setCheckState(Update("check-integrity", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     SetProperties(ui->checkBox_DryRun)->setCheckState(Update("dry-run", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
 
-    SetProperties(ui->checkBox_ReuseURI)->setCheckState(Update("reuse-uri", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
-    SetProperties(ui->checkBox_RemoveControlFile)->setCheckState(Update("remove-control-file", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
+    SetProperties(ui->checkBox_ReuseURI, util::ARIA2C_VERSION_190)->setCheckState(Update("reuse-uri", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
+    SetProperties(ui->checkBox_RemoveControlFile, util::ARIA2C_VERSION_191)->setCheckState(Update("remove-control-file", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     SetProperties(ui->checkBox_RemoteTime)->setCheckState(Update("remote-time", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     SetProperties(ui->checkBox_RealtimeChunkChecksum)->setCheckState(Update("realtime-chunk-checksum", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     SetProperties(ui->checkBox_NoNetrc)->setCheckState(Update("no-netrc", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     SetProperties(ui->checkBox_ParameterizedURI)->setCheckState(Update("parameterized-uri", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     SetProperties(ui->checkBox_UseHead)->setCheckState(Update("use-head", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
+    SetProperties(ui->checkBox_Pause, util::ARIA2C_VERSION_1120)->setCheckState(Update("pause", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
 
     SetProperties(ui->spinBox_NoFileAllocationLimit)->setValue(Update("no-file-allocation-limit", 5242880).toInt() / 1024);
 
@@ -836,6 +844,16 @@ void LocalOptions::SetAdvancedOptions()
         iPos = 1;
 
     SetProperties(ui->comboBox_ProxyMethod)->setCurrentIndex(iPos);
+    SetProperties(ui->spinBox_RetryWait, util::ARIA2C_VERSION_1110)->setValue(Update("retry-wait", 0).toInt());
+
+    iPos = -1;
+    s = Update("stream-piece-selector", QString("default")).toString();
+    if (s == "default")
+        iPos = 0;
+    else if (s == "inorder")
+        iPos = 1;
+
+    SetProperties(ui->comboBox_StreamPieceSelector, util::ARIA2C_VERSION_1120)->setCurrentIndex(iPos);
 
     SetProperties(ui->lineEdit_Referer)->setText(Update("referer", QString("")).toString());
     SetProperties(ui->lineEdit_Header)->setText(Update("header", QString("")).toString());
@@ -855,6 +873,8 @@ void LocalOptions::on_buttonBox_accepted()
     getUpdate("max-download-limit", QString::number(ui->spinBox_MaxDownloadLimit->value() * 1024));
     getUpdate("max-file-not-found", QString::number(ui->spinBox_MaxFileNotFound->value()));
     getUpdate("max-resume-failure-tries", QString::number(ui->spinBox_MaxResumeFailureTries->value()));
+    getUpdate("min-split-size", QString::number(ui->spinBox_MinSplitSize->value()));
+    getUpdate("max-connection-per-server", QString::number(ui->spinBox_MaxConnectionPerServer->value()));
 
     getUpdate("continue", QVariant(ui->checkBox_ContinueDownload->checkState() == Qt::Checked).toString());
 
@@ -870,6 +890,7 @@ void LocalOptions::on_buttonBox_accepted()
     getUpdate("http-accept-gzip", QVariant(ui->checkBox_AcceptGzip->checkState() == Qt::Checked).toString());
     getUpdate("http-auth-challenge", QVariant(ui->checkBox_AuthChallenge->checkState() == Qt::Checked).toString());
     getUpdate("http-no-cache", QVariant(ui->checkBox_HTTPNoCache->checkState() == Qt::Checked).toString());
+    getUpdate("conditional-get", QVariant(ui->checkBox_HTTPConditionalGet->checkState() == Qt::Checked).toString());
     getUpdate("user-agent", ui->lineEdit_UserAgent->text());
     getUpdate("connect-timeout", QString::number(ui->spinBox_ConnectTimeout->value()));
 
@@ -963,6 +984,8 @@ void LocalOptions::on_buttonBox_accepted()
     getUpdate("peer-id-prefix", ui->lineEdit_PeerIDPrefix->text());
     getUpdate("bt-request-peer-speed-limit", QString::number(ui->spinBox_RequestPeerSpeedLimit->value() * 1024));
     getUpdate("bt-min-crypto-level", ui->comboBox_MinCryptoLevel->currentText());
+    getUpdate("bt-tracker", ui->lineEdit_BtTracker->text());
+    getUpdate("bt-exclude-tracker", ui->lineEdit_BtExcludeTracker->text());
 
     //get metalink options
     if (ui->radioButton_PreferredProtocol_HTTP->isChecked())
@@ -978,6 +1001,15 @@ void LocalOptions::on_buttonBox_accepted()
     getUpdate("follow-metalink", QVariant(ui->checkBox_FollowMetalink->checkState() == Qt::Checked).toString());
     getUpdate("metalink-enable-unique-protocol", QVariant(ui->checkBox_UniqueProtocol->checkState() == Qt::Checked).toString());
     getUpdate("metalink-servers", QString::number(ui->spinBox_MetalinkServers->value()));
+
+    sText = ui->lineEdit_BaseURI->text();
+    if (m_localOptions.value("metalink-base-uri", QString("")).toString() != sText)
+    {
+        if (sText.size() == 0)
+           m_localOptions.remove("metalink-base-uri");
+        else
+           m_localOptions["metalink-base-uri"] = sText;
+    }
 
     sText = ui->lineEdit_Language->text();
     if (m_localOptions.value("metalink-language", QString("")).toString() != sText)
@@ -1020,6 +1052,7 @@ void LocalOptions::on_buttonBox_accepted()
     getUpdate("allow-piece-length-change", QVariant(ui->checkBox_AllowPieceLengthChange->checkState() == Qt::Checked).toString());
     getUpdate("always-resume", QVariant(ui->checkBox_AlwayResume->checkState() == Qt::Checked).toString());
     getUpdate("async-dns", QVariant(ui->checkBox_AsyncDns->checkState() == Qt::Checked).toString());
+    getUpdate("async-dns6", QVariant(ui->checkBox_AsyncDns6->checkState() == Qt::Checked).toString());
     getUpdate("auto-file-renaming", QVariant(ui->checkBox_AutoFileRenaming->checkState() == Qt::Checked).toString());
     getUpdate("check-integrity", QVariant(ui->checkBox_CheckIntegrity->checkState() == Qt::Checked).toString());
     getUpdate("dry-run", QVariant(ui->checkBox_DryRun->checkState() == Qt::Checked).toString());
@@ -1031,10 +1064,13 @@ void LocalOptions::on_buttonBox_accepted()
     getUpdate("no-netrc", QVariant(ui->checkBox_NoNetrc->checkState() == Qt::Checked).toString());
     getUpdate("parameterized-uri", QVariant(ui->checkBox_ParameterizedURI->checkState() == Qt::Checked).toString());
     getUpdate("use-head", QVariant(ui->checkBox_UseHead->checkState() == Qt::Checked).toString());
+    getUpdate("pause", QVariant(ui->checkBox_Pause->checkState() == Qt::Checked).toString());
 
     getUpdate("no-file-allocation-limit", QString::number(ui->spinBox_NoFileAllocationLimit->value() * 1024));
     getUpdate("file-allocation", ui->comboBox_FileAllocation->currentText());
     getUpdate("proxy-method", ui->comboBox_ProxyMethod->currentText());
+    getUpdate("retry-wait", QString::number(ui->spinBox_NoFileAllocationLimit->value()));
+    getUpdate("stream-piece-selector", ui->comboBox_StreamPieceSelector->currentText());
 
     sText = ui->lineEdit_Referer->text();
     if (m_localOptions.value("referer", QString("")).toString() != sText)

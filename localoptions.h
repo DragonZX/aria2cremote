@@ -62,7 +62,7 @@ private:
 //    QList<SERVER_ITEM> m_Proxy_serverList[4];
 //    int m_Proxy_CurrentItem[4];
 
-    template <class T> T SetProperties(T widget, quint32 uiMinAria2cVersion = ARIA2C_VERSION_191);
+    template <class T> T SetProperties(T widget, quint32 uiMinAria2cVersion = util::ARIA2C_VERSION_181);
     //global option
     QMap<QString, Variant> m_globalOptions;
     QMap<QString, Variant> m_localOptions;

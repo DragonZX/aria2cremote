@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>565</width>
-    <height>306</height>
+    <height>350</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -19,13 +19,13 @@
   <property name="minimumSize">
    <size>
     <width>565</width>
-    <height>306</height>
+    <height>350</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>565</width>
-    <height>306</height>
+    <height>350</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -39,7 +39,7 @@
    <property name="geometry">
     <rect>
      <x>9</x>
-     <y>274</y>
+     <y>318</y>
      <width>551</width>
      <height>23</height>
     </rect>
@@ -60,7 +60,7 @@
      <x>9</x>
      <y>9</y>
      <width>550</width>
-     <height>259</height>
+     <height>300</height>
     </rect>
    </property>
    <property name="currentIndex">
@@ -75,7 +75,7 @@
       <rect>
        <x>285</x>
        <y>9</y>
-       <width>120</width>
+       <width>135</width>
        <height>16</height>
       </rect>
      </property>
@@ -92,7 +92,7 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>410</x>
+       <x>425</x>
        <y>9</y>
        <width>81</width>
        <height>20</height>
@@ -116,7 +116,7 @@
       <rect>
        <x>285</x>
        <y>39</y>
-       <width>120</width>
+       <width>135</width>
        <height>16</height>
       </rect>
      </property>
@@ -133,7 +133,7 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>410</x>
+       <x>425</x>
        <y>39</y>
        <width>81</width>
        <height>20</height>
@@ -157,7 +157,7 @@
       <rect>
        <x>285</x>
        <y>69</y>
-       <width>120</width>
+       <width>135</width>
        <height>16</height>
       </rect>
      </property>
@@ -174,7 +174,7 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>410</x>
+       <x>425</x>
        <y>69</y>
        <width>81</width>
        <height>20</height>
@@ -192,7 +192,7 @@
       <rect>
        <x>285</x>
        <y>99</y>
-       <width>120</width>
+       <width>135</width>
        <height>16</height>
       </rect>
      </property>
@@ -209,7 +209,7 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>410</x>
+       <x>425</x>
        <y>99</y>
        <width>81</width>
        <height>20</height>
@@ -388,6 +388,79 @@
      </property>
      <property name="buddy">
       <cstring>lineEdit_Dir</cstring>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_30">
+     <property name="geometry">
+      <rect>
+       <x>285</x>
+       <y>129</y>
+       <width>135</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Min split size:</string>
+     </property>
+     <property name="buddy">
+      <cstring>spinBox_MinSplitSize</cstring>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="spinBox_MinSplitSize">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>425</x>
+       <y>129</y>
+       <width>81</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+     <property name="suffix">
+      <string> KiB</string>
+     </property>
+     <property name="maximum">
+      <number>65535</number>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_31">
+     <property name="geometry">
+      <rect>
+       <x>285</x>
+       <y>159</y>
+       <width>135</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Max connection per server:</string>
+     </property>
+     <property name="buddy">
+      <cstring>spinBox_MaxConnectionPerServer</cstring>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="spinBox_MaxConnectionPerServer">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>425</x>
+       <y>159</y>
+       <width>81</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+     <property name="maximum">
+      <number>65535</number>
      </property>
     </widget>
    </widget>
@@ -678,6 +751,38 @@
      </property>
      <property name="buddy">
       <cstring>spinBox_ConnectTimeout</cstring>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="checkBox_HTTPConditionalGet">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>55</y>
+       <width>100</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Conditional get</string>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="checkBox_HTTPConditionalGet_2">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>60</y>
+       <width>100</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Conditional get</string>
      </property>
     </widget>
    </widget>
@@ -1082,6 +1187,9 @@
      <property name="text">
       <string>Min crypto level:</string>
      </property>
+     <property name="buddy">
+      <cstring>comboBox_MinCryptoLevel</cstring>
+     </property>
     </widget>
     <widget class="QComboBox" name="comboBox_MinCryptoLevel">
      <property name="geometry">
@@ -1116,7 +1224,7 @@
       <string>Seed time:</string>
      </property>
      <property name="buddy">
-      <cstring>doubleSpinBox_SeedRatio</cstring>
+      <cstring>spinBox_SeedTime</cstring>
      </property>
     </widget>
     <widget class="QSpinBox" name="spinBox_SeedTime">
@@ -1229,7 +1337,7 @@
        <string>Tiimeout:</string>
       </property>
       <property name="buddy">
-       <cstring>spinBox_TrackerInterval</cstring>
+       <cstring>spinBox_TrackerTimeout</cstring>
       </property>
      </widget>
      <widget class="QLabel" name="label_27">
@@ -1318,6 +1426,9 @@
       <property name="text">
        <string>Size:</string>
       </property>
+      <property name="buddy">
+       <cstring>spinBox_PrioritizePieceHead_Size</cstring>
+      </property>
      </widget>
      <widget class="QLabel" name="label_3">
       <property name="geometry">
@@ -1330,6 +1441,9 @@
       </property>
       <property name="text">
        <string>Size:</string>
+      </property>
+      <property name="buddy">
+       <cstring>spinBox_PrioritizePieceTail_Size</cstring>
       </property>
      </widget>
      <widget class="QSpinBox" name="spinBox_PrioritizePieceHead_Size">
@@ -1383,6 +1497,9 @@
      <property name="text">
       <string>External IP:</string>
      </property>
+     <property name="buddy">
+      <cstring>lineEdit_ExternalIP</cstring>
+     </property>
     </widget>
     <widget class="QLineEdit" name="lineEdit_ExternalIP">
      <property name="geometry">
@@ -1398,6 +1515,64 @@
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_BtTracker">
+     <property name="geometry">
+      <rect>
+       <x>9</x>
+       <y>250</y>
+       <width>260</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="maxLength">
+      <number>20</number>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_46">
+     <property name="geometry">
+      <rect>
+       <x>9</x>
+       <y>230</y>
+       <width>81</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Tracker:</string>
+     </property>
+     <property name="buddy">
+      <cstring>lineEdit_ExternalIP</cstring>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_BtExcludeTracker">
+     <property name="geometry">
+      <rect>
+       <x>280</x>
+       <y>250</y>
+       <width>260</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="maxLength">
+      <number>20</number>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_47">
+     <property name="geometry">
+      <rect>
+       <x>280</x>
+       <y>230</y>
+       <width>81</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Exclude tracker:</string>
+     </property>
+     <property name="buddy">
+      <cstring>lineEdit_ExternalIP</cstring>
      </property>
     </widget>
    </widget>
@@ -1486,8 +1661,8 @@
     <widget class="QLabel" name="label_17">
      <property name="geometry">
       <rect>
-       <x>247</x>
-       <y>55</y>
+       <x>430</x>
+       <y>9</y>
        <width>41</width>
        <height>16</height>
       </rect>
@@ -1505,8 +1680,8 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>247</x>
-       <y>78</y>
+       <x>430</x>
+       <y>32</y>
        <width>100</width>
        <height>20</height>
       </rect>
@@ -1533,6 +1708,9 @@
      <property name="text">
       <string>Language:</string>
      </property>
+     <property name="buddy">
+      <cstring>lineEdit_Language</cstring>
+     </property>
     </widget>
     <widget class="QLineEdit" name="lineEdit_Language">
      <property name="geometry">
@@ -1555,6 +1733,9 @@
      </property>
      <property name="text">
       <string>Location:</string>
+     </property>
+     <property name="buddy">
+      <cstring>lineEdit_Location</cstring>
      </property>
     </widget>
     <widget class="QLineEdit" name="lineEdit_Location">
@@ -1579,6 +1760,9 @@
      <property name="text">
       <string>Operation system:</string>
      </property>
+     <property name="buddy">
+      <cstring>lineEdit_OS</cstring>
+     </property>
     </widget>
     <widget class="QLabel" name="label_44">
      <property name="geometry">
@@ -1591,6 +1775,9 @@
      </property>
      <property name="text">
       <string>Version:</string>
+     </property>
+     <property name="buddy">
+      <cstring>lineEdit_Version</cstring>
      </property>
     </widget>
     <widget class="QLineEdit" name="lineEdit_OS">
@@ -1608,6 +1795,32 @@
       <rect>
        <x>247</x>
        <y>210</y>
+       <width>221</width>
+       <height>20</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_32">
+     <property name="geometry">
+      <rect>
+       <x>250</x>
+       <y>60</y>
+       <width>121</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Base URI:</string>
+     </property>
+     <property name="buddy">
+      <cstring>lineEdit_OS</cstring>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_BaseURI">
+     <property name="geometry">
+      <rect>
+       <x>250</x>
+       <y>80</y>
        <width>221</width>
        <height>20</height>
       </rect>
@@ -1689,7 +1902,7 @@
      <property name="geometry">
       <rect>
        <x>9</x>
-       <y>101</y>
+       <y>124</y>
        <width>145</width>
        <height>17</height>
       </rect>
@@ -1705,7 +1918,7 @@
      <property name="geometry">
       <rect>
        <x>9</x>
-       <y>147</y>
+       <y>170</y>
        <width>145</width>
        <height>17</height>
       </rect>
@@ -1721,7 +1934,7 @@
      <property name="geometry">
       <rect>
        <x>9</x>
-       <y>124</y>
+       <y>147</y>
        <width>111</width>
        <height>17</height>
       </rect>
@@ -1785,6 +1998,9 @@
      </property>
      <property name="text">
       <string>No file allocation limit:</string>
+     </property>
+     <property name="buddy">
+      <cstring>spinBox_NoFileAllocationLimit</cstring>
      </property>
     </widget>
     <widget class="QSpinBox" name="spinBox_NoFileAllocationLimit">
@@ -1852,6 +2068,9 @@
      </property>
      <property name="text">
       <string>Proxy method:</string>
+     </property>
+     <property name="buddy">
+      <cstring>comboBox_ProxyMethod</cstring>
      </property>
     </widget>
     <widget class="QComboBox" name="comboBox_ProxyMethod">
@@ -1961,7 +2180,7 @@
      <property name="geometry">
       <rect>
        <x>9</x>
-       <y>180</y>
+       <y>210</y>
        <width>151</width>
        <height>16</height>
       </rect>
@@ -1969,12 +2188,15 @@
      <property name="text">
       <string>Referer:</string>
      </property>
+     <property name="buddy">
+      <cstring>lineEdit_Referer</cstring>
+     </property>
     </widget>
     <widget class="QLineEdit" name="lineEdit_Referer">
      <property name="geometry">
       <rect>
        <x>9</x>
-       <y>200</y>
+       <y>230</y>
        <width>151</width>
        <height>20</height>
       </rect>
@@ -1984,7 +2206,7 @@
      <property name="geometry">
       <rect>
        <x>180</x>
-       <y>180</y>
+       <y>210</y>
        <width>151</width>
        <height>16</height>
       </rect>
@@ -1992,16 +2214,128 @@
      <property name="text">
       <string>Header:</string>
      </property>
+     <property name="buddy">
+      <cstring>lineEdit_Header</cstring>
+     </property>
     </widget>
     <widget class="QLineEdit" name="lineEdit_Header">
      <property name="geometry">
       <rect>
        <x>180</x>
-       <y>200</y>
+       <y>230</y>
        <width>151</width>
        <height>20</height>
       </rect>
      </property>
+    </widget>
+    <widget class="QCheckBox" name="checkBox_AsyncDns6">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>101</y>
+       <width>145</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Async DNS6</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_40">
+     <property name="geometry">
+      <rect>
+       <x>350</x>
+       <y>160</y>
+       <width>111</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Retry wait:</string>
+     </property>
+     <property name="buddy">
+      <cstring>spinBox_NoFileAllocationLimit</cstring>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="spinBox_RetryWait">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>350</x>
+       <y>180</y>
+       <width>101</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+     <property name="suffix">
+      <string> s</string>
+     </property>
+     <property name="maximum">
+      <number>65536</number>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="checkBox_Pause">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>170</y>
+       <width>140</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Pause</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_48">
+     <property name="geometry">
+      <rect>
+       <x>350</x>
+       <y>210</y>
+       <width>111</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Stream piece selector:</string>
+     </property>
+     <property name="buddy">
+      <cstring>spinBox_NoFileAllocationLimit</cstring>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="comboBox_StreamPieceSelector">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>350</x>
+       <y>230</y>
+       <width>101</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>Default</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>InOrder</string>
+      </property>
+     </item>
     </widget>
    </widget>
    <widget class="QWidget" name="tab_Proxy">
@@ -2014,11 +2348,11 @@
        <x>0</x>
        <y>0</y>
        <width>545</width>
-       <height>201</height>
+       <height>231</height>
       </rect>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="tab_Proxy_All">
       <attribute name="title">
@@ -2043,7 +2377,7 @@
          <x>10</x>
          <y>30</y>
          <width>525</width>
-         <height>141</height>
+         <height>171</height>
         </rect>
        </property>
        <property name="alternatingRowColors">
@@ -2079,7 +2413,7 @@
          <x>10</x>
          <y>30</y>
          <width>525</width>
-         <height>141</height>
+         <height>171</height>
         </rect>
        </property>
        <property name="alternatingRowColors">
@@ -2115,7 +2449,7 @@
          <x>10</x>
          <y>30</y>
          <width>525</width>
-         <height>141</height>
+         <height>171</height>
         </rect>
        </property>
        <property name="alternatingRowColors">
@@ -2151,7 +2485,7 @@
          <x>10</x>
          <y>30</y>
          <width>525</width>
-         <height>141</height>
+         <height>171</height>
         </rect>
        </property>
        <property name="alternatingRowColors">
@@ -2182,7 +2516,7 @@
      <property name="geometry">
       <rect>
        <x>270</x>
-       <y>210</y>
+       <y>240</y>
        <width>75</width>
        <height>23</height>
       </rect>
@@ -2195,7 +2529,7 @@
      <property name="geometry">
       <rect>
        <x>360</x>
-       <y>210</y>
+       <y>240</y>
        <width>75</width>
        <height>23</height>
       </rect>
@@ -2208,7 +2542,7 @@
      <property name="geometry">
       <rect>
        <x>450</x>
-       <y>210</y>
+       <y>240</y>
        <width>75</width>
        <height>23</height>
       </rect>
@@ -2228,7 +2562,7 @@
        <x>10</x>
        <y>10</y>
        <width>531</width>
-       <height>181</height>
+       <height>211</height>
       </rect>
      </property>
      <property name="alternatingRowColors">
@@ -2252,7 +2586,7 @@
      <property name="geometry">
       <rect>
        <x>360</x>
-       <y>210</y>
+       <y>240</y>
        <width>75</width>
        <height>23</height>
       </rect>
@@ -2265,7 +2599,7 @@
      <property name="geometry">
       <rect>
        <x>270</x>
-       <y>210</y>
+       <y>240</y>
        <width>75</width>
        <height>23</height>
       </rect>
@@ -2278,7 +2612,7 @@
      <property name="geometry">
       <rect>
        <x>450</x>
-       <y>210</y>
+       <y>240</y>
        <width>75</width>
        <height>23</height>
       </rect>
@@ -2301,18 +2635,21 @@
   <tabstop>spinBox_MaxDownloadLimit</tabstop>
   <tabstop>spinBox_MaxFileNotFound</tabstop>
   <tabstop>spinBox_MaxResumeFailureTries</tabstop>
-  <tabstop>buttonBox</tabstop>
+  <tabstop>spinBox_MinSplitSize</tabstop>
+  <tabstop>spinBox_MaxConnectionPerServer</tabstop>
   <tabstop>radioButton_Mode_Passive</tabstop>
   <tabstop>radioButton_Mode_Active</tabstop>
-  <tabstop>radioButton_Type_Binary</tabstop>
-  <tabstop>radioButton_Type_ASCII</tabstop>
   <tabstop>checkBox_ReuseConnection</tabstop>
   <tabstop>spinBox_FTP_ConnectTimeout</tabstop>
+  <tabstop>radioButton_Type_Binary</tabstop>
+  <tabstop>radioButton_Type_ASCII</tabstop>
   <tabstop>checkBox_HTTPKeepAlive</tabstop>
   <tabstop>checkBox_HTTPPipelining</tabstop>
   <tabstop>checkBox_AcceptGzip</tabstop>
   <tabstop>checkBox_AuthChallenge</tabstop>
   <tabstop>checkBox_HTTPNoCache</tabstop>
+  <tabstop>checkBox_HTTPConditionalGet</tabstop>
+  <tabstop>checkBox_HTTPConditionalGet_2</tabstop>
   <tabstop>lineEdit_UserAgent</tabstop>
   <tabstop>spinBox_ConnectTimeout</tabstop>
   <tabstop>checkBox_EnableLpd</tabstop>
@@ -2340,6 +2677,8 @@
   <tabstop>spinBox_TrackerInterval</tabstop>
   <tabstop>comboBox_MinCryptoLevel</tabstop>
   <tabstop>spinBox_RequestPeerSpeedLimit</tabstop>
+  <tabstop>lineEdit_BtTracker</tabstop>
+  <tabstop>lineEdit_BtExcludeTracker</tabstop>
   <tabstop>radioButton_PreferredProtocol_HTTP</tabstop>
   <tabstop>radioButton_PreferredProtocol_HTTPS</tabstop>
   <tabstop>radioButton_PreferredProtocol_FTP</tabstop>
@@ -2349,12 +2688,14 @@
   <tabstop>checkBox_FollowMetalink</tabstop>
   <tabstop>checkBox_UniqueProtocol</tabstop>
   <tabstop>spinBox_MetalinkServers</tabstop>
+  <tabstop>lineEdit_BaseURI</tabstop>
   <tabstop>lineEdit_OS</tabstop>
   <tabstop>lineEdit_Version</tabstop>
   <tabstop>checkBox_AllowOverwrite</tabstop>
   <tabstop>checkBox_AllowPieceLengthChange</tabstop>
   <tabstop>checkBox_AlwayResume</tabstop>
   <tabstop>checkBox_AsyncDns</tabstop>
+  <tabstop>checkBox_AsyncDns6</tabstop>
   <tabstop>checkBox_AutoFileRenaming</tabstop>
   <tabstop>checkBox_CheckIntegrity</tabstop>
   <tabstop>checkBox_DryRun</tabstop>
@@ -2365,24 +2706,28 @@
   <tabstop>checkBox_NoNetrc</tabstop>
   <tabstop>checkBox_ParameterizedURI</tabstop>
   <tabstop>checkBox_UseHead</tabstop>
-  <tabstop>lineEdit_Referer</tabstop>
-  <tabstop>lineEdit_Header</tabstop>
+  <tabstop>checkBox_Pause</tabstop>
   <tabstop>spinBox_NoFileAllocationLimit</tabstop>
   <tabstop>comboBox_FileAllocation</tabstop>
   <tabstop>comboBox_ProxyMethod</tabstop>
+  <tabstop>spinBox_RetryWait</tabstop>
+  <tabstop>lineEdit_Referer</tabstop>
+  <tabstop>lineEdit_Header</tabstop>
+  <tabstop>comboBox_StreamPieceSelector</tabstop>
   <tabstop>tabWidget_Proxy</tabstop>
   <tabstop>checkBox_Proxy_All_Enabled</tabstop>
   <tabstop>treeWidget_Proxy_All_List</tabstop>
   <tabstop>pushButton_Proxy_Add</tabstop>
   <tabstop>pushButton_Proxy_Delete</tabstop>
   <tabstop>pushButton_Proxy_Modify</tabstop>
-  <tabstop>treeWidget_Server_List</tabstop>
   <tabstop>pushButton_Servers_Add</tabstop>
   <tabstop>pushButton_Servers_Delete</tabstop>
-  <tabstop>pushButton_Servers_Modify</tabstop>
-  <tabstop>treeWidget_Proxy_FTP_List</tabstop>
   <tabstop>treeWidget_Proxy_HTTPS_List</tabstop>
+  <tabstop>buttonBox</tabstop>
+  <tabstop>treeWidget_Proxy_FTP_List</tabstop>
+  <tabstop>treeWidget_Server_List</tabstop>
   <tabstop>treeWidget_Proxy_HTTP_List</tabstop>
+  <tabstop>pushButton_Servers_Modify</tabstop>
  </tabstops>
  <resources>
   <include location="Aria2cRemote.qrc"/>

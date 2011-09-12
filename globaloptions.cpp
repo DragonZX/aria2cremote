@@ -102,6 +102,8 @@ void GlobalOptions::SetBasicOptions()
     ui->spinBox_MaxResumeFailureTries->setValue(m_globalOptions.value("max-resume-failure-tries", 0).toInt());
     ui->spinBox_MaxTries->setValue(m_globalOptions.value("max-tries", 5).toInt());
     ui->spinBox_Timeout->setValue(m_globalOptions.value("timeout", 60).toInt());
+    ui->spinBox_MaxConnectionPerServer->setValue(m_globalOptions.value("max-connection-per-server", 1).toInt());
+    ui->spinBox_MinSplitSize->setValue(m_globalOptions.value("min-split-size", 20971520).toInt() / 1024);
 }
 
 void GlobalOptions::SetFTPOptions()
@@ -121,6 +123,7 @@ void GlobalOptions::SetHTTPOptions()
     ui->checkBox_AcceptGzip->setCheckState(m_globalOptions.value("http-accept-gzip", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     ui->checkBox_AuthChallenge->setCheckState(m_globalOptions.value("http-auth-challenge", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     ui->checkBox_HTTPNoCache->setCheckState(m_globalOptions.value("http-no-cache", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
+    ui->checkBox_ConditionalGet->setCheckState(m_globalOptions.value("conditional-get", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     ui->lineEdit_UserAgent->setText(m_globalOptions.value("user-agent", QString("aria2/")).toString());
     ui->spinBox_ConnectTimeout->setValue(m_globalOptions.value("connect-timeout", 60).toInt());
 }
@@ -178,6 +181,7 @@ void GlobalOptions::SetAdvancedOptions()
     ui->checkBox_AllowPieceLengthChange->setCheckState(m_globalOptions.value("allow-piece-length-change", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     ui->checkBox_AlwayResume->setCheckState(m_globalOptions.value("always-resume", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     ui->checkBox_AsyncDns->setCheckState(m_globalOptions.value("async-dns", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
+    ui->checkBox_AsyncDns6->setCheckState(m_globalOptions.value("enable-async-dns6", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     ui->checkBox_AutoFileRenaming->setCheckState(m_globalOptions.value("auto-file-renaming", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     ui->checkBox_DisableIPV6->setCheckState(m_globalOptions.value("disable-ipv6", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     ui->checkBox_DryRun->setCheckState(m_globalOptions.value("dry-run", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
@@ -204,11 +208,21 @@ void GlobalOptions::SetAdvancedOptions()
     ui->comboBox_FileAllocation->setCurrentIndex(iPos);
 
     ui->lineEdit_DHT_FilePath->setText(m_globalOptions.value("dht-file-path", QString("$HOME/.aria2/dht.dat")).toString());
+    ui->lineEdit_DHT_FilePath6->setText(m_globalOptions.value("dht-file-path6", QString("$HOME/.aria2/dht6.dat")).toString());
     ui->lineEdit_DHT_ListenPort->setText(m_globalOptions.value("dht-listen-port", QString("6881-6999")).toString());
     ui->lineEdit_ConfPath->setText(m_globalOptions.value("conf-path", QString("$HOME/.aria2/aria2.conf")).toString());
+    ui->checkBox_EnableDHT->setCheckState(m_globalOptions.value("enable-dht", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
+    ui->checkBox_EnableDHT6->setCheckState(m_globalOptions.value("enable-dht6", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
+    ui->spinBox_DHT_MessageTimeout->setValue(m_globalOptions.value("dht-message-timeout", 10).toInt());
+    ui->spinBox_RetryWait->setValue(m_globalOptions.value("retry-wait", 0).toInt());
 
-     ui->spinBox_DHT_MessageTimeout->setValue(m_globalOptions.value("dht-message-timeout", 10).toInt());
+    s = m_globalOptions.value("stream-piece-selector", QString("default")).toString();
+    if (s == "default")
+        iPos = 0;
+    else if (s == "inorder")
+        iPos = 1;
 
+    ui->comboBox_StreamPieceSelector->setCurrentIndex(iPos);
 }
 
 void GlobalOptions::SetAdvanced1Options()
@@ -223,7 +237,8 @@ void GlobalOptions::SetAdvanced1Options()
     ui->checkBox_RemoveControlFile->setCheckState(m_globalOptions.value("remove-control-file", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     ui->checkBox_ReuseURI->setCheckState(m_globalOptions.value("reuse-uri", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     ui->checkBox_ShowFiles->setCheckState(m_globalOptions.value("show-files", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
-
+    ui->checkBox_ShowConsoleReadout->setCheckState(m_globalOptions.value("show-console-readout", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
+    ui->checkBox_TruncateConsoleReadout->setCheckState(m_globalOptions.value("truncate-console-readout", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     ui->spinBox_SummaryInterval->setValue(m_globalOptions.value("summary-interval", 60).toInt());
     ui->spinBox_ServerStatTimeout->setValue(m_globalOptions.value("server-stat-timeout", 86400).toInt());
     ui->spinBox_NoFileAllocationLimit->setValue(m_globalOptions.value("no-file-allocation-limit", 5242880).toInt() / 1024);
@@ -249,9 +264,9 @@ void GlobalOptions::SetAdvanced1Options()
         iPos = 1;
 
     ui->comboBox_ProxyMethod->setCurrentIndex(iPos);
+
     ui->checkBox_XMLRPC_Enable->setCheckState(m_globalOptions.value((g_uiAria2cVersion >= util::ARIA2C_VERSION_1110) ? "enable-rpc" : "enable-xml-rpc", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     ui->checkBox_XMLRPC_ListenAll->setCheckState(m_globalOptions.value((g_uiAria2cVersion >= util::ARIA2C_VERSION_1110) ? "xml-rpc-listen-all" : "rpc-listen-all", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     ui->spinBox_XMLRPC_ListenPort->setValue(m_globalOptions.value((g_uiAria2cVersion >= util::ARIA2C_VERSION_1110) ? "xml-rpc-listen-port" : "rpc-listen-port", 6800).toInt());
     ui->spinBox_XMLRPC_MaxRequestSize->setValue(m_globalOptions.value((g_uiAria2cVersion >= util::ARIA2C_VERSION_1110) ? "xml-rpc-max-request-size" : "rpc-max-request-size", 2097152).toInt() / 1024);
 }
-
