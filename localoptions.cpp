@@ -30,6 +30,7 @@
 
 using namespace util;
 extern quint32 g_uiAria2cVersion;
+extern quint32 g_uiAria2cFeatures;
 
 LocalOptions::LocalOptions(QWidget *parent) :
     QDialog(parent),
@@ -99,15 +100,30 @@ void LocalOptions::changeEvent(QEvent *e)
     }
 }
 
-template <class T> T LocalOptions::SetProperties(T widget, quint32 uiMinAria2cVersion)
+template <class T> T LocalOptions::SetProperties(T widget, quint32 uiAria2cProperties)
 {
-    if (uiMinAria2cVersion > g_uiAria2cVersion)
+    quint32 uiMinAria2cVersion = uiAria2cProperties & util::ARIA2C_VERSION_MASK;
+    quint32 uiAria2cFeatures = uiAria2cProperties & util::ARIA2C_FEATURES_ALL;
+
+    if (uiAria2cFeatures == util::ARIA2C_FEATURES_NONE)
+    {
+        uiAria2cFeatures = util::ARIA2C_FEATURES_ALL;
+    }
+
+    if (uiMinAria2cVersion > (g_uiAria2cVersion))
     {
         QString tooltip(tr("Minimum Aria2c version: <b>%1.%2.%3</b>").arg(uiMinAria2cVersion >> 16).arg((uiMinAria2cVersion & 0x00FF00) >> 8).arg(uiMinAria2cVersion & 0xFF));
 
         widget->setToolTip(tooltip);
         widget->setEnabled(false);
+    } else if (!(g_uiAria2cFeatures & uiAria2cFeatures))
+    {
+        QString tooltip(tr("Aria2c not support this feature"));
+
+        widget->setToolTip(tooltip);
+        widget->setEnabled(false);
     }
+
     return widget;
 }
 
@@ -693,28 +709,28 @@ void LocalOptions::SetHTTPOptions()
 
 void LocalOptions::SetBittorrentOptions()
 {
-    SetProperties(ui->checkBox_EnableLpd, util::ARIA2C_VERSION_190)->setCheckState(Update("bt-enable-lpd", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
-    SetProperties(ui->checkBox_HashCheckSeed)->setCheckState(Update("bt-hash-check-seed", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
-    SetProperties(ui->checkBox_MetadataOnly)->setCheckState(Update("bt-metadata-only", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
-    SetProperties(ui->checkBox_RequireCrypto)->setCheckState(Update("bt-require-crypto", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
-    SetProperties(ui->checkBox_SaveMetadata)->setCheckState(Update("bt-save-metadata", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
-    SetProperties(ui->checkBox_SeedUnverified)->setCheckState(Update("bt-seed-unverified", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
-    SetProperties(ui->checkBox_FollowTorrent)->setCheckState(Update("follow-torrent", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
-    SetProperties(ui->checkBox_PeerExchange)->setCheckState(Update("enable-peer-exchange", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
+    SetProperties(ui->checkBox_EnableLpd, util::ARIA2C_VERSION_190 | util::ARIA2C_FEATURES_BITTORRENT)->setCheckState(Update("bt-enable-lpd", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
+    SetProperties(ui->checkBox_HashCheckSeed, util::ARIA2C_FEATURES_BITTORRENT)->setCheckState(Update("bt-hash-check-seed", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
+    SetProperties(ui->checkBox_MetadataOnly, util::ARIA2C_FEATURES_BITTORRENT)->setCheckState(Update("bt-metadata-only", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
+    SetProperties(ui->checkBox_RequireCrypto, util::ARIA2C_FEATURES_BITTORRENT)->setCheckState(Update("bt-require-crypto", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
+    SetProperties(ui->checkBox_SaveMetadata, util::ARIA2C_FEATURES_BITTORRENT)->setCheckState(Update("bt-save-metadata", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
+    SetProperties(ui->checkBox_SeedUnverified, util::ARIA2C_FEATURES_BITTORRENT)->setCheckState(Update("bt-seed-unverified", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
+    SetProperties(ui->checkBox_FollowTorrent, util::ARIA2C_FEATURES_BITTORRENT)->setCheckState(Update("follow-torrent", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
+    SetProperties(ui->checkBox_PeerExchange, util::ARIA2C_FEATURES_BITTORRENT)->setCheckState(Update("enable-peer-exchange", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
 
     bool ok;
-    SetProperties(ui->doubleSpinBox_SeedRatio)->setValue(Update("seed-ratio", 1.0).toDouble(&ok));
-    SetProperties(ui->spinBox_StopTimeout)->setValue(Update("bt-stop-timeout", 0).toInt());
-    SetProperties(ui->spinBox_MaxUploadLimit)->setValue(Update("max-upload-limit", 0).toInt() / 1024);
-    SetProperties(ui->spinBox_MaxOpenFiles)->setValue(Update("bt-max-open-files", 100).toInt());
-    SetProperties(ui->spinBox_MaxPeers)->setValue(Update("bt-max-peers", 55).toInt());
+    SetProperties(ui->doubleSpinBox_SeedRatio, util::ARIA2C_FEATURES_BITTORRENT)->setValue(Update("seed-ratio", 1.0).toDouble(&ok));
+    SetProperties(ui->spinBox_StopTimeout, util::ARIA2C_FEATURES_BITTORRENT)->setValue(Update("bt-stop-timeout", 0).toInt());
+    SetProperties(ui->spinBox_MaxUploadLimit, util::ARIA2C_FEATURES_BITTORRENT)->setValue(Update("max-upload-limit", 0).toInt() / 1024);
+    SetProperties(ui->spinBox_MaxOpenFiles, util::ARIA2C_FEATURES_BITTORRENT)->setValue(Update("bt-max-open-files", 100).toInt());
+    SetProperties(ui->spinBox_MaxPeers, util::ARIA2C_FEATURES_BITTORRENT)->setValue(Update("bt-max-peers", 55).toInt());
 
     // ------- new elems ----------
     //seed time
-    SetProperties(ui->spinBox_SeedTime)->setValue(Update("seed-time", -1).toInt());
+    SetProperties(ui->spinBox_SeedTime, util::ARIA2C_FEATURES_BITTORRENT)->setValue(Update("seed-time", -1).toInt());
 
     //External IP
-    SetProperties(ui->lineEdit_ExternalIP)->setText(Update("bt-external-ip", QString("")).toString());
+    SetProperties(ui->lineEdit_ExternalIP, util::ARIA2C_FEATURES_BITTORRENT)->setText(Update("bt-external-ip", QString("")).toString());
 
     //prioritize piece
     QString value = Update("bt-prioritize-piece", QString("")).toString();
@@ -749,19 +765,19 @@ void LocalOptions::SetBittorrentOptions()
                     bTail = true;
             }
     }
-    SetProperties(ui->checkBox_PrioritizePieceHead)->setCheckState(bHead ? (Qt::Checked) : (Qt::Unchecked));
-    SetProperties(ui->checkBox_PrioritizePieceTail)->setCheckState(bTail ? (Qt::Checked) : (Qt::Unchecked));
-    SetProperties(ui->spinBox_PrioritizePieceHead_Size)->setValue(iHead);
-    SetProperties(ui->spinBox_PrioritizePieceTail_Size)->setValue(iTail);
-    SetProperties(ui->spinBox_PrioritizePieceHead_Size)->setEnabled(bHead);
-    SetProperties(ui->spinBox_PrioritizePieceTail_Size)->setEnabled(bTail);
+    SetProperties(ui->checkBox_PrioritizePieceHead, util::ARIA2C_FEATURES_BITTORRENT)->setCheckState(bHead ? (Qt::Checked) : (Qt::Unchecked));
+    SetProperties(ui->checkBox_PrioritizePieceTail, util::ARIA2C_FEATURES_BITTORRENT)->setCheckState(bTail ? (Qt::Checked) : (Qt::Unchecked));
+    SetProperties(ui->spinBox_PrioritizePieceHead_Size, util::ARIA2C_FEATURES_BITTORRENT)->setValue(iHead);
+    SetProperties(ui->spinBox_PrioritizePieceTail_Size, util::ARIA2C_FEATURES_BITTORRENT)->setValue(iTail);
+    SetProperties(ui->spinBox_PrioritizePieceHead_Size, util::ARIA2C_FEATURES_BITTORRENT)->setEnabled(bHead);
+    SetProperties(ui->spinBox_PrioritizePieceTail_Size, util::ARIA2C_FEATURES_BITTORRENT)->setEnabled(bTail);
     // ------- new elems ----------
 
-    SetProperties(ui->spinBox_TrackerInterval)->setValue(Update("bt-tracker-interval", 0).toInt());
-    SetProperties(ui->spinBox_TrackerTimeout, util::ARIA2C_VERSION_191)->setValue(Update("bt-tracker-timeout", 60).toInt());
-    SetProperties(ui->spinBox_TrackerConnectTimeout, util::ARIA2C_VERSION_191)->setValue(Update("bt-tracker-connect-timeout", 60).toInt());
-    SetProperties(ui->lineEdit_PeerIDPrefix)->setText(Update("peer-id-prefix", QString("aria2/-")).toString());
-    SetProperties(ui->spinBox_RequestPeerSpeedLimit)->setValue(Update("bt-request-peer-speed-limit", 51200).toInt() / 1024);
+    SetProperties(ui->spinBox_TrackerInterval, util::ARIA2C_FEATURES_BITTORRENT)->setValue(Update("bt-tracker-interval", 0).toInt());
+    SetProperties(ui->spinBox_TrackerTimeout, util::ARIA2C_VERSION_191 | util::ARIA2C_FEATURES_BITTORRENT)->setValue(Update("bt-tracker-timeout", 60).toInt());
+    SetProperties(ui->spinBox_TrackerConnectTimeout, util::ARIA2C_VERSION_191 | util::ARIA2C_FEATURES_BITTORRENT)->setValue(Update("bt-tracker-connect-timeout", 60).toInt());
+    SetProperties(ui->lineEdit_PeerIDPrefix, util::ARIA2C_FEATURES_BITTORRENT)->setText(Update("peer-id-prefix", QString("aria2/-")).toString());
+    SetProperties(ui->spinBox_RequestPeerSpeedLimit, util::ARIA2C_FEATURES_BITTORRENT)->setValue(Update("bt-request-peer-speed-limit", 51200).toInt() / 1024);
 
     QString s = Update("bt-min-crypto-level", QString("arc4")).toString();
     int iPos = -1;
@@ -770,35 +786,35 @@ void LocalOptions::SetBittorrentOptions()
     else if (s == "plain")
         iPos = 1;
 
-    SetProperties(ui->comboBox_MinCryptoLevel)->setCurrentIndex(iPos);
-    SetProperties(ui->lineEdit_BtTracker, util::ARIA2C_VERSION_1101)->setText(Update("bt-tracker", QString("")).toString());
-    SetProperties(ui->lineEdit_BtExcludeTracker, util::ARIA2C_VERSION_1101)->setText(Update("bt-exclude-tracker", QString("")).toString());
+    SetProperties(ui->comboBox_MinCryptoLevel, util::ARIA2C_FEATURES_BITTORRENT)->setCurrentIndex(iPos);
+    SetProperties(ui->lineEdit_BtTracker, util::ARIA2C_VERSION_1101 | util::ARIA2C_FEATURES_BITTORRENT)->setText(Update("bt-tracker", QString("")).toString());
+    SetProperties(ui->lineEdit_BtExcludeTracker, util::ARIA2C_VERSION_1101 | util::ARIA2C_FEATURES_BITTORRENT)->setText(Update("bt-exclude-tracker", QString("")).toString());
 }
 
 void LocalOptions::SetMetalinkOptions()
 {
-    SetProperties(ui->radioButton_PreferredProtocol_HTTP)->setChecked(Update("metalink-preferred-protocol", QString("none")).toString() == QString("http"));
-    SetProperties(ui->radioButton_PreferredProtocol_HTTPS)->setChecked(Update("metalink-preferred-protocol", QString("none")).toString() == QString("https"));
-    SetProperties(ui->radioButton_PreferredProtocol_FTP)->setChecked(Update("metalink-preferred-protocol", QString("none")).toString() == QString("ftp"));
-    SetProperties(ui->radioButton_PreferredProtocol_None)->setChecked(Update("metalink-preferred-protocol", QString("none")).toString() == QString("none"));
+    SetProperties(ui->radioButton_PreferredProtocol_HTTP, util::ARIA2C_FEATURES_METALINK)->setChecked(Update("metalink-preferred-protocol", QString("none")).toString() == QString("http"));
+    SetProperties(ui->radioButton_PreferredProtocol_HTTPS, util::ARIA2C_FEATURES_METALINK)->setChecked(Update("metalink-preferred-protocol", QString("none")).toString() == QString("https"));
+    SetProperties(ui->radioButton_PreferredProtocol_FTP, util::ARIA2C_FEATURES_METALINK)->setChecked(Update("metalink-preferred-protocol", QString("none")).toString() == QString("ftp"));
+    SetProperties(ui->radioButton_PreferredProtocol_None, util::ARIA2C_FEATURES_METALINK)->setChecked(Update("metalink-preferred-protocol", QString("none")).toString() == QString("none"));
 
-    SetProperties(ui->checkBox_FollowMetalink)->setCheckState(Update("follow-metalink", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
-    SetProperties(ui->checkBox_UniqueProtocol)->setCheckState(Update("metalink-enable-unique-protocol", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
-    SetProperties(ui->spinBox_MetalinkServers)->setValue(Update("metalink-servers", 5).toInt());
-    SetProperties(ui->lineEdit_BaseURI, util::ARIA2C_VERSION_1112)->setText(Update("metalink-base-uri", QString("")).toString());
+    SetProperties(ui->checkBox_FollowMetalink, util::ARIA2C_FEATURES_METALINK)->setCheckState(Update("follow-metalink", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
+    SetProperties(ui->checkBox_UniqueProtocol, util::ARIA2C_FEATURES_METALINK)->setCheckState(Update("metalink-enable-unique-protocol", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
+    SetProperties(ui->spinBox_MetalinkServers, util::ARIA2C_FEATURES_METALINK)->setValue(Update("metalink-servers", 5).toInt());
+    SetProperties(ui->lineEdit_BaseURI, util::ARIA2C_VERSION_1112 | util::ARIA2C_FEATURES_METALINK)->setText(Update("metalink-base-uri", QString("")).toString());
 
     // ------- new elems ----------
     //Language
-    SetProperties(ui->lineEdit_Language)->setText(Update("metalink-language", QString("")).toString());
+    SetProperties(ui->lineEdit_Language, util::ARIA2C_FEATURES_METALINK)->setText(Update("metalink-language", QString("")).toString());
 
     //Operation system
-    SetProperties(ui->lineEdit_OS)->setText(Update("metalink-os", QString("")).toString());
+    SetProperties(ui->lineEdit_OS, util::ARIA2C_FEATURES_METALINK)->setText(Update("metalink-os", QString("")).toString());
 
     //Location
-    SetProperties(ui->lineEdit_Location)->setText(Update("metalink-location", QString("")).toString());
+    SetProperties(ui->lineEdit_Location, util::ARIA2C_FEATURES_METALINK)->setText(Update("metalink-location", QString("")).toString());
 
     //Version
-    SetProperties(ui->lineEdit_Version)->setText(Update("metalink-version", QString("")).toString());
+    SetProperties(ui->lineEdit_Version, util::ARIA2C_FEATURES_METALINK)->setText(Update("metalink-version", QString("")).toString());
     // ------- new elems ----------
 }
 
@@ -807,8 +823,8 @@ void LocalOptions::SetAdvancedOptions()
     SetProperties(ui->checkBox_AllowOverwrite)->setCheckState(Update("allow-overwrite", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     SetProperties(ui->checkBox_AllowPieceLengthChange)->setCheckState(Update("allow-piece-length-change", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     SetProperties(ui->checkBox_AlwayResume, util::ARIA2C_VERSION_191)->setCheckState(Update("always-resume", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
-    SetProperties(ui->checkBox_AsyncDns)->setCheckState(Update("async-dns", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
-    SetProperties(ui->checkBox_AsyncDns6, util::ARIA2C_VERSION_1101)->setCheckState(Update("async-dns6", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
+    SetProperties(ui->checkBox_AsyncDns, util::ARIA2C_FEATURES_ASYNCDNS)->setCheckState(Update("async-dns", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
+    SetProperties(ui->checkBox_AsyncDns6, util::ARIA2C_VERSION_1101 | util::ARIA2C_FEATURES_ASYNCDNS)->setCheckState(Update("async-dns6", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     SetProperties(ui->checkBox_AutoFileRenaming)->setCheckState(Update("auto-file-renaming", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     SetProperties(ui->checkBox_CheckIntegrity)->setCheckState(Update("check-integrity", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     SetProperties(ui->checkBox_DryRun)->setCheckState(Update("dry-run", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
