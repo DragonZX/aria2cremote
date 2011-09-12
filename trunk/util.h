@@ -34,6 +34,10 @@
 namespace util
 {
     //Aria2c versions
+    const quint32 ARIA2C_VERSION_181 = 0x010801;
+    const quint32 ARIA2C_VERSION_182 = 0x010802;
+    const quint32 ARIA2C_VERSION_183 = 0x010803;
+    const quint32 ARIA2C_VERSION_190 = 0x010900;
     const quint32 ARIA2C_VERSION_191 = 0x010901;
     const quint32 ARIA2C_VERSION_192 = 0x010902;
     const quint32 ARIA2C_VERSION_193 = 0x010903;
