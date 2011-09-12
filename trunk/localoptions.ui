@@ -769,22 +769,6 @@
       <string>Conditional get</string>
      </property>
     </widget>
-    <widget class="QCheckBox" name="checkBox_HTTPConditionalGet_2">
-     <property name="enabled">
-      <bool>true</bool>
-     </property>
-     <property name="geometry">
-      <rect>
-       <x>150</x>
-       <y>60</y>
-       <width>100</width>
-       <height>17</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Conditional get</string>
-     </property>
-    </widget>
    </widget>
    <widget class="QWidget" name="tab_Bittorrent">
     <attribute name="title">
@@ -2352,7 +2336,7 @@
       </rect>
      </property>
      <property name="currentIndex">
-      <number>3</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab_Proxy_All">
       <attribute name="title">
@@ -2649,7 +2633,6 @@
   <tabstop>checkBox_AuthChallenge</tabstop>
   <tabstop>checkBox_HTTPNoCache</tabstop>
   <tabstop>checkBox_HTTPConditionalGet</tabstop>
-  <tabstop>checkBox_HTTPConditionalGet_2</tabstop>
   <tabstop>lineEdit_UserAgent</tabstop>
   <tabstop>spinBox_ConnectTimeout</tabstop>
   <tabstop>checkBox_EnableLpd</tabstop>
