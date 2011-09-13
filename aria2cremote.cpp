@@ -26,6 +26,7 @@
 #include "util.h"
 #include "server.h"
 #include "aria2options.h"
+#include "progressbarviewdelegate.h"
 #include <QFileIconProvider>
 #include <QRegExp>
 
@@ -123,6 +124,7 @@ Aria2cRemote::Aria2cRemote(QWidget *parent) :
     setWindowTitle(tr("Aria2c Remote"));
 
     //Set list view
+    m_listView->setItemDelegate(new ProgressBarViewDelegate(this));
     m_mainListView->setCurrentRow(0);
 
     //Working thread init
