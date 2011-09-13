@@ -22,6 +22,8 @@
  
 #include "aria2options.h"
 #include "ui_aria2options.h"
+#include "progressbarviewdelegate.h"
+
 #include <QFile>
 
 Aria2Options::Aria2Options(QWidget *parent) :
