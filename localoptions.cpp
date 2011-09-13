@@ -1068,7 +1068,7 @@ void LocalOptions::on_buttonBox_accepted()
     getUpdate("allow-piece-length-change", QVariant(ui->checkBox_AllowPieceLengthChange->checkState() == Qt::Checked).toString());
     getUpdate("always-resume", QVariant(ui->checkBox_AlwayResume->checkState() == Qt::Checked).toString());
     getUpdate("async-dns", QVariant(ui->checkBox_AsyncDns->checkState() == Qt::Checked).toString());
-    getUpdate("async-dns6", QVariant(ui->checkBox_AsyncDns6->checkState() == Qt::Checked).toString());
+    getUpdate("enable-async-dns6", QVariant(ui->checkBox_AsyncDns6->checkState() == Qt::Checked).toString());
     getUpdate("auto-file-renaming", QVariant(ui->checkBox_AutoFileRenaming->checkState() == Qt::Checked).toString());
     getUpdate("check-integrity", QVariant(ui->checkBox_CheckIntegrity->checkState() == Qt::Checked).toString());
     getUpdate("dry-run", QVariant(ui->checkBox_DryRun->checkState() == Qt::Checked).toString());
