@@ -628,7 +628,7 @@ void LocalOptions::on_spinBox_SeedTime_valueChanged(int value)
 void LocalOptions::getUpdate(QString name, QString value)
 {
     m_localOptions.remove(name);
-    if (m_globalOptions.value(name, "").toString() != value)
+    if (m_globalOptions.value(name, "").toString().compare(value, Qt::CaseInsensitive) != 0)
     {
         m_localOptions[name] = value;
     }
@@ -889,7 +889,7 @@ void LocalOptions::on_buttonBox_accepted()
     getUpdate("max-download-limit", QString::number(ui->spinBox_MaxDownloadLimit->value() * 1024));
     getUpdate("max-file-not-found", QString::number(ui->spinBox_MaxFileNotFound->value()));
     getUpdate("max-resume-failure-tries", QString::number(ui->spinBox_MaxResumeFailureTries->value()));
-    getUpdate("min-split-size", QString::number(ui->spinBox_MinSplitSize->value()));
+    getUpdate("min-split-size", QString::number(ui->spinBox_MinSplitSize->value() *1024));
     getUpdate("max-connection-per-server", QString::number(ui->spinBox_MaxConnectionPerServer->value()));
 
     getUpdate("continue", QVariant(ui->checkBox_ContinueDownload->checkState() == Qt::Checked).toString());
@@ -1000,8 +1000,16 @@ void LocalOptions::on_buttonBox_accepted()
     getUpdate("peer-id-prefix", ui->lineEdit_PeerIDPrefix->text());
     getUpdate("bt-request-peer-speed-limit", QString::number(ui->spinBox_RequestPeerSpeedLimit->value() * 1024));
     getUpdate("bt-min-crypto-level", ui->comboBox_MinCryptoLevel->currentText());
-    getUpdate("bt-tracker", ui->lineEdit_BtTracker->text());
-    getUpdate("bt-exclude-tracker", ui->lineEdit_BtExcludeTracker->text());
+
+    //There is no global variables
+    sText = ui->lineEdit_BtTracker->text();
+    if (sText.size() != 0)
+        getUpdate("bt-tracker", sText);
+
+    //There is no global variables
+    sText = ui->lineEdit_BtExcludeTracker->text();
+    if (sText.size() != 0)
+        getUpdate("bt-exclude-tracker", ui->lineEdit_BtExcludeTracker->text());
 
     //get metalink options
     if (ui->radioButton_PreferredProtocol_HTTP->isChecked())
@@ -1080,12 +1088,15 @@ void LocalOptions::on_buttonBox_accepted()
     getUpdate("no-netrc", QVariant(ui->checkBox_NoNetrc->checkState() == Qt::Checked).toString());
     getUpdate("parameterized-uri", QVariant(ui->checkBox_ParameterizedURI->checkState() == Qt::Checked).toString());
     getUpdate("use-head", QVariant(ui->checkBox_UseHead->checkState() == Qt::Checked).toString());
-    getUpdate("pause", QVariant(ui->checkBox_Pause->checkState() == Qt::Checked).toString());
+
+    //There is no global variables
+    if (ui->checkBox_Pause->checkState() == Qt::Checked)
+        getUpdate("pause", QVariant(true).toString());
 
     getUpdate("no-file-allocation-limit", QString::number(ui->spinBox_NoFileAllocationLimit->value() * 1024));
     getUpdate("file-allocation", ui->comboBox_FileAllocation->currentText());
     getUpdate("proxy-method", ui->comboBox_ProxyMethod->currentText());
-    getUpdate("retry-wait", QString::number(ui->spinBox_NoFileAllocationLimit->value()));
+    getUpdate("retry-wait", QString::number(ui->spinBox_RetryWait->value()));
     getUpdate("stream-piece-selector", ui->comboBox_StreamPieceSelector->currentText());
 
     sText = ui->lineEdit_Referer->text();
