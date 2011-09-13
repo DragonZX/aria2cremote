@@ -324,8 +324,14 @@ void Client::requestFinished(int id, bool error)
         }
 
         Response response;
-
         QString errorMessage;
+
+        if (buf.size() == 0)
+        {
+            delete buffer;
+            return;
+        }
+
         if ( response.setContent( buf, &errorMessage ) ) {
             Q_ASSERT( !response.isNull() );
 
