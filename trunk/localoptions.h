@@ -106,6 +106,7 @@ private slots:
     void on_tabWidget_Proxy_currentChanged(int index);
     void on_checkBox_Proxy_All_Enabled_stateChanged(int );
     void on_treeWidget_Proxy_All_List_itemSelectionChanged();
+    void on_checkBox_Proxy_All_Enabled_clicked(bool checked);
 };
 
 #endif // LOCALOPTIONS_H

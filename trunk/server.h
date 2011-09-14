@@ -61,11 +61,13 @@ class Server
         void DeleteServer(SERVER_TYPE type, QString server, QString user);
         void DeleteServer(SERVER_TYPE type, int iIndex);
         void ModifyServer(SERVER_TYPE type, int iIndex, SERVER_ITEM &si);
-
         bool MatchedServer(QString sURI, SERVER_ITEM &si);
+        void SetAllProxyEnabled(bool enabled) { m_AllProxyEnabled = enabled; }
+        bool GetAllProxyEnabled() { return m_AllProxyEnabled; }
 
     private:
         QList<SERVER_ITEM> m_serverList;
+        bool m_AllProxyEnabled;
 };
 
 #endif // SERVER_H
