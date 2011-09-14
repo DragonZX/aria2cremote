@@ -87,7 +87,7 @@ void workThread::run()
         if (g_uiAria2cVersion >= util::ARIA2C_VERSION_191)
             paramsStruct << Variant(LONG_LONG_MAX);
         else
-            paramsStruct << Variant(UINT_MAX);
+            paramsStruct << Variant(INT_MAX);
 
         methodTellActive["methodName"] = QString("aria2.tellActive");
         methodTellActive["params"] = paramsTellActive;
