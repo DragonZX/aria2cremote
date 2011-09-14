@@ -26,6 +26,8 @@
 #include <QByteArray>
 #include "util.h"
 
+extern quint32 g_uiAria2cVersion;
+
 workThread::workThread() :
         m_exit(false),
         m_sleep(10000),
@@ -80,7 +82,12 @@ void workThread::run()
         QMap<QString, Variant> methodTellWaiting;
         QVariantList paramsStruct;
 
-        paramsStruct << Variant(0) << Variant(LONG_LONG_MAX);
+        paramsStruct << Variant(0);
+
+        if (g_uiAria2cVersion >= util::ARIA2C_VERSION_191)
+            paramsStruct << Variant(LONG_LONG_MAX);
+        else
+            paramsStruct << Variant(UINT_MAX);
 
         methodTellActive["methodName"] = QString("aria2.tellActive");
         methodTellActive["params"] = paramsTellActive;
