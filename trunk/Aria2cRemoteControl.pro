@@ -97,6 +97,13 @@ TRANSLATIONS = translations/Aria2cRemoteControl_en.ts \
                translations/Aria2cRemoteControl_hu.ts 
 
 win32 {
+    LIBS +=  libole32
+
+    SOURCES += windows/windows7.cpp
+
+    HEADERS += windows/winutils.h \
+        windows/windows7.h
+
     RC_FILE = Aria2cRemoteControl.rc
     #DEFINES += BUILDTIME=\\\"$$system('echo %time%')\\\"
     #DEFINES += BUILDDATE=\\\"$$system('echo %date%')\\\"

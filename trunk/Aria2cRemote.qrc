@@ -322,5 +322,7 @@
         <file>icon/flag/za.png</file>
         <file>icon/flag/zm.png</file>
         <file>icon/flag/en.png</file>
+        <file>icon/toolbars/connected.png</file>
+        <file>icon/toolbars/disconnected.png</file>
     </qresource>
 </RCC>
