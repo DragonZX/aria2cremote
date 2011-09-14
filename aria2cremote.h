@@ -53,6 +53,10 @@
 #include "statusbarex.h"
 #include "about.h"
 
+#ifdef Q_WS_WIN
+#include "windows/windows7.h"
+#endif
+
 namespace Ui {
     class Aria2cRemote;
 }
@@ -162,10 +166,19 @@ private:
     QString         m_currLang;     // contains the currently loaded language
     QString         m_langPath;     // Path of language files. This is always fixed to /languages.
 
+    #ifdef Q_WS_WIN
+    Windows7 m_Windows7;
+    unsigned int m_IDTaskbarButtonCreated;
+    #endif
+
 private:
     void setTreeWidgetItem(QTreeWidgetItemEx *item, XmlRPC& x);
     void setInitTreeWidgetItem(QTreeWidgetItemEx *item);
     qint64 getCurrentGIDFromListView();
+    #ifdef Q_WS_WIN
+    bool winEvent(MSG * message, long * result);
+    #endif
+    void setToolBarIcon(bool bState);
 
 private slots:
     void on_actionAdd_MagnetLink_triggered();

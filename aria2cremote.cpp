@@ -27,6 +27,9 @@
 #include "server.h"
 #include "aria2options.h"
 #include "progressbarviewdelegate.h"
+#ifdef Q_WS_WIN
+#include "windows/winutils.h"
+#endif
 #include <QFileIconProvider>
 #include <QRegExp>
 
@@ -91,6 +94,10 @@ Aria2cRemote::Aria2cRemote(QWidget *parent) :
     statusBarEx = new StatusBarEx();
     statusBar()->addPermanentWidget(statusBarEx);
 
+    #ifdef Q_WS_WIN
+    // Compute the value for the TaskbarButtonCreated message
+    m_IDTaskbarButtonCreated = RegisterWindowMessage(L"TaskbarButtonCreated");
+    #endif
     //statusbar version
     m_connectStateText.setText(tr("Disconnected"));
     m_connectStateText.setToolTip("");
@@ -189,6 +196,18 @@ Aria2cRemote::~Aria2cRemote()
     m_workThread.wait();
     m_requestThread.wait();
 }
+
+#ifdef Q_WS_WIN
+bool Aria2cRemote::winEvent(MSG * message, long * result)
+{
+    if (message->message == m_IDTaskbarButtonCreated)
+    {
+        m_Windows7.initTaskbarButton(this);
+        m_Windows7.updateOverlayIcon(false);
+    }
+    return false;
+}
+#endif
 
 void Aria2cRemote::changeEvent(QEvent *e)
 {
@@ -952,6 +971,26 @@ void Aria2cRemote::ResponseXML(XML_RPC_RESPONSE_MAP tellActive, XML_RPC_RESPONSE
 
     //update status bar
     statusBarEx->setStatusBar(uOverAllDownloadSpeed, uOverAllUploadSpeed);
+
+    #ifdef Q_WS_WIN
+    TBPFLAG ProgressBarflag = TBPF_NOPROGRESS;
+    switch (currentDownload.getiStatus())
+    {
+        case STATUS_ACTIVE: ProgressBarflag = TBPF_NORMAL; break;
+        case STATUS_WAITING: ProgressBarflag = TBPF_INDETERMINATE; break;
+        case STATUS_PAUSED: ProgressBarflag = TBPF_PAUSED; break;
+        case STATUS_ERROR: ProgressBarflag = TBPF_ERROR; break;
+        default: ProgressBarflag = TBPF_NOPROGRESS; break;
+    }
+    quint64 uiProgressBarPercent = currentDownload.getProcessPercent();
+    if (uiProgressBarPercent == 0)
+        ProgressBarflag = TBPF_NOPROGRESS;
+
+    m_Windows7.updatePorgressBarState(ProgressBarflag);
+
+    if (uiProgressBarPercent != 0)
+        m_Windows7.updateProgressBarValue(uiProgressBarPercent);
+    #endif
 
     //Set current download's GID
     m_workThread.setCurrentGID(m_currentGID);
