@@ -99,11 +99,7 @@ Aria2cRemote::Aria2cRemote(QWidget *parent) :
     m_IDTaskbarButtonCreated = RegisterWindowMessage(L"TaskbarButtonCreated");
     #endif
     //statusbar version
-    m_connectStateText.setText(tr("Disconnected"));
-    m_connectStateText.setToolTip("");
-    QIcon iconConnect(":/icon/block.png");
-    QSize size = iconConnect.actualSize(QSize(16, 16));
-    m_connectStateIcon.setPixmap(iconConnect.pixmap(size));
+    setToolBarIcon(false);
     statusBar()->addWidget(&m_connectStateIcon);
     statusBar()->addWidget(&m_connectStateText);
 
@@ -632,11 +628,7 @@ void Aria2cRemote::processFaultToUI( int requestId, int errorCode, QString error
         m_listView->setEnabled(m_bConnected);
 
         //set status bar connect state
-        m_connectStateText.setText(tr("Disconnected"));
-        m_connectStateText.setToolTip("");
-        QIcon iconConnect(":/icon/block.png");
-        QSize size = iconConnect.actualSize(QSize(16, 16));
-        m_connectStateIcon.setPixmap(iconConnect.pixmap(size));
+        setToolBarIcon(false);
 
         QMessageBox::warning(this, tr("Request failed"), QString(tr("XML-RPC request  failed.\n\nFault code: %1\n%2\n")).arg(errorCode).arg(errorString), QMessageBox::Ok );
     }
@@ -740,12 +732,8 @@ void Aria2cRemote::ResponseXML(XML_RPC_RESPONSE_MAP tellActive, XML_RPC_RESPONSE
         m_DetailsTab->setEnabled(m_bConnected);
         m_listView->setEnabled(m_bConnected);
 
-        //set status bar connect state
-        m_connectStateText.setText(tr("Connected"));
-        m_connectStateText.setToolTip("");
-        QIcon iconConnect(":/icon/tick.png");
-        QSize size = iconConnect.actualSize(QSize(16, 16));
-        m_connectStateIcon.setPixmap(iconConnect.pixmap(size));
+        //set statusbar and toolbar connect state
+        setToolBarIcon(true);
 
         Download d;
         QMap<QString, Variant> vCurrentParam;
@@ -1434,4 +1422,16 @@ void Aria2cRemote::loadLanguage(const QString& rLanguage)
         QLocale::setDefault(locale);
         switchTranslator(m_translator, QString("%1/Aria2cRemoteControl_%2.qm").arg(m_langPath).arg(rLanguage));
     }
+}
+
+void Aria2cRemote::setToolBarIcon(bool bState)
+{
+    #ifdef Q_WS_WIN
+    m_Windows7.updateOverlayIcon(bState);
+    #endif
+    m_connectStateText.setText(tr(bState ? "Connected" : "Disconnected"));
+    m_connectStateText.setToolTip("");
+    QIcon icon(":/icon/toolbars/" + QString(bState ? "connected.png" : "disconnected.png"));
+    QSize size = icon.actualSize(QSize(16, 16));
+    m_connectStateIcon.setPixmap(icon.pixmap(size));
 }
