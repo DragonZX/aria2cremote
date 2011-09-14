@@ -73,12 +73,16 @@ LocalOptions::LocalOptions(QWidget *parent) :
     ui->pushButton_Servers_Delete->setEnabled(false);
     ui->pushButton_Servers_Modify->setEnabled(false);
 
-    ui->checkBox_Proxy_All_Enabled->setCheckState(Qt::Unchecked);
-    ui->pushButton_Proxy_Add->setEnabled(false);
-    ui->pushButton_Proxy_Delete->setEnabled(false);
-    ui->pushButton_Proxy_Modify->setEnabled(false);
+    bool isEnabled = m_servers.GetAllProxyEnabled();
+    ui->checkBox_Proxy_All_Enabled->setCheckState(isEnabled ? Qt::Checked : Qt::Unchecked);
 
-    ui->treeWidget_Proxy_All_List->setEnabled(false);
+    ui->tab_Proxy_HTTP->setEnabled(!isEnabled);
+    ui->tab_Proxy_HTTPS->setEnabled(!isEnabled);
+    ui->tab_Proxy_FTP->setEnabled(!isEnabled);
+    ui->pushButton_Proxy_Add->setEnabled(isEnabled);
+    ui->pushButton_Proxy_Delete->setEnabled(isEnabled);
+    ui->pushButton_Proxy_Modify->setEnabled(isEnabled);
+    ui->treeWidget_Proxy_All_List->setEnabled(isEnabled);
 
     ui->treeWidget_Server_List->setColumnWidth(0, 280);
 }
@@ -184,6 +188,7 @@ void LocalOptions::on_pushButton_Proxy_Add_clicked()
         s.password = addserver.getPassword();
         s.type = (SERVER_TYPE)iTabIndex;
         s.port = addserver.getPort();
+        m_servers.SetAllProxyEnabled(ui->checkBox_Proxy_All_Enabled->checkState() == Qt::Checked);
         m_servers.AddServer(s);
 
         QTreeWidgetItem *item = new QTreeWidgetItem;
@@ -479,6 +484,7 @@ void LocalOptions::on_pushButton_Servers_Add_clicked()
         s.password = addserver.getPassword();
         s.type = SERVER_HTTP_FTP;
         s.port = 0;
+        m_servers.SetAllProxyEnabled(ui->checkBox_Proxy_All_Enabled->checkState() == Qt::Checked);
         m_servers.AddServer(s);
 
         QTreeWidgetItem *item = new QTreeWidgetItem;
@@ -1223,4 +1229,10 @@ void LocalOptions::on_buttonBox_accepted()
         m_localOptions.remove("http-user");
         m_localOptions.remove("http-passwd");
     }
+}
+
+void LocalOptions::on_checkBox_Proxy_All_Enabled_clicked(bool checked)
+{
+    m_servers.SetAllProxyEnabled(checked);
+    m_servers.SaveServerList();
 }
