@@ -1,4 +1,6 @@
 #include "windows7.h"
+#include <QBitmap>
+#include <QPixmap>
 
 Windows7::Windows7():
     m_taskbarInterface(NULL)
@@ -26,7 +28,11 @@ void Windows7::initTaskbarButton(QWidget *parent)
         {
             m_taskbarInterface->Release();
             m_taskbarInterface = NULL;
+            return;
         }
+        updateOverlayIcon(false);
+        ToolbarSetImages();
+        ToolbarButtonsInit();
     }
 }
 
@@ -69,6 +75,69 @@ void Windows7::SetOverlayIcon(const QIcon& icon, QString description)
             DestroyIcon(overlay_icon);
         }
     }
-
     return;
+}
+
+void Windows7::ToolbarButtonsInit()
+{
+    QString tooltips[TASKBAR_BUTTON_NUMBER] = {QObject::tr("Start all"), QObject::tr("Stop all"), QObject::tr("Purge"), QObject::tr("Power of Aria2c")};
+
+    for (int index = 0; index < TASKBAR_BUTTON_NUMBER; index++)
+        {
+        wcscpy(m_thbButtons[index].szTip, tooltips[index].toStdWString().c_str());
+
+        m_thbButtons[index].iId = IDTB_FIRST + index;
+        m_thbButtons[index].iBitmap = index;
+        m_thbButtons[index].dwMask =(THUMBBUTTONMASK)(THB_BITMAP | THB_FLAGS | THB_TOOLTIP);
+        m_thbButtons[index].dwFlags = THBF_DISABLED;
+
+    }
+
+    if (m_taskbarInterface)
+                m_taskbarInterface->ThumbBarAddButtons(m_parent->winId(), TASKBAR_BUTTON_NUMBER, m_thbButtons);
+}
+
+void Windows7::ToolbarSetImages()
+{
+    QPixmap img;
+    QBitmap mask;
+    HIMAGELIST himl = ImageList_Create(20, 20, ILC_COLOR32, TASKBAR_BUTTON_NUMBER, 0);
+
+    img = QIcon(":/icon/toolbars/unpauseall.png").pixmap(20);
+    mask  = img.createMaskFromColor(Qt::transparent);
+    ImageList_Add(himl, img.toWinHBITMAP(QPixmap::PremultipliedAlpha), mask.toWinHBITMAP());
+
+    img = QIcon(":/icon/toolbars/pauseall.png").pixmap(20);
+    mask  = img.createMaskFromColor(Qt::transparent);
+    ImageList_Add(himl, img.toWinHBITMAP(QPixmap::PremultipliedAlpha), mask.toWinHBITMAP());
+
+    img = QIcon(":/icon/toolbars/purgedownloadresult.png").pixmap(20);
+    mask  = img.createMaskFromColor(Qt::transparent);
+    ImageList_Add(himl, img.toWinHBITMAP(QPixmap::PremultipliedAlpha), mask.toWinHBITMAP());
+
+    img = QIcon(":/icon/toolbars/poweroff.png").pixmap(20);
+    mask  = img.createMaskFromColor(Qt::transparent);
+    ImageList_Add(himl, img.toWinHBITMAP(QPixmap::PremultipliedAlpha), mask.toWinHBITMAP());
+
+    if (m_taskbarInterface)
+                m_taskbarInterface->ThumbBarSetImageList(m_parent->winId(), himl);
+
+    ImageList_Destroy(himl);
+}
+
+void Windows7::ToolbarButtonsUpdate()
+{
+    if (m_taskbarInterface)
+    {
+        m_taskbarInterface->ThumbBarUpdateButtons(m_parent->winId(), TASKBAR_BUTTON_NUMBER, m_thbButtons);
+    }
+}
+
+void Windows7::ToolbarButtonEnabled(int index, bool state)
+{
+    if (m_taskbarInterface)
+    {
+        m_thbButtons[index].dwFlags = state ? THBF_ENABLED : THBF_DISABLED;
+        m_taskbarInterface->ThumbBarUpdateButtons(m_parent->winId(), TASKBAR_BUTTON_NUMBER, m_thbButtons);
+    }
 }
