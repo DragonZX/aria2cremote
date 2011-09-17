@@ -199,8 +199,37 @@ bool Aria2cRemote::winEvent(MSG * message, long * result)
     if (message->message == m_IDTaskbarButtonCreated)
     {
         m_Windows7.initTaskbarButton(this);
-        m_Windows7.updateOverlayIcon(false);
     }
+    else 
+    switch (message->message)
+    {
+        case WM_COMMAND:
+        {
+            int buttonId = LOWORD(message->wParam) - IDTB_FIRST;
+            if ((buttonId >= 0) && (buttonId < TASKBAR_BUTTON_NUMBER))
+            {
+                #ifdef QT_DEBUG
+                qDebug() << "Button " << buttonId << " was pressed";
+                #endif
+                switch (buttonId)
+                {
+                case 0:
+                    on_actionStart_all_triggered();
+                    break;
+                case 1:
+                    on_actionPause_all_triggered();
+                    break;
+                case 2:
+                    on_actionPurge_triggered();
+                    break;
+                case 3:
+                    on_actionPower_off_Aria2c_triggered();
+                    break;
+                }
+            }
+         }
+         break;
+     }
     return false;
 }
 #endif
@@ -599,6 +628,12 @@ void Aria2cRemote::processFaultToUI( int requestId, int errorCode, QString error
         ui->actionForce_remove->setEnabled(m_bConnected);
         ui->actionForce_power_off_Aria2c->setEnabled(m_bConnected);
 
+        #ifdef Q_WS_WIN
+        m_Windows7.ToolbarButtonEnabled(0, m_bConnected);
+        m_Windows7.ToolbarButtonEnabled(1, m_bConnected);
+        m_Windows7.ToolbarButtonEnabled(2, m_bConnected);
+        m_Windows7.ToolbarButtonEnabled(3, m_bConnected);
+        #endif
         //erase all items
         foreach(qint64 gid, m_downloadView.keys() )
         {
@@ -727,6 +762,11 @@ void Aria2cRemote::ResponseXML(XML_RPC_RESPONSE_MAP tellActive, XML_RPC_RESPONSE
 
         ui->actionPower_off_Aria2c->setEnabled(m_bConnected);
         ui->actionForce_power_off_Aria2c->setEnabled(m_bConnected);
+
+        #ifdef Q_WS_WIN
+        m_Windows7.ToolbarButtonEnabled(2, m_bConnected);
+        m_Windows7.ToolbarButtonEnabled(3, m_bConnected);
+        #endif
 
         m_mainListView->setEnabled(m_bConnected);
         m_DetailsTab->setEnabled(m_bConnected);
@@ -955,6 +995,12 @@ void Aria2cRemote::ResponseXML(XML_RPC_RESPONSE_MAP tellActive, XML_RPC_RESPONSE
     ui->actionForce_pause_all->setEnabled(bPauseAll);
     ui->actionForce_remove->setEnabled(bRemove);
 
+    #ifdef Q_WS_WIN
+    m_Windows7.ToolbarButtonEnabled(0, bUnPauseAll);
+    m_Windows7.ToolbarButtonEnabled(1, bPauseAll);
+    m_Windows7.ToolbarButtonEnabled(2, bPurge);
+    #endif
+
     m_DetailsTab->setTabPages(currentDownload);
 
     //update status bar
@@ -1080,6 +1126,12 @@ void Aria2cRemote::ListViewItemClicked(QTreeWidgetItem *item, int value)
     ui->actionForce_pause->setEnabled(bPause);
     ui->actionForce_pause_all->setEnabled(bPauseAll);
     ui->actionForce_remove->setEnabled(bRemove);
+
+    #ifdef Q_WS_WIN
+    m_Windows7.ToolbarButtonEnabled(0, bUnPauseAll);
+    m_Windows7.ToolbarButtonEnabled(1, bPauseAll);
+    m_Windows7.ToolbarButtonEnabled(2, bPurge);
+    #endif
 }
 
 void Aria2cRemote::mainListViewItemClicked(QListWidgetItem *item)
