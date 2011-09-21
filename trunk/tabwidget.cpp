@@ -267,7 +267,7 @@ void DetailsTabView::setTabPagePeers(xmlrpc::XmlRPC &dw)
             TPeerData pd = m_PeerInfo.getPeerInfo(ipAddress);
             list.item->setText(0, pd.hostName);
             if (pd.countryCode.size() != 0)
-                list.item->setIcon(0, QIcon(QString(":/icon/flag/%1.png").arg(pd.countryCode)));
+                list.item->setIcon(0, QIcon(QString(":/icon/flag/%1.png").arg(pd.countryCode.toLower())));
             list.item->setText(1, util::ConvertNumberToSuffixString(peer.download) + "/s");
             list.item->setData(1, Qt::UserRole, peer.download);
             list.item->setText(2, util::ConvertNumberToSuffixString(peer.uploadSpeed) + "/s");
