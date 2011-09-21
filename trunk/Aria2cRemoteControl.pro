@@ -43,7 +43,9 @@ SOURCES += main.cpp \
     gzip/trees.c \
     gzip/deflate.c \
     gzip/compress.c \
-    progressbarviewdelegate.cpp
+    progressbarviewdelegate.cpp \
+    peerinfo.cpp \
+    geoip.cpp
 HEADERS += aria2cremote.h \
     tabwidget.h \
     listview.h \
@@ -77,7 +79,9 @@ HEADERS += aria2cremote.h \
     gzip/trees.h \
     gzip/deflate.h \
     gzip/zutil.h \
-    progressbarviewdelegate.h
+    progressbarviewdelegate.h \
+    peerinfo.h \
+    geoip.h
 FORMS += aria2cremote.ui \
     tabwidget.ui \
     listview.ui \

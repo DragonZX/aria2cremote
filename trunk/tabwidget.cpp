@@ -30,7 +30,8 @@ DetailsTabView::DetailsTabView(QWidget *parent) :
     m_progress(NULL),
     m_pieces(NULL),
     m_availability(NULL),
-    m_currentType(UNKNOWN)
+    m_currentType(UNKNOWN),
+    m_PeerInfo("geoip.dat")
 {
     ui->setupUi(this);
     m_progress = new bargraph(this);
@@ -47,6 +48,9 @@ DetailsTabView::DetailsTabView(QWidget *parent) :
 
     ui->horizontalLayout_Availability->insertWidget(1, m_availability);
     m_availability->setVisible(true);
+
+    //Peer info thread start
+    m_PeerInfo.start();
 }
 
 DetailsTabView::~DetailsTabView()
@@ -260,7 +264,10 @@ void DetailsTabView::setTabPagePeers(xmlrpc::XmlRPC &dw)
                 list = m_tabViewPeersServers.find(ipAddress).value();
             }
 
-            list.item->setText(0, ipAddress);
+            TPeerData pd = m_PeerInfo.getPeerInfo(ipAddress);
+            list.item->setText(0, pd.hostName);
+            if (pd.countryCode.size() != 0)
+                list.item->setIcon(0, QIcon(QString(":/icon/flag/%1.png").arg(pd.countryCode)));
             list.item->setText(1, util::ConvertNumberToSuffixString(peer.download) + "/s");
             list.item->setData(1, Qt::UserRole, peer.download);
             list.item->setText(2, util::ConvertNumberToSuffixString(peer.uploadSpeed) + "/s");
