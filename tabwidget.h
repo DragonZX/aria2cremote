@@ -28,6 +28,7 @@
 #include "bargraph.h"
 #include "xmlrpc.h"
 #include "util.h"
+#include "peerinfo.h"
 
 using namespace xmlrpc;
 using namespace util;
@@ -95,6 +96,9 @@ private:
     void setTabPageTrackers(xmlrpc::XmlRPC &dw);
     void setTabPagePeers(xmlrpc::XmlRPC &dw);
     void setTabPageFiles(xmlrpc::XmlRPC &dw);
+
+    //Peer info
+    PeerInfo m_PeerInfo;
 };
 
 #endif // TABWIDGET_H
