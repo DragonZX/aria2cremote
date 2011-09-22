@@ -359,53 +359,51 @@ void Client::requestFinished(int id, bool error)
 	
 }
 
-QByteArray Client::gzipDecompress( QByteArray compressData )
+QByteArray Client::gzipDecompress(const QByteArray& compressedData)
 {
-    //decompress GZIP data
+    QByteArray uncompressed;
+    const quint32 OUTBUF_LENGTH = 1024 * 16;
+    quint8 outbuf[OUTBUF_LENGTH];
+    z_stream cmpr_stream;
 
-    //strip header and trailer
-      compressData.remove(0, 10);
-      compressData.chop(4);
+    cmpr_stream.zalloc = Z_NULL;
+    cmpr_stream.zfree = Z_NULL;
+    cmpr_stream.opaque = Z_NULL;
+    cmpr_stream.avail_in = 0;
+    cmpr_stream.next_in = Z_NULL;
 
-      const int buffersize = 16384;
-      quint8 buffer[buffersize];
+    // initalize z_stream with gzip/zlib format auto detection enabled.
+    if (inflateInit2(&cmpr_stream, 47) != Z_OK)
+    {
+        return QByteArray();
+    }
 
-      z_stream cmpr_stream;
-      cmpr_stream.next_in = (unsigned char *)compressData.data();
-      cmpr_stream.avail_in = compressData.size();
-      cmpr_stream.total_in = 0;
+    cmpr_stream.avail_in = compressedData.size();
+    cmpr_stream.next_in = (unsigned char *)(compressedData.data());
 
-      cmpr_stream.next_out = buffer;
-      cmpr_stream.avail_out = buffersize;
-      cmpr_stream.total_out = 0;
+    forever
+    {
+      cmpr_stream.avail_out = OUTBUF_LENGTH;
+      cmpr_stream.next_out = outbuf;
 
-      cmpr_stream.zalloc = Z_NULL;
-      cmpr_stream.zalloc = Z_NULL;
-
-      if( inflateInit2(&cmpr_stream, -8 ) != Z_OK) {
-              qDebug() << "cmpr_stream error!";
+      int ret = inflate(&cmpr_stream, Z_NO_FLUSH);
+      if ( (ret != Z_OK) && (ret != Z_STREAM_END) )
+      {
+          return QByteArray();
       }
 
-        QByteArray uncompressed;
-        do {
-                int status = inflate( &cmpr_stream, Z_SYNC_FLUSH );
+      uncompressed.append( QByteArray::fromRawData( (char*)outbuf, OUTBUF_LENGTH - cmpr_stream.avail_out) );
+      if(cmpr_stream.avail_out > 0) {
+        break;
+      }
+    }
 
-                if(status == Z_OK || status == Z_STREAM_END) {
-                        uncompressed.append(QByteArray::fromRawData((char *)buffer, buffersize - cmpr_stream.avail_out));
-                        cmpr_stream.next_out = buffer;
-                        cmpr_stream.avail_out = buffersize;
-                } else {
-                         inflateEnd(&cmpr_stream);
-                        }
+    if (inflateEnd(&cmpr_stream) != Z_OK)
+    {
+        return QByteArray();
+    }
 
-                if(status == Z_STREAM_END) {
-                    inflateEnd(&cmpr_stream);
-                    break;
-                }
-
-        }while(cmpr_stream.avail_out == 0);
-
-        return uncompressed;
+    return uncompressed;
 }
 
 } 
