@@ -230,19 +230,18 @@ void DetailsTabView::setTabPagePeers(xmlrpc::XmlRPC &dw)
         if (isTorrent)
         {
             //create peers columns
-            headers << tr("IP Address")  << tr("Down speed") << tr("Up speed");
-            ui->treeWidget_Peers_Servers->setColumnCount(headers.size());
-            ui->treeWidget_Peers_Servers->setHeaderLabels(headers);
+            headers << tr("IP Address")  << tr("Country") << tr("Down speed") << tr("Up speed");
             ui->treeWidget_Peers_Servers->setRootIsDecorated(false);
         }
         else if (type != UNKNOWN)
         {
             //create servers column
             headers << tr("Uri") << tr("Current URI") << tr("Size");
-            ui->treeWidget_Peers_Servers->setColumnCount(headers.size());
-            ui->treeWidget_Peers_Servers->setHeaderLabels(headers);
+
             ui->treeWidget_Peers_Servers->setRootIsDecorated(true);
         }
+        ui->treeWidget_Peers_Servers->setColumnCount(headers.size());
+        ui->treeWidget_Peers_Servers->setHeaderLabels(headers);
     }
 
     QMap<QString, SERVER_PEER_LIST> d;
@@ -268,10 +267,11 @@ void DetailsTabView::setTabPagePeers(xmlrpc::XmlRPC &dw)
             list.item->setText(0, pd.hostName);
             if (pd.countryCode.size() != 0)
                 list.item->setIcon(0, QIcon(QString(":/icon/flag/%1.png").arg(pd.countryCode.toLower())));
-            list.item->setText(1, util::ConvertNumberToSuffixString(peer.download) + "/s");
-            list.item->setData(1, Qt::UserRole, peer.download);
-            list.item->setText(2, util::ConvertNumberToSuffixString(peer.uploadSpeed) + "/s");
-            list.item->setData(2, Qt::UserRole, peer.uploadSpeed);
+            list.item->setText(1, pd.countryName.size() > 0 ? pd.countryName : "");
+            list.item->setText(2, util::ConvertNumberToSuffixString(peer.download) + "/s");
+            list.item->setData(2, Qt::UserRole, peer.download);
+            list.item->setText(3, util::ConvertNumberToSuffixString(peer.uploadSpeed) + "/s");
+            list.item->setData(4, Qt::UserRole, peer.uploadSpeed);
             d.insert(ipAddress, list);
         }
         foreach(QTreeWidgetItemEx * itemEx, newItemsPeer)

@@ -888,7 +888,12 @@ background-color: rgb(216, 216, 216);</string>
       </property>
       <column>
        <property name="text">
-        <string notr="true">IP Address</string>
+        <string>IP Address</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Country</string>
        </property>
       </column>
       <column>
