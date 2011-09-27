@@ -4,9 +4,11 @@
 #include <QIcon>
 #include <QString>
 #include <QWidget>
+#include <QtGui/QApplication>
 
 class Windows7
 {
+    Q_DECLARE_TR_FUNCTIONS(GeoIP)
 public:
     Windows7();
     ~Windows7();

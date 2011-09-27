@@ -80,11 +80,11 @@ void Windows7::SetOverlayIcon(const QIcon& icon, QString description)
 
 void Windows7::ToolbarButtonsInit()
 {
-    QString tooltips[TASKBAR_BUTTON_NUMBER] = {QObject::tr("Start all"), QObject::tr("Stop all"), QObject::tr("Purge"), QObject::tr("Power of Aria2c")};
+    static const char *tooltips[TASKBAR_BUTTON_NUMBER] = {QT_TR_NOOP("Start all"), QT_TR_NOOP("Stop all"), QT_TR_NOOP("Purge"), QT_TR_NOOP("Power of Aria2c")};
 
     for (int index = 0; index < TASKBAR_BUTTON_NUMBER; index++)
         {
-        wcscpy(m_thbButtons[index].szTip, tooltips[index].toStdWString().c_str());
+        wcscpy(m_thbButtons[index].szTip, tr(tooltips[index]).toStdWString().c_str());
 
         m_thbButtons[index].iId = IDTB_FIRST + index;
         m_thbButtons[index].iBitmap = index;
