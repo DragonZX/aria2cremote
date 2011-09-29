@@ -230,7 +230,7 @@ void DetailsTabView::setTabPagePeers(xmlrpc::XmlRPC &dw)
         if (isTorrent)
         {
             //create peers columns
-            headers << tr("IP Address")  << tr("Country") << tr("Down speed") << tr("Up speed");
+            headers << tr("IP Address")  << tr("Country") << tr("Client") << tr("Down speed") << tr("Up speed");
             ui->treeWidget_Peers_Servers->setRootIsDecorated(false);
         }
         else if (type != UNKNOWN)
@@ -268,9 +268,10 @@ void DetailsTabView::setTabPagePeers(xmlrpc::XmlRPC &dw)
             if (pd.countryCode.size() != 0)
                 list.item->setIcon(0, QIcon(QString(":/icon/flag/%1.png").arg(pd.countryCode.toLower())));
             list.item->setText(1, pd.countryName.size() > 0 ? pd.countryName : "");
-            list.item->setText(2, util::ConvertNumberToSuffixString(peer.download) + "/s");
-            list.item->setData(2, Qt::UserRole, peer.download);
-            list.item->setText(3, util::ConvertNumberToSuffixString(peer.uploadSpeed) + "/s");
+            list.item->setText(2, m_TorrentClient.getClientName(peer.peerId));
+            list.item->setText(3, util::ConvertNumberToSuffixString(peer.download) + "/s");
+            list.item->setData(3, Qt::UserRole, peer.download);
+            list.item->setText(4, util::ConvertNumberToSuffixString(peer.uploadSpeed) + "/s");
             list.item->setData(4, Qt::UserRole, peer.uploadSpeed);
             d.insert(ipAddress, list);
         }

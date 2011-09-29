@@ -898,6 +898,11 @@ background-color: rgb(216, 216, 216);</string>
       </column>
       <column>
        <property name="text">
+        <string>Client</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
         <string>Down speed</string>
        </property>
       </column>
