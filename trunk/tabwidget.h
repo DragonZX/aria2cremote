@@ -29,6 +29,7 @@
 #include "xmlrpc.h"
 #include "util.h"
 #include "peerinfo.h"
+#include "torrentclient.h"
 
 using namespace xmlrpc;
 using namespace util;
@@ -99,6 +100,7 @@ private:
 
     //Peer info
     PeerInfo m_PeerInfo;
+    TorrentClient m_TorrentClient;
 };
 
 #endif // TABWIDGET_H

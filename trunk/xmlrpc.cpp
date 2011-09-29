@@ -558,7 +558,11 @@ namespace xmlrpc
 
     quint64 XmlRPC::getETA()
     {
+        #ifdef Q_CC_MSVC
+        quint64 uRet = _UI64_MAX;
+        #else
         quint64 uRet = LONG_LONG_MAX;
+        #endif
         if (m_downloadSpeed != 0)
         {
             uRet = (getTotalLength() - m_completedLength) / m_downloadSpeed;
