@@ -17,6 +17,9 @@
    <iconset resource="Aria2cRemote.qrc">
     <normaloff>:/icon/logo.png</normaloff>:/icon/logo.png</iconset>
   </property>
+  <property name="Language" stdset="0">
+   <string>English</string>
+  </property>
   <widget class="QWidget" name="centralWidget"/>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -24,7 +27,7 @@
      <x>0</x>
      <y>0</y>
      <width>617</width>
-     <height>18</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuDownload">

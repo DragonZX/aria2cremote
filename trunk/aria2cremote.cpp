@@ -1428,7 +1428,10 @@ void Aria2cRemote::createLanguageMenu(void)
         locale.truncate(locale.lastIndexOf('.'));   // "Aria2cRemoteControl_hu"
         locale.remove(0, locale.indexOf('_') + 1);   // "hu"
 
-        QString lang = QLocale::languageToString(QLocale(locale).language());
+        QTranslator translator;
+        translator.load(fileNames[i],m_langPath);
+        QString lang = translator.translate("Aria2cRemote","English");
+
         QAction *action = new QAction(QIcon(QString(":/icon/flag/%1.png").arg(locale)), lang, this);
         action->setCheckable(true);
         action->setData(locale);
