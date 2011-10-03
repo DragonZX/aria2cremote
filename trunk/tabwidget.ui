@@ -30,7 +30,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>TabWidget</string>
+   <string notr="true">TabWidget</string>
   </property>
   <property name="autoFillBackground">
    <bool>false</bool>
@@ -86,7 +86,7 @@
          </size>
         </property>
         <property name="text">
-         <string>0%</string>
+         <string notr="true">0%</string>
         </property>
        </widget>
       </item>
@@ -125,7 +125,7 @@
          </size>
         </property>
         <property name="text">
-         <string>0.00%</string>
+         <string notr="true">0.00%</string>
         </property>
        </widget>
       </item>
@@ -164,7 +164,7 @@
          </size>
         </property>
         <property name="text">
-         <string>0.00</string>
+         <string notr="true">0.00</string>
         </property>
        </widget>
       </item>
@@ -334,28 +334,28 @@ background-color: rgb(216, 216, 216);</string>
           <item>
            <widget class="QLabel" name="label_Downloaded">
             <property name="text">
-             <string>0 KiB</string>
+             <string notr="true">0 KiB</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QLabel" name="label_DownloadSpeed">
             <property name="text">
-             <string>0 KiB/s</string>
+             <string notr="true">0 KiB/s</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QLabel" name="label_Seeds">
             <property name="text">
-             <string>0</string>
+             <string notr="true">0</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QLabel" name="label_SharedRatio">
             <property name="text">
-             <string>0.00</string>
+             <string notr="true">0.00</string>
             </property>
            </widget>
           </item>
@@ -526,28 +526,28 @@ background-color: rgb(216, 216, 216);</string>
           <item>
            <widget class="QLabel" name="label_Uploaded">
             <property name="text">
-             <string>0 KiB</string>
+             <string notr="true">0 KiB</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QLabel" name="label_UploadSpeed">
             <property name="text">
-             <string>0 KiB/s</string>
+             <string notr="true">0 KiB/s</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QLabel" name="label_Peers">
             <property name="text">
-             <string>0</string>
+             <string notr="true">0</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QLabel" name="label_ETA">
             <property name="text">
-             <string>0 s</string>
+             <string notr="true">0 s</string>
             </property>
            </widget>
           </item>
@@ -762,7 +762,7 @@ background-color: rgb(216, 216, 216);</string>
           <item>
            <widget class="QLabel" name="label_TotalSize">
             <property name="text">
-             <string>0 KiB</string>
+             <string notr="true">0 KiB</string>
             </property>
            </widget>
           </item>
@@ -776,7 +776,7 @@ background-color: rgb(216, 216, 216);</string>
           <item>
            <widget class="QLabel" name="label_Pieces">
             <property name="text">
-             <string>0</string>
+             <string notr="true">0</string>
             </property>
            </widget>
           </item>
@@ -790,7 +790,7 @@ background-color: rgb(216, 216, 216);</string>
           <item>
            <widget class="QLabel" name="label_Path">
             <property name="text">
-             <string>\</string>
+             <string notr="true">\</string>
             </property>
            </widget>
           </item>
