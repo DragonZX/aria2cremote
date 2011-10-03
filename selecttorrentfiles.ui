@@ -14,7 +14,7 @@
    <string>Add New Torrent</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="Aria2cRemote.qrc">
+   <iconset>
     <normaloff>:/icon/uri/Bittorrent.ico</normaloff>:/icon/uri/Bittorrent.ico</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -63,7 +63,7 @@
            <bool>false</bool>
           </property>
           <property name="text">
-           <string>Torrent_Name</string>
+           <string notr="true">Torrent_Name</string>
           </property>
           <property name="scaledContents">
            <bool>false</bool>
@@ -99,7 +99,7 @@
         <item>
          <widget class="QLabel" name="label_Torrent_Size">
           <property name="text">
-           <string>Torrent_Size</string>
+           <string notr="true">Torrent_Size</string>
           </property>
          </widget>
         </item>
@@ -129,7 +129,7 @@
         <item>
          <widget class="QLabel" name="label_Torrent_Comment">
           <property name="text">
-           <string>Torrent_Comment</string>
+           <string notr="true">Torrent_Comment</string>
           </property>
          </widget>
         </item>
@@ -159,7 +159,7 @@
         <item>
          <widget class="QLabel" name="label_Torrent_CreatedBy">
           <property name="text">
-           <string>Torrent_CreatedBy</string>
+           <string notr="true">Torrent_CreatedBy</string>
           </property>
          </widget>
         </item>
@@ -189,7 +189,7 @@
         <item>
          <widget class="QLabel" name="label_Torrent_Date">
           <property name="text">
-           <string>Torrent_Date</string>
+           <string notr="true">Torrent_Date</string>
           </property>
          </widget>
         </item>
@@ -211,7 +211,7 @@
        <string>Name</string>
       </property>
       <property name="icon">
-       <iconset resource="Aria2cRemote.qrc">
+       <iconset>
         <normaloff>:/icon/document.ico</normaloff>:/icon/document.ico</iconset>
       </property>
      </column>
@@ -220,7 +220,7 @@
        <string>Type</string>
       </property>
       <property name="icon">
-       <iconset resource="Aria2cRemote.qrc">
+       <iconset>
         <normaloff>:/icon/save.ico</normaloff>:/icon/save.ico</iconset>
       </property>
      </column>
@@ -229,7 +229,7 @@
        <string>Size</string>
       </property>
       <property name="icon">
-       <iconset resource="Aria2cRemote.qrc">
+       <iconset>
         <normaloff>:/icon/statistics.ico</normaloff>:/icon/statistics.ico</iconset>
       </property>
      </column>
@@ -271,9 +271,7 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="Aria2cRemote.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>pushButton_OK</sender>

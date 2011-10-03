@@ -122,7 +122,7 @@
         <string>unrestricted</string>
        </property>
        <property name="suffix">
-        <string> KiB/s</string>
+        <string notr="true"> KiB/s</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_3">
@@ -189,7 +189,7 @@
         <string>unrestricted</string>
        </property>
        <property name="suffix">
-        <string> KiB/s</string>
+        <string notr="true"> KiB/s</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_4">
@@ -224,7 +224,7 @@
         <string>unrestricted</string>
        </property>
        <property name="suffix">
-        <string> KiB/s</string>
+        <string notr="true"> KiB/s</string>
        </property>
        <property name="maximum">
         <number>65535</number>
@@ -294,7 +294,7 @@
         <string>unrestricted</string>
        </property>
        <property name="suffix">
-        <string> KiB/s</string>
+        <string notr="true"> KiB/s</string>
        </property>
        <property name="maximum">
         <number>65535</number>
@@ -456,7 +456,7 @@
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
        <property name="suffix">
-        <string> s</string>
+        <string notr="true"> s</string>
        </property>
       </widget>
       <widget class="QSpinBox" name="spinBox_Split">
@@ -628,7 +628,7 @@
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
        <property name="suffix">
-        <string> KiB</string>
+        <string notr="true"> KiB</string>
        </property>
        <property name="minimum">
         <number>0</number>
@@ -744,7 +744,7 @@
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
        <property name="suffix">
-        <string> s</string>
+        <string notr="true"> s</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_14">
@@ -899,7 +899,7 @@
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
        <property name="suffix">
-        <string> s</string>
+        <string notr="true"> s</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_16">
@@ -1128,7 +1128,10 @@
         </rect>
        </property>
        <property name="inputMask">
-        <string>00000-00000; </string>
+        <string notr="true">00000-00000; </string>
+       </property>
+       <property name="text">
+        <string notr="true">-</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1277,7 +1280,7 @@
         <string>unrestricted</string>
        </property>
        <property name="suffix">
-        <string> KiB/s</string>
+        <string notr="true"> KiB/s</string>
        </property>
        <property name="maximum">
         <number>65536</number>
@@ -1315,7 +1318,7 @@
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
        <property name="suffix">
-        <string> s</string>
+        <string notr="true"> s</string>
        </property>
        <property name="maximum">
         <number>256</number>
@@ -1353,7 +1356,7 @@
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
        <property name="suffix">
-        <string> s</string>
+        <string notr="true"> s</string>
        </property>
        <property name="maximum">
         <number>256</number>
@@ -1437,12 +1440,12 @@
        </property>
        <item>
         <property name="text">
-         <string>arc4</string>
+         <string notr="true">arc4</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>plain</string>
+         <string notr="true">plain</string>
         </property>
        </item>
       </widget>
@@ -1491,7 +1494,7 @@
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
        <property name="suffix">
-        <string> s</string>
+        <string notr="true"> s</string>
        </property>
        <property name="maximum">
         <number>256</number>
@@ -1914,7 +1917,10 @@
          </rect>
         </property>
         <property name="inputMask">
-         <string>00000-00000; </string>
+         <string notr="true">00000-00000; </string>
+        </property>
+        <property name="text">
+         <string notr="true">-</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1994,7 +2000,7 @@
          </rect>
         </property>
         <property name="text">
-         <string>DHT</string>
+         <string notr="true">DHT</string>
         </property>
        </widget>
        <widget class="QCheckBox" name="checkBox_EnableDHT6">
@@ -2010,7 +2016,7 @@
          </rect>
         </property>
         <property name="text">
-         <string>DHT IPv6</string>
+         <string notr="true">DHT IPv6</string>
         </property>
        </widget>
       </widget>
@@ -2091,12 +2097,12 @@
        </item>
        <item>
         <property name="text">
-         <string>prealloc</string>
+         <string notr="true">prealloc</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>falloc</string>
+         <string notr="true">falloc</string>
         </property>
        </item>
       </widget>
@@ -2186,7 +2192,7 @@
        </item>
        <item>
         <property name="text">
-         <string>InOrder</string>
+         <string notr="true">InOrder</string>
         </property>
        </item>
       </widget>
@@ -2328,7 +2334,7 @@
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
         <property name="suffix">
-         <string> KiB</string>
+         <string notr="true"> KiB</string>
         </property>
         <property name="maximum">
          <number>1073741824</number>
@@ -2559,7 +2565,7 @@
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
        <property name="suffix">
-        <string> s</string>
+        <string notr="true"> s</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_38">
@@ -2594,7 +2600,7 @@
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
        <property name="suffix">
-        <string> s</string>
+        <string notr="true"> s</string>
        </property>
        <property name="maximum">
         <number>31536000</number>
@@ -2632,7 +2638,7 @@
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
        <property name="suffix">
-        <string> KiB</string>
+        <string notr="true"> KiB</string>
        </property>
        <property name="maximum">
         <number>65536</number>
@@ -2652,17 +2658,17 @@
        </property>
        <item>
         <property name="text">
-         <string>inorder</string>
+         <string notr="true">inorder</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>feedback</string>
+         <string notr="true">feedback</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>adaptive</string>
+         <string notr="true">adaptive</string>
         </property>
        </item>
       </widget>
@@ -2696,12 +2702,12 @@
        </property>
        <item>
         <property name="text">
-         <string>Get</string>
+         <string notr="true">Get</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>Tunnel</string>
+         <string notr="true">Tunnel</string>
         </property>
        </item>
       </widget>

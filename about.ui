@@ -133,7 +133,7 @@ p, li { white-space: pre-wrap; }
     </rect>
    </property>
    <property name="text">
-    <string>TextLabel</string>
+    <string notr="true">TextLabel</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_Icon">
@@ -146,7 +146,7 @@ p, li { white-space: pre-wrap; }
     </rect>
    </property>
    <property name="text">
-    <string>TextLabel</string>
+    <string notr="true">TextLabel</string>
    </property>
   </widget>
  </widget>

@@ -105,7 +105,7 @@
       <string>unrestricted</string>
      </property>
      <property name="suffix">
-      <string> KiB/s</string>
+      <string notr="true"> KiB/s</string>
      </property>
      <property name="maximum">
       <number>65535</number>
@@ -146,7 +146,7 @@
       <string>unrestricted</string>
      </property>
      <property name="suffix">
-      <string> KiB/s</string>
+      <string notr="true"> KiB/s</string>
      </property>
      <property name="maximum">
       <number>65535</number>
@@ -183,6 +183,9 @@
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
+     <property name="suffix">
+      <string notr="true"/>
+     </property>
      <property name="maximum">
       <number>65535</number>
      </property>
@@ -217,6 +220,9 @@
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+     <property name="suffix">
+      <string notr="true"/>
      </property>
      <property name="maximum">
       <number>65535</number>
@@ -314,7 +320,7 @@
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
      <property name="suffix">
-      <string> s</string>
+      <string notr="true"> s</string>
      </property>
      <property name="minimum">
       <number>1</number>
@@ -337,6 +343,9 @@
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+     <property name="suffix">
+      <string notr="true"/>
      </property>
      <property name="minimum">
       <number>1</number>
@@ -422,7 +431,7 @@
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
      <property name="suffix">
-      <string> KiB</string>
+      <string notr="true"> KiB</string>
      </property>
      <property name="maximum">
       <number>65535</number>
@@ -458,6 +467,9 @@
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+     <property name="suffix">
+      <string notr="true"/>
      </property>
      <property name="maximum">
       <number>65535</number>
@@ -567,7 +579,7 @@
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
      <property name="suffix">
-      <string> s</string>
+      <string notr="true"> s</string>
      </property>
      <property name="minimum">
       <number>1</number>
@@ -728,7 +740,7 @@
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
      <property name="suffix">
-      <string> s</string>
+      <string notr="true"> s</string>
      </property>
      <property name="minimum">
       <number>1</number>
@@ -933,6 +945,9 @@
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
+     <property name="prefix">
+      <string notr="true"/>
+     </property>
     </widget>
     <widget class="QLabel" name="label_20">
      <property name="geometry">
@@ -969,7 +984,7 @@
       <string>unrestricted</string>
      </property>
      <property name="suffix">
-      <string> KiB/s</string>
+      <string notr="true"> KiB/s</string>
      </property>
      <property name="maximum">
       <number>65536</number>
@@ -1005,6 +1020,9 @@
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+     <property name="suffix">
+      <string notr="true"/>
      </property>
      <property name="maximum">
       <number>65536</number>
@@ -1043,6 +1061,9 @@
      </property>
      <property name="specialValueText">
       <string>unlimited</string>
+     </property>
+     <property name="suffix">
+      <string notr="true"/>
      </property>
      <property name="maximum">
       <number>256</number>
@@ -1083,7 +1104,7 @@
       <string>unrestricted</string>
      </property>
      <property name="suffix">
-      <string> KiB/s</string>
+      <string notr="true"> KiB/s</string>
      </property>
      <property name="maximum">
       <number>65536</number>
@@ -1121,7 +1142,7 @@
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
      <property name="suffix">
-      <string> s</string>
+      <string notr="true"> s</string>
      </property>
      <property name="maximum">
       <number>256</number>
@@ -1186,12 +1207,12 @@
      </property>
      <item>
       <property name="text">
-       <string>arc4</string>
+       <string notr="true">arc4</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>plain</string>
+       <string notr="true">plain</string>
       </property>
      </item>
     </widget>
@@ -1224,7 +1245,7 @@
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
      <property name="suffix">
-      <string> m</string>
+      <string notr="true"> m</string>
      </property>
      <property name="minimum">
       <number>-1</number>
@@ -1264,7 +1285,7 @@
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
       </property>
       <property name="suffix">
-       <string> s</string>
+       <string notr="true"> s</string>
       </property>
       <property name="maximum">
        <number>86400</number>
@@ -1302,7 +1323,7 @@
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
       </property>
       <property name="suffix">
-       <string> s</string>
+       <string notr="true"> s</string>
       </property>
       <property name="maximum">
        <number>86400</number>
@@ -1318,7 +1339,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Tiimeout:</string>
+       <string>Timeout:</string>
       </property>
       <property name="buddy">
        <cstring>spinBox_TrackerTimeout</cstring>
@@ -1354,6 +1375,9 @@
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="suffix">
+       <string notr="true"/>
       </property>
       <property name="maximum">
        <number>256</number>
@@ -1443,7 +1467,7 @@
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
       </property>
       <property name="suffix">
-       <string> KiB</string>
+       <string notr="true"> KiB</string>
       </property>
       <property name="maximum">
        <number>65536</number>
@@ -1462,7 +1486,7 @@
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
       </property>
       <property name="suffix">
-       <string> KiB</string>
+       <string notr="true"> KiB</string>
       </property>
       <property name="maximum">
        <number>65536</number>
@@ -1495,7 +1519,10 @@
       </rect>
      </property>
      <property name="inputMask">
-      <string>000.000.000.000; </string>
+      <string notr="true">000.000.000.000; </string>
+     </property>
+     <property name="text">
+      <string notr="true">...</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1946,12 +1973,12 @@
      </item>
      <item>
       <property name="text">
-       <string>prealloc</string>
+       <string notr="true">prealloc</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>falloc</string>
+       <string notr="true">falloc</string>
       </property>
      </item>
     </widget>
@@ -2003,7 +2030,7 @@
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
      <property name="suffix">
-      <string> KiB</string>
+      <string notr="true"> KiB</string>
      </property>
      <property name="maximum">
       <number>65536</number>
@@ -2071,12 +2098,12 @@
      </property>
      <item>
       <property name="text">
-       <string>get</string>
+       <string notr="true">get</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>tunnel</string>
+       <string notr="true">tunnel</string>
       </property>
      </item>
     </widget>
@@ -2260,7 +2287,7 @@
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
      <property name="suffix">
-      <string> s</string>
+      <string notr="true"> s</string>
      </property>
      <property name="maximum">
       <number>65536</number>
@@ -2317,9 +2344,79 @@
      </item>
      <item>
       <property name="text">
-       <string>InOrder</string>
+       <string notr="true">InOrder</string>
       </property>
      </item>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab_Server">
+    <attribute name="title">
+     <string>Servers</string>
+    </attribute>
+    <widget class="QTreeWidget" name="treeWidget_Server_List">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>531</width>
+       <height>211</height>
+      </rect>
+     </property>
+     <property name="alternatingRowColors">
+      <bool>true</bool>
+     </property>
+     <property name="rootIsDecorated">
+      <bool>false</bool>
+     </property>
+     <column>
+      <property name="text">
+       <string notr="true">Server</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>User</string>
+      </property>
+     </column>
+    </widget>
+    <widget class="QPushButton" name="pushButton_Servers_Delete">
+     <property name="geometry">
+      <rect>
+       <x>360</x>
+       <y>240</y>
+       <width>75</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Delete</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_Servers_Add">
+     <property name="geometry">
+      <rect>
+       <x>270</x>
+       <y>240</y>
+       <width>75</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Add</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_Servers_Modify">
+     <property name="geometry">
+      <rect>
+       <x>450</x>
+       <y>240</y>
+       <width>75</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Modify</string>
+     </property>
     </widget>
    </widget>
    <widget class="QWidget" name="tab_Proxy">
@@ -2523,76 +2620,6 @@
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton_Proxy_Modify">
-     <property name="geometry">
-      <rect>
-       <x>450</x>
-       <y>240</y>
-       <width>75</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Modify</string>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QWidget" name="tab_Server">
-    <attribute name="title">
-     <string>Servers</string>
-    </attribute>
-    <widget class="QTreeWidget" name="treeWidget_Server_List">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>531</width>
-       <height>211</height>
-      </rect>
-     </property>
-     <property name="alternatingRowColors">
-      <bool>true</bool>
-     </property>
-     <property name="rootIsDecorated">
-      <bool>false</bool>
-     </property>
-     <column>
-      <property name="text">
-       <string notr="true">Server</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>User</string>
-      </property>
-     </column>
-    </widget>
-    <widget class="QPushButton" name="pushButton_Servers_Delete">
-     <property name="geometry">
-      <rect>
-       <x>360</x>
-       <y>240</y>
-       <width>75</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Delete</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_Servers_Add">
-     <property name="geometry">
-      <rect>
-       <x>270</x>
-       <y>240</y>
-       <width>75</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Add</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_Servers_Modify">
      <property name="geometry">
       <rect>
        <x>450</x>
