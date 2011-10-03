@@ -104,7 +104,7 @@ void SelectTorrentFiles::SetData(MetaInfo minfo)
     ui->label_Torrent_Size->setText(util::ConvertNumberToSuffixString(metainfo.totalSize()));
     ui->label_Torrent_Comment->setText(metainfo.comment());
     ui->label_Torrent_CreatedBy->setText(metainfo.createdBy());
-    ui->label_Torrent_Date->setText(metainfo.creationDate().toString(tr("yyyy. MMMM. dd. hh:mm:ss")));
+    ui->label_Torrent_Date->setText(metainfo.creationDate().toString(Qt::DefaultLocaleShortDate));
     ui->treeWidget->clear();
 
     //root item
