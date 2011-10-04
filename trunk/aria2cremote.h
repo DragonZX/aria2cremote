@@ -101,6 +101,8 @@ private slots:
     void HideTransferDialog();
     void GetGlobalOptions(QVariant value);
     void slotLanguageChanged(QAction* action);
+    void RequestGID(quint64 gid);
+    void RequestFault(quint32 faultCode, QString faultString);
 
 private:
     Ui::Aria2cRemote *ui;
@@ -171,6 +173,7 @@ private:
     unsigned int m_IDTaskbarButtonCreated;
     #endif
 
+    QMap<quint64, quint32> m_currentDownloadProgress;
 private:
     void setTreeWidgetItem(QTreeWidgetItemEx *item, XmlRPC& x);
     void setInitTreeWidgetItem(QTreeWidgetItemEx *item);
