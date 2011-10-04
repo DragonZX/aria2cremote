@@ -44,6 +44,7 @@ public:
     void setCurrentGID(int gid) { m_currentGID = gid; }
     void setConnection(QString &host, QString &user, QString &password, int &port, QString &proxyServer, QString &proxyUser, QString &proxyPassword, int &proxyPort);
     void SetGZipEnabled() { client.setGZipEnabled(); }
+    void wakeUp() {condition.wakeOne();}
 
 signals:
     void Response(XML_RPC_RESPONSE_MAP tellActive, XML_RPC_RESPONSE_MAP tellStopped, XML_RPC_RESPONSE_MAP tellWaiting);
@@ -69,6 +70,8 @@ private:
     int m_proxyPort;
 
     qint64 m_currentGID;
+    QWaitCondition condition;
+    QMutex conditionMutex;
 };
 
 #endif // WORKTHREAD_H

@@ -1112,6 +1112,9 @@ void Aria2cRemote::ListViewItemClicked(QTreeWidgetItem *item, int value)
     bool bRemove = false;
     bool bPurge = false;
 
+    //wake up to workerthread
+    m_workThread.wakeUp();
+
     foreach(DOWNLOAD_LIST dl, m_downloadView)
     {
         URI_STATUS status = dl.list.getiStatus();
