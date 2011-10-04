@@ -73,6 +73,7 @@ void workThread::run()
 {
     while(!m_exit)
     {
+        condition.wait(&conditionMutex, m_sleep);
         //set request
         QVariantList v;
 
@@ -127,8 +128,6 @@ void workThread::run()
         m_syncronize->lock();
         client.request(multiCall, "system.multicall", 0, m_currentGID);
         m_syncronize->unlock();
-
-        msleep(m_sleep);
     }
 }
 
