@@ -147,6 +147,60 @@ void reguestThread::processReturnValue( int iTypes, qint64 iGID, int requestId, 
     else if (iTypes & VERSION_INFO)
     {
         emit ResponseVersionInfo(value);
+    } else
+    {
+        QList<QVariant> list = value.toList();
+        if (list.size() > 0)
+        {
+            QList<QVariant> elemList = list[0].toList();
+
+            if (elemList.size() > 0)
+            {
+                if (elemList[0].toString().compare("OK") == 0)
+                {
+
+                }
+                else
+                {
+                    bool ok;
+                    quint64 gid = elemList[0].toULongLong(&ok);
+                    if (ok)
+                    {
+                        emit RequestGID(gid);
+                    }
+                }
+            }
+            else
+            {
+                //fault
+                QMapIterator<QString,QVariant> fault(list[0].toMap());
+                quint32 faultCode;
+                QString faultString;
+                int ParamCount = 0;
+                while( fault.hasNext() )
+                {
+                    fault.next();
+                    QString key = fault.key();
+                    if (key.compare("faultCode", Qt::CaseInsensitive) == 0)
+                    {
+                        bool ok;
+                        faultCode = fault.value().toInt(&ok);
+                        if (ok)
+                            ParamCount++;
+                    } else if (key.compare("faultString", Qt::CaseInsensitive) == 0)
+                    {
+                        faultString = fault.value().toString();
+                        ParamCount++;
+
+                    }
+                }
+                if (ParamCount == 2)
+                {
+                    emit RequestFault(faultCode, faultString);
+                }
+
+            }
+        }
     }
 }
 

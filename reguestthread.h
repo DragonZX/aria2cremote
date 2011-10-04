@@ -54,6 +54,8 @@ signals:
     void processFaultToUI( int requestId, int errorCode, QString errorString );
     void ShowTransferDialog(QString sDescription);
     void HideTransferDialog();
+    void RequestGID(quint64);
+    void RequestFault(quint32, QString);
 
 public slots:
     void processReturnValue( int iTypes, qint64 iGID, int requestId, QVariant value );

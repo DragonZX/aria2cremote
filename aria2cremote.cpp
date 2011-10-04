@@ -145,6 +145,8 @@ Aria2cRemote::Aria2cRemote(QWidget *parent) :
     connect(&m_requestThread, SIGNAL(HideTransferDialog()), this, SLOT(HideTransferDialog()));
     connect(&m_requestThread, SIGNAL(processFaultToUI(int, int, QString)), this, SLOT(processFaultToUI(int, int, QString)));
     connect(&m_requestThread, SIGNAL(ResponseVersionInfo(QVariant)), this, SLOT(ResponseVersionInfo(QVariant)));
+    connect(&m_requestThread, SIGNAL(RequestGID(quint64)), this, SLOT(RequestGID(quint64)));
+    connect(&m_requestThread, SIGNAL(RequestFault(quint32, QString)), this, SLOT(RequestFault(quint32, QString)));
     m_requestThread.start();
 
     QFileIconProvider fileIconProvider;
@@ -1070,12 +1072,20 @@ void Aria2cRemote::setTreeWidgetItem(QTreeWidgetItemEx *item, XmlRPC& x)
     if (status == STATUS_COMPLETE)
     {
         item->setText(3, "100%"); //Done
+        quint64 gid = x.getGID();
+        if (m_currentDownloadProgress.contains(gid))
+        {
+            m_SystemTrayIcon->showMessage(tr("Download finished"), (x.getFiles().size() > 1) ? x.getDir() : x.getFiles()[0].path, QSystemTrayIcon::Information);
+            m_currentDownloadProgress.remove(gid);
+        }
         item->setData(3, Qt::UserRole, (quint64)100);
     }
     else
     {
+        quint64 uiPercent = x.getProcessPercent();
+        m_currentDownloadProgress[x.getGID()] = uiPercent;
         item->setText(3, x.getsProcessPercent()); //Done
-        item->setData(3, Qt::UserRole, x.getProcessPercent());
+        item->setData(3, Qt::UserRole, uiPercent);
     }
 
     item->setText(4, x.getStatus()); //Status
@@ -1489,4 +1499,14 @@ void Aria2cRemote::setToolBarIcon(bool bState)
     QIcon icon(":/icon/toolbars/" + QString(bState ? "connected.png" : "disconnected.png"));
     QSize size = icon.actualSize(QSize(16, 16));
     m_connectStateIcon.setPixmap(icon.pixmap(size));
+}
+
+void Aria2cRemote::RequestGID(quint64 gid)
+{
+    m_currentDownloadProgress[gid] = 0;
+}
+
+void Aria2cRemote::RequestFault(quint32 faultCode, QString faultString)
+{
+    QMessageBox::critical(this, tr("Aria2c fault parameter"), tr("Fault Code: %1\nFault string: %2").arg(faultCode).arg(faultString));
 }
