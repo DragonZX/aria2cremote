@@ -145,8 +145,8 @@ Aria2cRemote::Aria2cRemote(QWidget *parent) :
     connect(&m_requestThread, SIGNAL(HideTransferDialog()), this, SLOT(HideTransferDialog()));
     connect(&m_requestThread, SIGNAL(processFaultToUI(int, int, QString)), this, SLOT(processFaultToUI(int, int, QString)));
     connect(&m_requestThread, SIGNAL(ResponseVersionInfo(QVariant)), this, SLOT(ResponseVersionInfo(QVariant)));
-    connect(&m_requestThread, SIGNAL(RequestGID(quint64)), this, SLOT(RequestGID(quint64)));
-    connect(&m_requestThread, SIGNAL(RequestFault(quint32, QString)), this, SLOT(RequestFault(quint32, QString)));
+    connect(&m_requestThread, SIGNAL(RequestGID(QList<quint64>)), this, SLOT(RequestGID(QList<quint64>)));
+    connect(&m_requestThread, SIGNAL(RequestFault(QList<FAULT_MESSAGE>)), this, SLOT(RequestFault(QList<FAULT_MESSAGE>)));
     m_requestThread.start();
 
     QFileIconProvider fileIconProvider;
@@ -1504,12 +1504,21 @@ void Aria2cRemote::setToolBarIcon(bool bState)
     m_connectStateIcon.setPixmap(icon.pixmap(size));
 }
 
-void Aria2cRemote::RequestGID(quint64 gid)
+void Aria2cRemote::RequestGID(QList<quint64> gids)
 {
-    m_currentDownloadProgress[gid] = 0;
+    foreach (quint64 gid, gids)
+    {
+        m_currentDownloadProgress[gid] = 0;
+    }
 }
 
-void Aria2cRemote::RequestFault(quint32 faultCode, QString faultString)
+void Aria2cRemote::RequestFault(QList<FAULT_MESSAGE> faultMessages)
 {
-    QMessageBox::critical(this, tr("Aria2c fault parameter"), tr("Fault Code: %1\nFault string: %2").arg(faultCode).arg(faultString));
+    QString message;
+    foreach (FAULT_MESSAGE faultMessage, faultMessages)
+    {
+        message += QString(tr("Fault Code: %1\nFault string: %2\n")).arg(faultMessage.code).arg(faultMessage.string);
+    }
+
+    QMessageBox::critical(this, tr("Aria2c fault parameter"), message);
 }
