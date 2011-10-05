@@ -149,33 +149,14 @@ void reguestThread::processReturnValue( int iTypes, qint64 iGID, int requestId, 
         emit ResponseVersionInfo(value);
     } else
     {
-        QList<QVariant> list = value.toList();
-        if (list.size() > 0)
+        QList<quint64> gids;
+        QList<FAULT_MESSAGE> faultMessages;
+        foreach(QVariant elem, value.toList())
         {
-            QList<QVariant> elemList = list[0].toList();
-
-            if (elemList.size() > 0)
+            if (elem.type() == Variant::Map)
             {
-                if (elemList[0].toString().compare("OK") == 0)
-                {
-
-                }
-                else
-                {
-                    bool ok;
-                    quint64 gid = elemList[0].toULongLong(&ok);
-                    if (ok)
-                    {
-                        emit RequestGID(gid);
-                    }
-                }
-            }
-            else
-            {
-                //fault
-                QMapIterator<QString,QVariant> fault(list[0].toMap());
-                quint32 faultCode;
-                QString faultString;
+                QMapIterator<QString,QVariant> fault(elem.toMap());
+                FAULT_MESSAGE faultMessage;
                 int ParamCount = 0;
                 while( fault.hasNext() )
                 {
@@ -184,23 +165,39 @@ void reguestThread::processReturnValue( int iTypes, qint64 iGID, int requestId, 
                     if (key.compare("faultCode", Qt::CaseInsensitive) == 0)
                     {
                         bool ok;
-                        faultCode = fault.value().toInt(&ok);
+                        faultMessage.code = fault.value().toInt(&ok);
                         if (ok)
                             ParamCount++;
                     } else if (key.compare("faultString", Qt::CaseInsensitive) == 0)
                     {
-                        faultString = fault.value().toString();
+                        faultMessage.string = fault.value().toString();
                         ParamCount++;
-
                     }
                 }
                 if (ParamCount == 2)
+                    faultMessages.push_back(faultMessage);
+            } else if (elem.type() == Variant::List)
+            {
+                foreach(QVariant subElem, elem.toList())
                 {
-                    emit RequestFault(faultCode, faultString);
+                    if (subElem.toString().compare("OK") == 0)
+                    {
+                    }
+                    else
+                    {
+                        bool ok;
+                        quint64 gid = subElem.toULongLong(&ok);
+                        if (ok)
+                            gids.push_back(gid);
+                    }
                 }
-
             }
         }
+        if (gids.size() > 0)
+            emit RequestGID(gids);
+
+        if (faultMessages.size() > 0)
+            emit RequestFault(faultMessages);
     }
 }
 

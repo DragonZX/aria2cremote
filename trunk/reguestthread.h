@@ -31,6 +31,12 @@
 #include "download.h"
 #include "transfer.h"
 
+typedef struct TFAULT_MESSAGE
+{
+    quint32 code;
+    QString string;
+}FAULT_MESSAGE,*PFAULT_MESSAGE;
+
 class reguestThread : public QThread
 {
     Q_OBJECT
@@ -54,8 +60,8 @@ signals:
     void processFaultToUI( int requestId, int errorCode, QString errorString );
     void ShowTransferDialog(QString sDescription);
     void HideTransferDialog();
-    void RequestGID(quint64);
-    void RequestFault(quint32, QString);
+    void RequestGID(QList<quint64>);
+    void RequestFault(QList<FAULT_MESSAGE>);
 
 public slots:
     void processReturnValue( int iTypes, qint64 iGID, int requestId, QVariant value );

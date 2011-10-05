@@ -101,8 +101,8 @@ private slots:
     void HideTransferDialog();
     void GetGlobalOptions(QVariant value);
     void slotLanguageChanged(QAction* action);
-    void RequestGID(quint64 gid);
-    void RequestFault(quint32 faultCode, QString faultString);
+    void RequestGID(QList<quint64> gids);
+    void RequestFault(QList<FAULT_MESSAGE> faultMessages);
 
 private:
     Ui::Aria2cRemote *ui;
