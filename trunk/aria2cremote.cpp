@@ -1497,7 +1497,7 @@ void Aria2cRemote::setToolBarIcon(bool bState)
     #ifdef Q_WS_WIN
     m_Windows7.updateOverlayIcon(bState);
     #endif
-    m_connectStateText.setText(tr(bState ? "Connected" : "Disconnected"));
+    m_connectStateText.setText(bState ? tr("Connected") : tr("Disconnected"));
     m_connectStateText.setToolTip("");
     QIcon icon(":/icon/toolbars/" + QString(bState ? "connected.png" : "disconnected.png"));
     QSize size = icon.actualSize(QSize(16, 16));
