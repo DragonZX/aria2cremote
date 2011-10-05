@@ -1100,10 +1100,12 @@ void LocalOptions::on_buttonBox_accepted()
         getUpdate("pause", QVariant(true).toString());
 
     getUpdate("no-file-allocation-limit", QString::number(ui->spinBox_NoFileAllocationLimit->value() * 1024));
-    getUpdate("file-allocation", ui->comboBox_FileAllocation->currentText());
+
+    int iFileAllocation = ui->comboBox_FileAllocation->currentIndex();
+    getUpdate("file-allocation", (iFileAllocation == 0) ? ("none") : ( (iFileAllocation == 1) ? ("prealloc") : ("falloc")) );
     getUpdate("proxy-method", ui->comboBox_ProxyMethod->currentText());
     getUpdate("retry-wait", QString::number(ui->spinBox_RetryWait->value()));
-    getUpdate("stream-piece-selector", ui->comboBox_StreamPieceSelector->currentText());
+    getUpdate("stream-piece-selector", (ui->comboBox_StreamPieceSelector->currentIndex() == 0) ? "default" : "inorder");
 
     sText = ui->lineEdit_Referer->text();
     if (m_localOptions.value("referer", QString("")).toString() != sText)
