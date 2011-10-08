@@ -35,7 +35,11 @@ QString GeoIP::lookupCountryCode(QHostAddress addr)
                                     "RE","RO","RU","RW","SA","SB","SC","SD","SE","SG","SH","SI","SJ","SK","SL","SM","SN","SO","SR","ST","SV","SY","SZ","TC","TD","TF","TG","TH","TJ","TK","TM","TN","TO","TL","TR","TT","TV","TW","TZ","UA","UG","UM","US","UY","UZ","VA","VC","VE","VG","VI","VN","VU","WF","WS","YE","YT","RS","ZA","ZM","ME","ZW","A1","A2",
                                          "O1","AX","GG","IM","JE","BL","MF", "BW"
                                        };
-    return(countryCode[(int)seekCountry(0, addr.toIPv4Address(), 31)]);
+    static const quint32 sizeCountryCode = sizeof(countryCode) / sizeof(countryCode[0]);
+    quint32 countryPos = seekCountry(0, addr.toIPv4Address(), 31);
+    if (countryPos >= sizeCountryCode)
+        countryPos = 0;
+    return(countryCode[countryPos]);
 }
 
 QString GeoIP::lookupCountryName(QString str)
@@ -59,7 +63,11 @@ QString GeoIP::lookupCountryName(QHostAddress addr)
                                     QT_TR_NOOP("Venezuela"),QT_TR_NOOP("Virgin Islands, British"),QT_TR_NOOP("Virgin Islands, U.S."),QT_TR_NOOP("Vietnam"),QT_TR_NOOP("Vanuatu"),QT_TR_NOOP("Wallis and Futuna"),QT_TR_NOOP("Samoa"),QT_TR_NOOP("Yemen"),QT_TR_NOOP("Mayotte"),QT_TR_NOOP("Serbia"),QT_TR_NOOP("South Africa"),QT_TR_NOOP("Zambia"),QT_TR_NOOP("Montenegro"),QT_TR_NOOP("Zimbabwe"),QT_TR_NOOP("Anonymous Proxy"),QT_TR_NOOP("Satellite Provider"),
                                     QT_TR_NOOP("Other"),QT_TR_NOOP("Aland Islands"),QT_TR_NOOP("Guernsey"),QT_TR_NOOP("Isle of Man"),QT_TR_NOOP("Jersey"),QT_TR_NOOP("Saint Barthelemy"),QT_TR_NOOP("Saint Martin"), QT_TR_NOOP("Bonaire, Saint Eustatius and Saba")
                                    };
-    return(tr(countryName[(int)seekCountry(0, addr.toIPv4Address(), 31)]));
+    static const quint32 sizeCountryName = sizeof(countryName) / sizeof(countryName[0]);
+    quint32 countryPos = seekCountry(0, addr.toIPv4Address(), 31);
+    if (countryPos >= sizeCountryName)
+        countryPos = 0;
+    return(tr(countryName[countryPos]));
 }
 
 quint32 GeoIP::seekCountry(quint32 offset, quint32 ipnum, int depth)
