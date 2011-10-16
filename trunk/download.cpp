@@ -52,7 +52,7 @@ int Download::addHttpFtp(QString &sUrl, QMap<QString, Variant> &vCurrentParam)
 {
     m_type = HTTP_FTP;
     m_sURI = sUrl;
-    m_vCurrentParam = vCurrentParam;
+    m_vCurrentParam.unite(vCurrentParam);
     return 0;
 }
 
@@ -60,7 +60,7 @@ int Download::addMagnetLink(QString &sMagnetLink, QMap<QString, Variant> &vCurre
 {
     m_type = MAGNETLINK;
     m_sURI = sMagnetLink;
-    m_vCurrentParam = vCurrentParam;
+    m_vCurrentParam.unite(vCurrentParam);
     return 0;
 }
 
@@ -68,7 +68,7 @@ int Download::addTorrent(QString &Torrent, QMap<QString, Variant> &vCurrentParam
 {
     m_type = TORRENT;
     m_sURI = Torrent;
-    m_vCurrentParam = vCurrentParam;
+    m_vCurrentParam.unite(vCurrentParam);
     return 0;
 }
 
@@ -76,49 +76,49 @@ int Download::addMetalink(QString &sMetalink, QMap<QString, Variant> &vCurrentPa
 {
     m_type = METALINK;
     m_sURI = sMetalink;
-    m_vCurrentParam = vCurrentParam;
+    m_vCurrentParam.unite(vCurrentParam);
     return 0;
 }
 
 int Download::addPeerList(QMap<QString, Variant> &vCurrentParam)
 {
     m_type = GET_PEER_LIST;
-    m_vCurrentParam = vCurrentParam;
+    m_vCurrentParam.unite(vCurrentParam);
     return 0;
 }
 
 int Download::addVersionInfo(QMap<QString, Variant> &vCurrentParam)
 {
     m_type = VERSION_INFO;
-    m_vCurrentParam = vCurrentParam;
+    m_vCurrentParam.unite(vCurrentParam);
     return 0;
 }
 
 int Download::addGetGlobalOptions(QMap<QString, Variant> &vCurrentParam)
 {
     m_type = GET_GLOBAL_OPTIONS;
-    m_vCurrentParam = vCurrentParam;
+    m_vCurrentParam.unite(vCurrentParam);
     return 0;
 }
 
 int Download::addChangeGlobalOptions(QMap<QString, Variant> &vCurrentParam)
 {
     m_type = CHANGE_GLOBAL_OPTIONS;
-    m_vCurrentParam = vCurrentParam;
+    m_vCurrentParam.unite(vCurrentParam);
     return 0;
 }
 
 int Download::addGetLocalOptions(QMap<QString, Variant> &vCurrentParam)
 {
     m_type = GET_LOCAL_OPTIONS;
-    m_vCurrentParam = vCurrentParam;
+    m_vCurrentParam.unite(vCurrentParam);
     return 0;
 }
 
 int Download::addChangeLocalOptions(QMap<QString, Variant> &vCurrentParam)
 {
     m_type = CHANGE_LOCAL_OPTIONS;
-    m_vCurrentParam = vCurrentParam;
+    m_vCurrentParam.unite(vCurrentParam);
     return 0;
 }
 
@@ -126,77 +126,77 @@ int Download::addChangeLocalOptions(QMap<QString, Variant> &vCurrentParam)
 int Download::addUnPause(QMap<QString, Variant> &vCurrentParam)
 {
     m_type = ACTION_UNPAUSE;
-    m_vCurrentParam = vCurrentParam;
+    m_vCurrentParam.unite(vCurrentParam);
     return 0;
 }
 
 int Download::addUnPauseAll(QMap<QString, Variant> &vCurrentParam)
 {
     m_type = ACTION_UNPAUSE_ALL;
-    m_vCurrentParam = vCurrentParam;
+    m_vCurrentParam.unite(vCurrentParam);
     return 0;
 }
 
 int Download::addPause(QMap<QString, Variant> &vCurrentParam)
 {
     m_type = ACTION_PAUSE;
-    m_vCurrentParam = vCurrentParam;
+    m_vCurrentParam.unite(vCurrentParam);
     return 0;
 }
 
 int Download::addPauseAll(QMap<QString, Variant> &vCurrentParam)
 {
     m_type = ACTION_PAUSE_ALL;
-    m_vCurrentParam = vCurrentParam;
+    m_vCurrentParam.unite(vCurrentParam);
     return 0;
 }
 
 int Download::addRemove(QMap<QString, Variant> &vCurrentParam)
 {
     m_type = ACTION_REMOVE;
-    m_vCurrentParam = vCurrentParam;
+    m_vCurrentParam.unite(vCurrentParam);
     return 0;
 }
 
 int Download::addPurge(QMap<QString, Variant> &vCurrentParam)
 {
     m_type = ACTION_PURGE;
-    m_vCurrentParam = vCurrentParam;
+    m_vCurrentParam.unite(vCurrentParam);
     return 0;
 }
 
 int Download::addPowerOff(QMap<QString, Variant> &vCurrentParam)
 {
     m_type = ACTION_POWER_OFF;
-    m_vCurrentParam = vCurrentParam;
+    m_vCurrentParam.unite(vCurrentParam);
     return 0;
 }
 
 int Download::addForcePause(QMap<QString, Variant> &vCurrentParam)
 {
     m_type = ACTION_FORCE_PAUSE;
-    m_vCurrentParam = vCurrentParam;
+    m_vCurrentParam.unite(vCurrentParam);
     return 0;
 }
 
 int Download::addForcePauseAll(QMap<QString, Variant> &vCurrentParam)
 {
     m_type = ACTION_FORCE_PAUSE_ALL;
-    m_vCurrentParam = vCurrentParam;
+    m_vCurrentParam.unite(vCurrentParam);
     return 0;
 }
 
 int Download::addForceRemove(QMap<QString, Variant> &vCurrentParam)
 {
     m_type = ACTION_FORCE_REMOVE;
-    m_vCurrentParam = vCurrentParam;
+    m_vCurrentParam.unite(vCurrentParam);
     return 0;
 }
 
 int Download::addForcePowerOff(QMap<QString, Variant> &vCurrentParam)
 {
     m_type = ACTION_FORCE_POWER_OFF;
-    m_vCurrentParam = vCurrentParam;
+    m_vCurrentParam.unite(vCurrentParam);
     return 0;
 }
 
