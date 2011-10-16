@@ -634,7 +634,7 @@ void LocalOptions::on_spinBox_SeedTime_valueChanged(int value)
 void LocalOptions::getUpdate(QString name, QString value)
 {
     m_localOptions.remove(name);
-    if (m_globalOptions.value(name, "").toString().compare(value, Qt::CaseInsensitive) != 0)
+    if (m_globalOptions.contains(name) && m_globalOptions.value(name, "").toString().compare(value, Qt::CaseInsensitive) != 0)
     {
         m_localOptions[name] = value;
     }
