@@ -834,6 +834,7 @@ void LocalOptions::SetAdvancedOptions()
     SetProperties(ui->checkBox_AutoFileRenaming)->setCheckState(Update("auto-file-renaming", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     SetProperties(ui->checkBox_CheckIntegrity)->setCheckState(Update("check-integrity", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     SetProperties(ui->checkBox_DryRun)->setCheckState(Update("dry-run", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
+    SetProperties(ui->checkBox_RpcAllowOriginAll, util::ARIA2C_VERSION_1130)->setCheckState(Update("rpc-allow-origin-all", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
 
     SetProperties(ui->checkBox_ReuseURI, util::ARIA2C_VERSION_190)->setCheckState(Update("reuse-uri", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     SetProperties(ui->checkBox_RemoveControlFile, util::ARIA2C_VERSION_191)->setCheckState(Update("remove-control-file", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
@@ -843,8 +844,10 @@ void LocalOptions::SetAdvancedOptions()
     SetProperties(ui->checkBox_ParameterizedURI)->setCheckState(Update("parameterized-uri", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     SetProperties(ui->checkBox_UseHead)->setCheckState(Update("use-head", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     SetProperties(ui->checkBox_Pause, util::ARIA2C_VERSION_1120)->setCheckState(Update("pause", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
+    SetProperties(ui->checkBox_HashCheckOnly, util::ARIA2C_VERSION_1130)->setCheckState(Update("hash-check-only", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
 
     SetProperties(ui->spinBox_NoFileAllocationLimit)->setValue(Update("no-file-allocation-limit", 5242880).toInt() / 1024);
+    SetProperties(ui->spinBox_PieceLength, util::ARIA2C_VERSION_1130)->setValue(Update("piece-length", 1048576).toInt() / 1024);
 
     int iPos = -1;
 
@@ -876,6 +879,15 @@ void LocalOptions::SetAdvancedOptions()
         iPos = 1;
 
     SetProperties(ui->comboBox_StreamPieceSelector, util::ARIA2C_VERSION_1120)->setCurrentIndex(iPos);
+
+    iPos = -1;
+    s = Update("download-result", QString("default")).toString();
+    if (s == "default")
+        iPos = 0;
+    else if (s == "full")
+        iPos = 1;
+
+    SetProperties(ui->comboBox_DownloadResult, util::ARIA2C_VERSION_1130)->setCurrentIndex(iPos);
 
     SetProperties(ui->lineEdit_Referer)->setText(Update("referer", QString("")).toString());
     SetProperties(ui->lineEdit_Header)->setText(Update("header", QString("")).toString());
@@ -1086,6 +1098,7 @@ void LocalOptions::on_buttonBox_accepted()
     getUpdate("auto-file-renaming", QVariant(ui->checkBox_AutoFileRenaming->checkState() == Qt::Checked).toString());
     getUpdate("check-integrity", QVariant(ui->checkBox_CheckIntegrity->checkState() == Qt::Checked).toString());
     getUpdate("dry-run", QVariant(ui->checkBox_DryRun->checkState() == Qt::Checked).toString());
+    getUpdate("rpc-allow-origin-all", QVariant(ui->checkBox_RpcAllowOriginAll->checkState() == Qt::Checked).toString());
 
     getUpdate("reuse-uri", QVariant(ui->checkBox_ReuseURI->checkState() == Qt::Checked).toString());
     getUpdate("remove-control-file", QVariant(ui->checkBox_RemoveControlFile->checkState() == Qt::Checked).toString());
@@ -1099,13 +1112,16 @@ void LocalOptions::on_buttonBox_accepted()
     if (ui->checkBox_Pause->checkState() == Qt::Checked)
         getUpdate("pause", QVariant(true).toString());
 
+    getUpdate("hash-check-only", QVariant(ui->checkBox_HashCheckOnly->checkState() == Qt::Checked).toString());
     getUpdate("no-file-allocation-limit", QString::number(ui->spinBox_NoFileAllocationLimit->value() * 1024));
+    getUpdate("piece-length", QString::number(ui->spinBox_PieceLength->value() * 1024));
 
     int iFileAllocation = ui->comboBox_FileAllocation->currentIndex();
     getUpdate("file-allocation", (iFileAllocation == 0) ? ("none") : ( (iFileAllocation == 1) ? ("prealloc") : ("falloc")) );
     getUpdate("proxy-method", ui->comboBox_ProxyMethod->currentText());
     getUpdate("retry-wait", QString::number(ui->spinBox_RetryWait->value()));
     getUpdate("stream-piece-selector", (ui->comboBox_StreamPieceSelector->currentIndex() == 0) ? "default" : "inorder");
+    getUpdate("download-result", (ui->comboBox_DownloadResult->currentIndex() == 0) ? "default" : "full");
 
     sText = ui->lineEdit_Referer->text();
     if (m_localOptions.value("referer", QString("")).toString() != sText)

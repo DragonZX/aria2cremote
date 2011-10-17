@@ -189,6 +189,7 @@ void GlobalOptions::SetAdvancedOptions()
     ui->checkBox_CheckIntegrity->setCheckState(m_globalOptions.value("check-integrity", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     ui->checkBox_Daemon->setCheckState(m_globalOptions.value("daemon", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     ui->checkBox_HumanReadable->setCheckState(m_globalOptions.value("human-readable", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
+    ui->checkBox_HashCheckOnly->setCheckState(m_globalOptions.value("hash-check-only", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
 
     ui->spinBox_AutoSaveInterval->setValue(m_globalOptions.value("auto-save-interval", 60).toInt());
 
@@ -223,6 +224,14 @@ void GlobalOptions::SetAdvancedOptions()
         iPos = 1;
 
     ui->comboBox_StreamPieceSelector->setCurrentIndex(iPos);
+
+    s = m_globalOptions.value("download-result", QString("default")).toString();
+    if (s == "default")
+        iPos = 0;
+    else if (s == "full")
+        iPos = 1;
+
+    ui->comboBox_DownloadResult->setCurrentIndex(iPos);
 }
 
 void GlobalOptions::SetAdvanced1Options()
@@ -239,9 +248,11 @@ void GlobalOptions::SetAdvanced1Options()
     ui->checkBox_ShowFiles->setCheckState(m_globalOptions.value("show-files", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     ui->checkBox_ShowConsoleReadout->setCheckState(m_globalOptions.value("show-console-readout", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     ui->checkBox_TruncateConsoleReadout->setCheckState(m_globalOptions.value("truncate-console-readout", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
+    ui->checkBox_RpcAllowOriginAll->setCheckState(m_globalOptions.value("rpc-allow-origin-all", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     ui->spinBox_SummaryInterval->setValue(m_globalOptions.value("summary-interval", 60).toInt());
     ui->spinBox_ServerStatTimeout->setValue(m_globalOptions.value("server-stat-timeout", 86400).toInt());
     ui->spinBox_NoFileAllocationLimit->setValue(m_globalOptions.value("no-file-allocation-limit", 5242880).toInt() / 1024);
+    ui->spinBox_PieceLength->setValue(m_globalOptions.value("piece-length", 1048576).toInt() / 1024);
     ui->spinBox_Stop->setValue(m_globalOptions.value("stop", 0).toInt());
 
     int iPos = -1;

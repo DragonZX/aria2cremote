@@ -1960,7 +1960,7 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>350</x>
+       <x>315</x>
        <y>80</y>
        <width>101</width>
        <height>22</height>
@@ -1985,9 +1985,9 @@
     <widget class="QLabel" name="label_33">
      <property name="geometry">
       <rect>
-       <x>350</x>
+       <x>315</x>
        <y>60</y>
-       <width>121</width>
+       <width>101</width>
        <height>16</height>
       </rect>
      </property>
@@ -2001,7 +2001,7 @@
     <widget class="QLabel" name="label_39">
      <property name="geometry">
       <rect>
-       <x>350</x>
+       <x>315</x>
        <y>9</y>
        <width>111</width>
        <height>16</height>
@@ -2020,8 +2020,8 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>350</x>
-       <y>29</y>
+       <x>315</x>
+       <y>30</y>
        <width>101</width>
        <height>22</height>
       </rect>
@@ -2042,7 +2042,7 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>180</x>
+       <x>165</x>
        <y>101</y>
        <width>140</width>
        <height>17</height>
@@ -2058,7 +2058,7 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>180</x>
+       <x>165</x>
        <y>124</y>
        <width>140</width>
        <height>17</height>
@@ -2071,9 +2071,9 @@
     <widget class="QLabel" name="label_41">
      <property name="geometry">
       <rect>
-       <x>350</x>
+       <x>315</x>
        <y>110</y>
-       <width>141</width>
+       <width>101</width>
        <height>16</height>
       </rect>
      </property>
@@ -2090,7 +2090,7 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>350</x>
+       <x>315</x>
        <y>130</y>
        <width>101</width>
        <height>22</height>
@@ -2113,7 +2113,7 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>180</x>
+       <x>165</x>
        <y>78</y>
        <width>140</width>
        <height>17</height>
@@ -2129,7 +2129,7 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>180</x>
+       <x>165</x>
        <y>55</y>
        <width>140</width>
        <height>17</height>
@@ -2145,7 +2145,7 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>180</x>
+       <x>165</x>
        <y>32</y>
        <width>140</width>
        <height>17</height>
@@ -2161,7 +2161,7 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>180</x>
+       <x>165</x>
        <y>9</y>
        <width>140</width>
        <height>17</height>
@@ -2177,7 +2177,7 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>180</x>
+       <x>165</x>
        <y>147</y>
        <width>140</width>
        <height>17</height>
@@ -2190,9 +2190,9 @@
     <widget class="QLabel" name="label_26">
      <property name="geometry">
       <rect>
-       <x>9</x>
+       <x>315</x>
        <y>210</y>
-       <width>151</width>
+       <width>121</width>
        <height>16</height>
       </rect>
      </property>
@@ -2206,9 +2206,9 @@
     <widget class="QLineEdit" name="lineEdit_Referer">
      <property name="geometry">
       <rect>
-       <x>9</x>
+       <x>315</x>
        <y>230</y>
-       <width>151</width>
+       <width>211</width>
        <height>20</height>
       </rect>
      </property>
@@ -2216,9 +2216,9 @@
     <widget class="QLabel" name="label_29">
      <property name="geometry">
       <rect>
-       <x>180</x>
-       <y>210</y>
-       <width>151</width>
+       <x>315</x>
+       <y>160</y>
+       <width>121</width>
        <height>16</height>
       </rect>
      </property>
@@ -2232,9 +2232,9 @@
     <widget class="QLineEdit" name="lineEdit_Header">
      <property name="geometry">
       <rect>
-       <x>180</x>
-       <y>230</y>
-       <width>151</width>
+       <x>315</x>
+       <y>180</y>
+       <width>211</width>
        <height>20</height>
       </rect>
      </property>
@@ -2258,9 +2258,9 @@
     <widget class="QLabel" name="label_40">
      <property name="geometry">
       <rect>
-       <x>350</x>
-       <y>160</y>
-       <width>111</width>
+       <x>430</x>
+       <y>60</y>
+       <width>101</width>
        <height>16</height>
       </rect>
      </property>
@@ -2277,8 +2277,8 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>350</x>
-       <y>180</y>
+       <x>430</x>
+       <y>80</y>
        <width>101</width>
        <height>22</height>
       </rect>
@@ -2299,7 +2299,7 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>180</x>
+       <x>165</x>
        <y>170</y>
        <width>140</width>
        <height>17</height>
@@ -2312,8 +2312,8 @@
     <widget class="QLabel" name="label_48">
      <property name="geometry">
       <rect>
-       <x>350</x>
-       <y>210</y>
+       <x>430</x>
+       <y>10</y>
        <width>111</width>
        <height>16</height>
       </rect>
@@ -2331,8 +2331,8 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>350</x>
-       <y>230</y>
+       <x>430</x>
+       <y>30</y>
        <width>101</width>
        <height>22</height>
       </rect>
@@ -2347,6 +2347,118 @@
        <string notr="true">InOrder</string>
       </property>
      </item>
+    </widget>
+    <widget class="QLabel" name="label_49">
+     <property name="geometry">
+      <rect>
+       <x>430</x>
+       <y>110</y>
+       <width>101</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Download result:</string>
+     </property>
+     <property name="buddy">
+      <cstring>spinBox_NoFileAllocationLimit</cstring>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="comboBox_DownloadResult">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>430</x>
+       <y>130</y>
+       <width>101</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>Default</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Full</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QCheckBox" name="checkBox_HashCheckOnly">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>165</x>
+       <y>193</y>
+       <width>140</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Hash check only</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_50">
+     <property name="geometry">
+      <rect>
+       <x>165</x>
+       <y>220</y>
+       <width>101</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Piece length:</string>
+     </property>
+     <property name="buddy">
+      <cstring>spinBox_NoFileAllocationLimit</cstring>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="spinBox_PieceLength">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>165</x>
+       <y>240</y>
+       <width>101</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+     <property name="suffix">
+      <string notr="true">KiB</string>
+     </property>
+     <property name="minimum">
+      <number>1</number>
+     </property>
+     <property name="maximum">
+      <number>65536</number>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="checkBox_RpcAllowOriginAll">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>193</y>
+       <width>140</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>RPC allow origin all</string>
+     </property>
     </widget>
    </widget>
    <widget class="QWidget" name="tab_Server">
