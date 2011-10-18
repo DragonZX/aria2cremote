@@ -887,8 +887,6 @@ void LocalOptions::SetAdvancedOptions()
     else if (s == "full")
         iPos = 1;
 
-    SetProperties(ui->comboBox_DownloadResult, util::ARIA2C_VERSION_1130)->setCurrentIndex(iPos);
-
     SetProperties(ui->lineEdit_Referer)->setText(Update("referer", QString("")).toString());
     SetProperties(ui->lineEdit_Header)->setText(Update("header", QString("")).toString());
 }
@@ -1121,7 +1119,6 @@ void LocalOptions::on_buttonBox_accepted()
     getUpdate("proxy-method", ui->comboBox_ProxyMethod->currentText());
     getUpdate("retry-wait", QString::number(ui->spinBox_RetryWait->value()));
     getUpdate("stream-piece-selector", (ui->comboBox_StreamPieceSelector->currentIndex() == 0) ? "default" : "inorder");
-    getUpdate("download-result", (ui->comboBox_DownloadResult->currentIndex() == 0) ? "default" : "full");
 
     sText = ui->lineEdit_Referer->text();
     if (m_localOptions.value("referer", QString("")).toString() != sText)
