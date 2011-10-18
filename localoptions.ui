@@ -2348,45 +2348,6 @@
       </property>
      </item>
     </widget>
-    <widget class="QLabel" name="label_49">
-     <property name="geometry">
-      <rect>
-       <x>430</x>
-       <y>110</y>
-       <width>101</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Download result:</string>
-     </property>
-     <property name="buddy">
-      <cstring>spinBox_NoFileAllocationLimit</cstring>
-     </property>
-    </widget>
-    <widget class="QComboBox" name="comboBox_DownloadResult">
-     <property name="enabled">
-      <bool>true</bool>
-     </property>
-     <property name="geometry">
-      <rect>
-       <x>430</x>
-       <y>130</y>
-       <width>101</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <item>
-      <property name="text">
-       <string>Default</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Full</string>
-      </property>
-     </item>
-    </widget>
     <widget class="QCheckBox" name="checkBox_HashCheckOnly">
      <property name="enabled">
       <bool>true</bool>
@@ -2406,8 +2367,8 @@
     <widget class="QLabel" name="label_50">
      <property name="geometry">
       <rect>
-       <x>165</x>
-       <y>220</y>
+       <x>430</x>
+       <y>110</y>
        <width>101</width>
        <height>16</height>
       </rect>
@@ -2425,8 +2386,8 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>165</x>
-       <y>240</y>
+       <x>430</x>
+       <y>130</y>
        <width>101</width>
        <height>22</height>
       </rect>
