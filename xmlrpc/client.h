@@ -54,7 +54,6 @@ public:
 
     void setUserAgent( const QString & userAgent );
     void setGZipEnabled() { m_bHeaderGZip = true; }
-    QByteArray gzipDecompress(const QByteArray& compressedData);
 
 	virtual ~Client();
 
