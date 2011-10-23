@@ -30,6 +30,7 @@
 #include <QByteArray>
 #include <QDomDocument>
 #include "metainfo.h"
+#include "gzip/zlib.h"
 
 namespace util
 {
@@ -84,7 +85,9 @@ namespace util
     void LoadConnectionList(QString &host, QString &user, QString &password, int &port, QString &proxyServer, QString &proxyUser, QString &proxyPassword, int &proxyPort);
     void SaveConnectionList(QString &host, QString &user, QString &password, int &port, QString &proxyServer, QString &proxyUser, QString &proxyPassword, int &proxyPort);
 
-	QString getHomePath();
+    QString getHomePath();
+
+    QByteArray gzipDecompress(const QByteArray& compressedData);
 };
 
 #endif // UTIL_H

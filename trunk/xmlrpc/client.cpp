@@ -11,7 +11,6 @@
 #include <QtNetwork>
 #include <QAuthenticator>
 #include "util.h"
-#include "gzip/zlib.h"
 
 namespace  xmlrpc {
 
@@ -311,7 +310,7 @@ void Client::requestFinished(int id, bool error)
                     debug_writeToFile.close();
                 }
             #endif
-            buf = gzipDecompress(buf);
+            buf = util::gzipDecompress(buf);
             #ifdef QT_DEBUG
                 QFile debug_writeToFile1(util::getHomePath() + "uncompressed_response.dat");
                 if (debug_writeToFile1.open(QIODevice::ReadWrite))
@@ -357,53 +356,6 @@ void Client::requestFinished(int id, bool error)
 
     }
 	
-}
-
-QByteArray Client::gzipDecompress(const QByteArray& compressedData)
-{
-    QByteArray uncompressed;
-    const quint32 OUTBUF_LENGTH = 1024 * 16;
-    quint8 outbuf[OUTBUF_LENGTH];
-    z_stream cmpr_stream;
-
-    cmpr_stream.zalloc = Z_NULL;
-    cmpr_stream.zfree = Z_NULL;
-    cmpr_stream.opaque = Z_NULL;
-    cmpr_stream.avail_in = 0;
-    cmpr_stream.next_in = Z_NULL;
-
-    // initalize z_stream with gzip/zlib format auto detection enabled.
-    if (inflateInit2(&cmpr_stream, 47) != Z_OK)
-    {
-        return QByteArray();
-    }
-
-    cmpr_stream.avail_in = compressedData.size();
-    cmpr_stream.next_in = (unsigned char *)(compressedData.data());
-
-    forever
-    {
-      cmpr_stream.avail_out = OUTBUF_LENGTH;
-      cmpr_stream.next_out = outbuf;
-
-      int ret = inflate(&cmpr_stream, Z_NO_FLUSH);
-      if ( (ret != Z_OK) && (ret != Z_STREAM_END) )
-      {
-          return QByteArray();
-      }
-
-      uncompressed.append( QByteArray::fromRawData( (char*)outbuf, OUTBUF_LENGTH - cmpr_stream.avail_out) );
-      if(cmpr_stream.avail_out > 0) {
-        break;
-      }
-    }
-
-    if (inflateEnd(&cmpr_stream) != Z_OK)
-    {
-        return QByteArray();
-    }
-
-    return uncompressed;
 }
 
 } 
