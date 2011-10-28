@@ -46,7 +46,8 @@ SOURCES += main.cpp \
     progressbarviewdelegate.cpp \
     peerinfo.cpp \
     geoip.cpp \
-    torrentclient.cpp
+    torrentclient.cpp \
+    downloadprogressdialog.cpp
 HEADERS += aria2cremote.h \
     tabwidget.h \
     listview.h \
@@ -83,7 +84,8 @@ HEADERS += aria2cremote.h \
     progressbarviewdelegate.h \
     peerinfo.h \
     geoip.h \
-    torrentclient.h
+    torrentclient.h \
+    downloadprogressdialog.h
 FORMS += aria2cremote.ui \
     tabwidget.ui \
     listview.ui \
