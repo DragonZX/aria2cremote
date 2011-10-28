@@ -1,8 +1,15 @@
 #include "geoip.h"
-#include <QObject>
+#include <QFile>
+#include <QFileInfo>
+#include "util.h"
 
-GeoIP::GeoIP(QString& filename)
+using namespace util;
+QMutex GeoIP::mutex;
+
+GeoIP::GeoIP(QString& filename, QObject *parent):
+    QObject(parent)
 {
+    mutex.lock();
     FileInput.setFileName(filename);
 
     try
@@ -10,15 +17,18 @@ GeoIP::GeoIP(QString& filename)
         FileInput.open(QIODevice::ReadOnly);
     }
     catch (...) { }
+    mutex.unlock();
 }
 
 GeoIP::~GeoIP()
 {
+    mutex.lock();
     try
     {
         FileInput.close();
     }
     catch (...) { }
+    mutex.unlock();
 }
 
 QString GeoIP::lookupCountryCode(QString str)
@@ -82,14 +92,16 @@ quint32 GeoIP::seekCountry(quint32 offset, quint32 ipnum, int depth)
 
     try
     {
+        mutex.lock();
         FileInput.seek(6 * offset);
         buf = FileInput.read(6);
     }
     catch (...)
     {
+        mutex.unlock();
         return 0;
     }
-
+    mutex.unlock();
     for (int i = 0; i<2; i++)
     {
         x[i] = 0;
@@ -120,4 +132,19 @@ quint32 GeoIP::seekCountry(quint32 offset, quint32 ipnum, int depth)
         }
         return seekCountry(x[0], ipnum, depth-1);
     }
+}
+
+bool GeoIP::update(const QByteArray &content)
+{
+    mutex.lock();
+    QFile file("geoip.dat");
+    if (!file.open(QIODevice::WriteOnly))
+    {
+        mutex.unlock();
+        return false;
+    }
+    file.write(content);
+    file.close();
+    mutex.unlock();
+    return true;
 }

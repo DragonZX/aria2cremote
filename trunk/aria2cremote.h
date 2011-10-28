@@ -52,7 +52,8 @@
 #include "QTreeWidgetItemEx.h"
 #include "statusbarex.h"
 #include "about.h"
-
+#include "geoip.h"
+#include "downloadprogressdialog.h"
 #ifdef Q_WS_WIN
 #include "windows/windows7.h"
 #endif
@@ -103,6 +104,7 @@ private slots:
     void slotLanguageChanged(QAction* action);
     void RequestGID(QList<quint64> gids);
     void RequestFault(QList<FAULT_MESSAGE> faultMessages);
+    void GeoIPDBdownloadFinished(QList<QNetworkReply*> listReply);
 
 private:
     Ui::Aria2cRemote *ui;
@@ -174,6 +176,9 @@ private:
     #endif
 
     QMap<quint64, quint32> m_currentDownloadProgress;
+
+    GeoIP geoip;
+    DownloadProgressDialog *progressDialog;
 private:
     void setTreeWidgetItem(QTreeWidgetItemEx *item, XmlRPC& x);
     void setInitTreeWidgetItem(QTreeWidgetItemEx *item);
@@ -194,6 +199,7 @@ private slots:
     void on_action_AddURI();
     void ListViewItemClicked(QTreeWidgetItem*, int);
     void mainListViewItemClicked(QListWidgetItem*);
+    void on_actionGeoIP_update_triggered();
 };
 
 #endif // ARIA2CREMOTE_H

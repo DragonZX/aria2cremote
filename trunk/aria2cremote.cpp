@@ -32,6 +32,7 @@
 #endif
 #include <QFileIconProvider>
 #include <QRegExp>
+#include "geoip.h"
 
 extern quint32 g_uiAria2cFeatures;
 
@@ -1521,4 +1522,38 @@ void Aria2cRemote::RequestFault(QList<FAULT_MESSAGE> faultMessages)
     }
 
     QMessageBox::critical(this, tr("Aria2c fault parameter"), message);
+}
+
+void Aria2cRemote::on_actionGeoIP_update_triggered()
+{
+    progressDialog = new DownloadProgressDialog(this);
+    QList<QUrl> urls;
+    urls.append(QUrl("http://geolite.maxmind.com/download/geoip/database/GeoLiteCountry/GeoIP.dat.gz"));
+
+    connect(progressDialog, SIGNAL(downloadFinished(QList<QNetworkReply*>)), this, SLOT(GeoIPDBdownloadFinished(QList<QNetworkReply*>)));
+    progressDialog->AddUrls(urls);
+    progressDialog->setLabelText(tr("Download GeoIP database"));
+    progressDialog->exec();
+}
+
+void Aria2cRemote::GeoIPDBdownloadFinished(QList<QNetworkReply*> listReply)
+{
+    foreach (QNetworkReply* reply, listReply)
+    {
+        if (reply->error() == QNetworkReply::NoError)
+        {
+            if (!geoip.update(reply->readAll()))
+            {
+                QMessageBox::critical(this, tr("Error"), tr("Could not open GeoIP database for writing"));
+            }
+            else
+            {
+                QMessageBox::information(this, tr("Success"), tr("Updated GeoIP database"));
+            }
+        }
+        else
+        {
+            QMessageBox::critical(this, tr("Error"), QString(tr("Download of %1 failed: %2").arg(reply->url().toEncoded().constData()).arg(reply->errorString())));
+        }
+    }
 }
