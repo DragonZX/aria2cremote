@@ -42,7 +42,7 @@ public:
     void SetSleep(quint32 sleep) { m_sleep = sleep;}
     void setRequestResponseSynchronize(QMutex *Syncronize) {m_syncronize = Syncronize; }
     void setCurrentGID(int gid) { m_currentGID = gid; }
-    void setConnection(QString &host, QString &user, QString &password, int &port, QString &proxyServer, QString &proxyUser, QString &proxyPassword, int &proxyPort);
+    void setConnection(const QString &host, const QString &user, const QString &password, const int &port, const QString &proxyServer, const QString &proxyUser, const QString &proxyPassword, const int &proxyPort, const bool &enableProxy);
     void SetGZipEnabled() { client.setGZipEnabled(); }
     void wakeUp() {condition.wakeOne();}
 
@@ -68,6 +68,7 @@ private:
     QString m_proxyUser;
     QString m_proxyPassword;
     int m_proxyPort;
+    bool m_enableProxy;
 
     qint64 m_currentGID;
     QWaitCondition condition;

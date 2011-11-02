@@ -49,7 +49,7 @@ public:
     void setRequestResponseSynchronize(QMutex *Syncronize) {m_syncronize = Syncronize; }
     void setDescriptionText(QString s) {m_sDescription = s; }
     void wakeUp() {m_waitCondition.wakeOne();}
-    void setConnection(QString &host, QString &user, QString &password, int &port, QString &proxyServer, QString &proxyUser, QString &proxyPassword, int &proxyPort);
+    void setConnection(QString &host, QString &user, QString &password, int &port, QString &proxyServer, QString &proxyUser, QString &proxyPassword, int &proxyPort, bool enableProxy);
     void SetGZipEnabled() { client.setGZipEnabled(); }
 
 signals:
@@ -83,6 +83,7 @@ private:
     QString m_proxyUser;
     QString m_proxyPassword;
     int m_proxyPort;
+    bool m_enableProxy;
 };
 
 #endif // REGUESTTHREAD_H
