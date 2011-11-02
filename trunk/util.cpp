@@ -248,7 +248,7 @@ void util::deletePrePostSpace(QString &str)
         str.remove(str.size() - 1, 1);
 }
 
-void util::LoadConnectionList(QString &host, QString &user, QString &password, int &port, QString &proxyServer, QString &proxyUser, QString &proxyPassword, int &proxyPort)
+void util::LoadConnectionList(QString &host, QString &user, QString &password, int &port, QString &proxyServer, QString &proxyUser, QString &proxyPassword, int &proxyPort, bool &enableProxy)
 {
     QDomDocument doc("Aria2cRemoteConfiguration");
     QFile file(util::getHomePath() + "configuration.xml");
@@ -277,6 +277,7 @@ void util::LoadConnectionList(QString &host, QString &user, QString &password, i
                         proxyUser = QString( QByteArray::fromPercentEncoding(element.attribute("ProxyUser", "").toAscii()) );
                         proxyServer = QString( QByteArray::fromPercentEncoding(element.attribute("ProxyServer", "").toAscii()) );
                         proxyPort = element.attribute("ProxyPort", "8080").toInt();
+                        enableProxy = element.attribute("EnableProxy", "false").compare("true") == 0;
                     }
                     n = n.nextSibling();
                 }
@@ -286,7 +287,7 @@ void util::LoadConnectionList(QString &host, QString &user, QString &password, i
     }
 }
 
-void util::SaveConnectionList(QString &host, QString &user, QString &password, int &port, QString &proxyServer, QString &proxyUser, QString &proxyPassword, int &proxyPort)
+void util::SaveConnectionList(const QString &host, const QString &user, const QString &password, const int &port, const QString &proxyServer, const QString &proxyUser, const QString &proxyPassword, const int &proxyPort, const bool &enableProxy)
 {
     QDomDocument doc("Aria2cRemoteConfiguration");
     QDomElement root = doc.createElement("Connections");
@@ -298,13 +299,11 @@ void util::SaveConnectionList(QString &host, QString &user, QString &password, i
     elem.setAttribute("User", QString( user.toAscii().toPercentEncoding() ) );
     elem.setAttribute("Host", QString( host.toAscii().toPercentEncoding() ) );
     elem.setAttribute("Port", QString::number(port));
-    if ( (proxyPassword.size() > 0) && (proxyUser.size() > 0) && (proxyServer.size() > 0))
-    {
-        elem.setAttribute("ProxyPassword", QString( RC4(proxyPassword.toAscii()).toBase64()) );
-        elem.setAttribute("ProxyUser", QString( proxyUser.toAscii().toPercentEncoding() ) );
-        elem.setAttribute("ProxyServer", QString( proxyServer.toAscii().toPercentEncoding() ) );
-        elem.setAttribute("ProxyPort", QString::number(proxyPort));
-    }
+    elem.setAttribute("EnableProxy", QVariant(enableProxy).toString());
+    elem.setAttribute("ProxyPassword", QString( RC4(proxyPassword.toAscii()).toBase64()) );
+    elem.setAttribute("ProxyUser", QString( proxyUser.toAscii().toPercentEncoding() ) );
+    elem.setAttribute("ProxyServer", QString( proxyServer.toAscii().toPercentEncoding() ) );
+    elem.setAttribute("ProxyPort", QString::number(proxyPort));
 
     root.appendChild(elem);
 

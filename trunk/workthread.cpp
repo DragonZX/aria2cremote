@@ -39,6 +39,7 @@ workThread::workThread() :
         m_proxyUser(""),
         m_proxyPassword(""),
         m_proxyPort(8080),
+        m_enableProxy(false),
         m_currentGID(-1)
 
 {
@@ -49,7 +50,7 @@ workThread::workThread() :
     connect( &client, SIGNAL(failed( int, int, QString )), this, SLOT(processFault( int, int, QString )) );
 }
 
-void workThread::setConnection(QString &host, QString &user, QString &password, int &port, QString &proxyServer, QString &proxyUser, QString &proxyPassword, int &proxyPort)
+void workThread::setConnection(const QString &host, const QString &user, const QString &password, const int &port, const QString &proxyServer, const QString &proxyUser, const QString &proxyPassword, const int &proxyPort, const bool &enableProxy)
 {
     m_host = host;
     m_user = user;
@@ -60,10 +61,11 @@ void workThread::setConnection(QString &host, QString &user, QString &password, 
     m_proxyUser = proxyUser;
     m_proxyPassword = proxyPassword;
     m_proxyPort = proxyPort;
+    m_enableProxy = enableProxy;
 
     client.setHost(m_host, m_port, "/rpc");
     client.setUser(m_user, m_password);
-    if ( (m_proxyServer.size() > 0) && (m_proxyUser.size() > 0) && (m_proxyPassword.size() > 0) )
+    if (m_enableProxy)
     {
        client.setProxy(m_proxyServer, m_proxyPort, m_proxyUser, m_proxyPassword);
     }

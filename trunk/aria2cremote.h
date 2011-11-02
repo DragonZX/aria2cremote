@@ -140,6 +140,7 @@ private:
     QString m_proxyUser;
     QString m_proxyPassword;
     int m_proxyPort;
+    bool m_enableProxy;
 
     XML_RPC_RESPONSE_MAP m_tellActive;
     XML_RPC_RESPONSE_MAP m_tellStopped;

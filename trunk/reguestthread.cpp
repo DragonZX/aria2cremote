@@ -32,7 +32,8 @@ reguestThread::reguestThread():
         m_proxyServer(""),
         m_proxyUser(""),
         m_proxyPassword(""),
-        m_proxyPort(8080)
+        m_proxyPort(8080),
+        m_enableProxy(false)
 {
     client.setHost(m_host, m_port, "/rpc");
     client.setUser(m_user, m_password);
@@ -41,7 +42,7 @@ reguestThread::reguestThread():
     connect( &client, SIGNAL(failed( int, int, QString )), this, SLOT(processFault( int, int, QString )) );
 }
 
-void reguestThread::setConnection(QString &host, QString &user, QString &password, int &port, QString &proxyServer, QString &proxyUser, QString &proxyPassword, int &proxyPort)
+void reguestThread::setConnection(QString &host, QString &user, QString &password, int &port, QString &proxyServer, QString &proxyUser, QString &proxyPassword, int &proxyPort, bool enableProxy)
 {
     m_host = host;
     m_user = user;
@@ -52,10 +53,11 @@ void reguestThread::setConnection(QString &host, QString &user, QString &passwor
     m_proxyUser = proxyUser;
     m_proxyPassword = proxyPassword;
     m_proxyPort = proxyPort;
+    m_enableProxy = enableProxy;
 
     client.setHost(m_host, m_port, "/rpc");
     client.setUser(m_user, m_password);
-    if ( (m_proxyServer.size() > 0) && (m_proxyUser.size() > 0) && (m_proxyPassword.size() > 0) )
+    if (m_enableProxy)
     {
        client.setProxy(m_proxyServer, m_proxyPort, m_proxyUser, m_proxyPassword);
     }

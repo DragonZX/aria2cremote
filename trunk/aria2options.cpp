@@ -68,7 +68,7 @@ void Aria2Options::changeEvent(QEvent *e)
     }
 }
 
-void Aria2Options::setConnection(QString &host, QString &user, QString &password, int &port, QString &proxyServer, QString &proxyUser, QString &proxyPassword, int &proxyPort)
+void Aria2Options::setConnection(const QString &host, const QString &user, const QString &password, const int &port, const QString &proxyServer, const QString &proxyUser, const QString &proxyPassword, const int &proxyPort, const bool &enableProxy)
 {
     m_host = host;
     m_user = user;
@@ -79,6 +79,7 @@ void Aria2Options::setConnection(QString &host, QString &user, QString &password
     m_proxyUser = proxyUser;
     m_proxyPassword = proxyPassword;
     m_proxyPort = proxyPort;
+    m_enableProxy = enableProxy;
 
     ui->lineEdit_RemoteHost->setText(m_host);
     ui->lineEdit_UserName->setText(m_user);
@@ -90,13 +91,12 @@ void Aria2Options::setConnection(QString &host, QString &user, QString &password
     ui->lineEdit_Proxy_Password->setText(m_proxyPassword);
     ui->spinBox_Proxy_Port->setValue(m_proxyPort);
 
-    bool isEnabled = (m_proxyServer.size() > 0) && (m_proxyUser.size() > 0) && (m_proxyPassword.size() > 0);
-    ui->checkBox_Enable_Proxy->setCheckState(isEnabled ? (Qt::Checked) :(Qt::Unchecked));
+    ui->checkBox_Enable_Proxy->setCheckState(m_enableProxy ? (Qt::Checked) :(Qt::Unchecked));
 
-    ui->lineEdit_Proxy_Server->setEnabled(isEnabled);
-    ui->lineEdit_Proxy_UserName->setEnabled(isEnabled);
-    ui->lineEdit_Proxy_Password->setEnabled(isEnabled);
-    ui->spinBox_Proxy_Port->setEnabled(isEnabled);
+    ui->lineEdit_Proxy_Server->setEnabled(m_enableProxy);
+    ui->lineEdit_Proxy_UserName->setEnabled(m_enableProxy);
+    ui->lineEdit_Proxy_Password->setEnabled(m_enableProxy);
+    ui->spinBox_Proxy_Port->setEnabled(m_enableProxy);
 }
 
 void Aria2Options::on_buttonBox_accepted()
@@ -109,6 +109,7 @@ void Aria2Options::on_buttonBox_accepted()
     m_proxyUser = ui->lineEdit_Proxy_UserName->text();
     m_proxyPassword = ui->lineEdit_Proxy_Password->text();
     m_proxyPort = ui->spinBox_Proxy_Port->value();
+    m_enableProxy = (ui->checkBox_Enable_Proxy->checkState() == Qt::Checked);
 }
 
 void Aria2Options::on_checkBox_Enable_Proxy_stateChanged(int value)

@@ -62,7 +62,7 @@ Aria2cRemote::Aria2cRemote(QWidget *parent) :
     ui->setupUi(this);
 
     //Connection options load
-    util::LoadConnectionList(m_host, m_user, m_password, m_port, m_proxyServer, m_proxyUser, m_proxyPassword, m_proxyPort);
+    util::LoadConnectionList(m_host, m_user, m_password, m_port, m_proxyServer, m_proxyUser, m_proxyPassword, m_proxyPort, m_enableProxy);
 
     //set main view;
     m_DetailsTab = new DetailsTabView;
@@ -132,7 +132,7 @@ Aria2cRemote::Aria2cRemote(QWidget *parent) :
     m_mainListView->setCurrentRow(0);
 
     //Working thread init
-    m_workThread.setConnection(m_host, m_user, m_password, m_port, m_proxyServer, m_proxyUser, m_proxyPassword, m_proxyPort);
+    m_workThread.setConnection(m_host, m_user, m_password, m_port, m_proxyServer, m_proxyUser, m_proxyPassword, m_proxyPort, m_enableProxy);
     m_workThread.SetSleep(5000);
     m_workThread.setRequestResponseSynchronize(&m_Aria2RequestResponseSynchronize);
     qRegisterMetaType <XML_RPC_RESPONSE_MAP>("XML_RPC_RESPONSE_MAP");
@@ -141,7 +141,7 @@ Aria2cRemote::Aria2cRemote(QWidget *parent) :
     m_workThread.start();
 
     m_requestThread.setRequestResponseSynchronize(&m_Aria2RequestResponseSynchronize);
-    m_requestThread.setConnection(m_host, m_user, m_password, m_port, m_proxyServer, m_proxyUser, m_proxyPassword, m_proxyPort);
+    m_requestThread.setConnection(m_host, m_user, m_password, m_port, m_proxyServer, m_proxyUser, m_proxyPassword, m_proxyPort, m_enableProxy);
     connect(&m_requestThread, SIGNAL(ShowTransferDialog(QString)), this, SLOT(ShowTransferDialog(QString)));
     connect(&m_requestThread, SIGNAL(HideTransferDialog()), this, SLOT(HideTransferDialog()));
     connect(&m_requestThread, SIGNAL(processFaultToUI(int, int, QString)), this, SLOT(processFaultToUI(int, int, QString)));
@@ -1180,15 +1180,15 @@ void Aria2cRemote::on_actionOption_triggered()
 {
     Aria2Options options(this);
 
-    options.setConnection(m_host, m_user, m_password, m_port, m_proxyServer, m_proxyUser, m_proxyPassword, m_proxyPort);
+    options.setConnection(m_host, m_user, m_password, m_port, m_proxyServer, m_proxyUser, m_proxyPassword, m_proxyPort, m_enableProxy);
     if (options.exec() == QDialog::Accepted)
     {
-         options.getConnection(m_host, m_user, m_password, m_port, m_proxyServer, m_proxyUser, m_proxyPassword, m_proxyPort);
-         util::SaveConnectionList(m_host, m_user, m_password, m_port, m_proxyServer, m_proxyUser, m_proxyPassword, m_proxyPort);
+         options.getConnection(m_host, m_user, m_password, m_port, m_proxyServer, m_proxyUser, m_proxyPassword, m_proxyPort, m_enableProxy);
+         util::SaveConnectionList(m_host, m_user, m_password, m_port, m_proxyServer, m_proxyUser, m_proxyPassword, m_proxyPort, m_enableProxy);
 
          //set threads
-         m_workThread.setConnection(m_host, m_user, m_password, m_port, m_proxyServer, m_proxyUser, m_proxyPassword, m_proxyPort);
-         m_requestThread.setConnection(m_host, m_user, m_password, m_port, m_proxyServer, m_proxyUser, m_proxyPassword, m_proxyPort);
+         m_workThread.setConnection(m_host, m_user, m_password, m_port, m_proxyServer, m_proxyUser, m_proxyPassword, m_proxyPort, m_enableProxy);
+         m_requestThread.setConnection(m_host, m_user, m_password, m_port, m_proxyServer, m_proxyUser, m_proxyPassword, m_proxyPort, m_enableProxy);
     }
 }
 
