@@ -26,6 +26,7 @@
 #include <QDialog>
 #include <QDomDocument>
 #include "util.h"
+#include "server.h"
 
 using namespace util;
 namespace Ui {
@@ -70,9 +71,16 @@ private:
     int m_proxyPort;
     bool m_enableProxy;
 
+    //Server
+    Server m_servers;
 private slots:
     void on_checkBox_Enable_Proxy_stateChanged(int );
     void on_buttonBox_accepted();
+
+    void on_pushButton_Servers_Add_clicked();
+    void on_pushButton_Servers_Delete_clicked();
+    void on_pushButton_Servers_Modify_clicked();
+    void on_treeWidget_Server_List_itemSelectionChanged();
 };
 
 #endif // ARIA2OPTIONS_H
