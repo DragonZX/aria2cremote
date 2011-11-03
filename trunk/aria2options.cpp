@@ -23,7 +23,7 @@
 #include "aria2options.h"
 #include "ui_aria2options.h"
 #include "progressbarviewdelegate.h"
-
+#include "addserver.h"
 #include <QFile>
 
 Aria2Options::Aria2Options(QWidget *parent) :
@@ -49,6 +49,22 @@ Aria2Options::Aria2Options(QWidget *parent) :
     ui->lineEdit_Proxy_UserName->setText(m_proxyUser);
     ui->lineEdit_Proxy_Password->setText(m_proxyPassword);
     ui->spinBox_Proxy_Port->setValue(m_proxyPort);
+
+    m_servers.LoadServerList();
+    foreach (SERVER_ITEM si, m_servers.GetServers())
+    {
+        if (si.type == SERVER_HTTP_FTP)
+        {
+            QTreeWidgetItem *item = new QTreeWidgetItem;
+            item->setText(0, si.server);
+            item->setText(1, si.user);
+
+            ui->treeWidget_Server_List->addTopLevelItem(item);
+        }
+    }
+
+    ui->pushButton_Servers_Delete->setEnabled(false);
+    ui->pushButton_Servers_Modify->setEnabled(false);
 }
 
 Aria2Options::~Aria2Options()
@@ -120,4 +136,87 @@ void Aria2Options::on_checkBox_Enable_Proxy_stateChanged(int value)
     ui->lineEdit_Proxy_UserName->setEnabled(isEnabled);
     ui->lineEdit_Proxy_Password->setEnabled(isEnabled);
     ui->spinBox_Proxy_Port->setEnabled(isEnabled);
+}
+
+void Aria2Options::on_pushButton_Servers_Add_clicked()
+{
+    AddServer addserver(this);
+    addserver.setVisiblePort(false);
+
+    if (addserver.exec() == QDialog::Accepted)
+    {
+        SERVER_ITEM s;
+
+        s.server = addserver.getServer();
+        s.user = addserver.getUser();
+        s.password = addserver.getPassword();
+        s.type = SERVER_HTTP_FTP;
+        s.port = 0;
+        m_servers.AddServer(s);
+
+        QTreeWidgetItem *item = new QTreeWidgetItem;
+
+        item->setText(0, s.server);
+        item->setText(1, s.user);
+
+        ui->treeWidget_Server_List->addTopLevelItem(item);
+
+        QTreeWidgetItem *itemCurrent = ui->treeWidget_Server_List->currentItem();
+        ui->pushButton_Servers_Delete->setEnabled(itemCurrent != NULL);
+        ui->pushButton_Servers_Modify->setEnabled(itemCurrent != NULL);
+    }
+}
+
+void Aria2Options::on_pushButton_Servers_Delete_clicked()
+{
+    if (QMessageBox::question(this, tr("Delete"), tr("Really want to delete the server?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes)
+    {
+        int iIndex = ui->treeWidget_Server_List->indexOfTopLevelItem(ui->treeWidget_Server_List->currentItem());
+
+        m_servers.DeleteServer(SERVER_HTTP_FTP, iIndex);
+        QTreeWidgetItem *item = ui->treeWidget_Server_List->takeTopLevelItem(iIndex);
+        if (item != 0)
+        {
+            delete item;
+        }
+        QTreeWidgetItem * itemCurrent = ui->treeWidget_Server_List->currentItem();
+        ui->pushButton_Servers_Delete->setEnabled(itemCurrent != NULL);
+        ui->pushButton_Servers_Modify->setEnabled(itemCurrent != NULL);
+    }
+}
+
+void Aria2Options::on_pushButton_Servers_Modify_clicked()
+{
+    QTreeWidgetItem *item = ui->treeWidget_Server_List->currentItem();
+    int iIndex = ui->treeWidget_Server_List->indexOfTopLevelItem(item);
+    SERVER_ITEM s = m_servers.GetServers(SERVER_HTTP_FTP)[iIndex];
+
+    AddServer addserver(this);
+    addserver.setServer(s.server);
+    addserver.setUser(s.user);
+    addserver.setPassword(s.password);
+    addserver.setPort(s.port);
+    addserver.setVisiblePort(false);
+    addserver.setServerList(m_servers.GetServers(SERVER_HTTP_FTP));
+    addserver.setWindowTitle(tr("Modify %1 server").arg(Server_Type_String[SERVER_HTTP_FTP]));
+
+    if (addserver.exec() == QDialog::Accepted)
+    {
+        s.server = addserver.getServer();
+        s.user = addserver.getUser();
+        s.password = addserver.getPassword();
+        m_servers.ModifyServer(SERVER_HTTP_FTP, iIndex, s);
+
+        QTreeWidgetItem *item = ui->treeWidget_Server_List->currentItem();
+
+        item->setText(0, s.server);
+        item->setText(1, s.user);
+    }
+}
+
+void Aria2Options::on_treeWidget_Server_List_itemSelectionChanged()
+{
+    QTreeWidgetItem *item = ui->treeWidget_Server_List->currentItem();
+    ui->pushButton_Servers_Delete->setEnabled(item != NULL);
+    ui->pushButton_Servers_Modify->setEnabled(item != NULL);
 }
