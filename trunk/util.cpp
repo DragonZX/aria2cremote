@@ -377,3 +377,106 @@ QByteArray util::gzipDecompress(const QByteArray& compressedData)
 
     return uncompressed;
 }
+
+void util::SaveSetting(const QString &Element, const QString &name, const QString &value)
+{
+    QList<QDomElement> ElementList;
+    QDomElement root;
+    QDomDocument doc("Aria2cRemoteSetting");
+    QFile fileRead(util::getHomePath() + "setting.xml");
+    if (fileRead.open(QIODevice::ReadOnly))
+    {
+        QString errorMsg;
+        int errorline;
+        int errorColumn;
+        if (doc.setContent(&fileRead, &errorMsg, &errorline, &errorColumn))
+        {
+            root = doc.documentElement();
+            if (root.tagName().compare("UISetting", Qt::CaseInsensitive) == 0)
+            {
+
+                QDomNode n = root.firstChild();
+                while(!n.isNull())
+                {
+                    QDomElement element = n.toElement();
+                    ElementList.append(element);
+                    n = n.nextSibling();
+                }
+            }
+            else
+            {
+                root = doc.createElement("UISetting");
+            }
+        }
+        else
+        {
+            root = doc.createElement("UISetting");
+        }
+        fileRead.close();
+    }
+    else
+    {
+        root = doc.createElement("UISetting");
+        doc.appendChild(root);
+    }
+
+    QDomElement elem;
+    bool bFoundElement = false;
+    foreach (QDomElement e, ElementList)
+    {
+        if (e.tagName().compare(Element, Qt::CaseInsensitive) == 0)
+        {
+            bFoundElement = true;
+            elem = e;
+        }
+    }
+
+    if (!bFoundElement)
+    {
+        elem = doc.createElement(Element);
+    }
+
+    elem.setAttribute(name, value);
+    root.appendChild(elem);
+
+    QFile fileWrite(util::getHomePath() + "setting.xml");
+    if (fileWrite.open(QIODevice::WriteOnly))
+    {
+        fileWrite.write(doc.toByteArray());
+        fileWrite.close();
+    }
+}
+
+const QString util::LoadSetting(const QString &Element, const QString &name)
+{
+    QDomDocument doc("Aria2cRemoteSetting");
+    QFile file(util::getHomePath() + "setting.xml");
+    QString sRet;
+    if (file.open(QIODevice::ReadOnly))
+    {
+        QString errorMsg;
+        int errorline;
+        int errorColumn;
+        if (doc.setContent(&file, &errorMsg, &errorline, &errorColumn))
+        {
+            QDomElement root = doc.documentElement();
+            if (root.tagName().compare("UISetting", Qt::CaseInsensitive) == 0)
+            {
+
+                QDomNode n = root.firstChild();
+                while(!n.isNull())
+                {
+                    QDomElement elem = n.toElement(); // try to convert the node to an element.
+                    if(elem.tagName().compare(Element, Qt::CaseInsensitive) == 0)
+                    {
+                        sRet =  elem.attribute(name, "");
+                        break;
+                    }
+                    n = n.nextSibling();
+                }
+            }
+        }
+        file.close();
+    }
+    return sRet;
+}

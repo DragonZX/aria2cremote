@@ -49,12 +49,31 @@ DetailsTabView::DetailsTabView(QWidget *parent) :
     ui->horizontalLayout_Availability->insertWidget(1, m_availability);
     m_availability->setVisible(true);
 
+    bool ok;
+    int CurrentIndex = util::LoadSetting("Aria2cRemoteTabWidget", "CurrentIndex").toInt(&ok);
+    if (ok)
+    {
+        setCurrentIndex(qBound(0,3, CurrentIndex));
+    }
+    QByteArray PeerServersHeaderState = QByteArray::fromBase64(util::LoadSetting("Aria2cRemoteTabWidget", "PeerServersHeaderState").toAscii());
+    if (PeerServersHeaderState.size() > 0)
+    {
+        ui->treeWidget_Peers_Servers->header()->restoreState(PeerServersHeaderState);
+    }
+    QByteArray FilesHeaderState = QByteArray::fromBase64(util::LoadSetting("Aria2cRemoteTabWidget", "FilesHeaderState").toAscii());
+    if (FilesHeaderState.size() > 0)
+    {
+        ui->treeWidget_files->header()->restoreState(FilesHeaderState);
+    }
     //Peer info thread start
     m_PeerInfo.start();
 }
 
 DetailsTabView::~DetailsTabView()
 {
+    util::SaveSetting("Aria2cRemoteTabWidget", "CurrentIndex", QString::number(currentIndex()));
+    util::SaveSetting("Aria2cRemoteTabWidget", "PeerServersHeaderState", QString(ui->treeWidget_Peers_Servers->header()->saveState().toBase64()));
+    util::SaveSetting("Aria2cRemoteTabWidget", "FilesHeaderState", QString(ui->treeWidget_files->header()->saveState().toBase64()));
     delete ui;
 }
 
