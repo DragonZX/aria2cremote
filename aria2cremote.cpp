@@ -61,6 +61,13 @@ Aria2cRemote::Aria2cRemote(QWidget *parent) :
  {
     ui->setupUi(this);
 
+    //load geometry
+    QByteArray Aria2cRemoteGeometry = QByteArray::fromBase64(util::LoadSetting("Aria2cRemote", "Geometry").toAscii());
+    if (Aria2cRemoteGeometry.size() > 0)
+    {
+        restoreGeometry(Aria2cRemoteGeometry);
+    }
+
     //Connection options load
     util::LoadConnectionList(m_host, m_user, m_password, m_port, m_proxyServer, m_proxyUser, m_proxyPassword, m_proxyPort, m_enableProxy);
 
@@ -68,28 +75,64 @@ Aria2cRemote::Aria2cRemote(QWidget *parent) :
     m_DetailsTab = new DetailsTabView;
     m_listView = new ListView;
     m_mainListView = new MainListView;
-
-    QIcon icon(":/icon/logo_trayicon.png");
-
     m_mainSplitter = new QSplitter(Qt::Horizontal);
     m_mainSplitter1 = new QSplitter(Qt::Vertical);
 
     m_mainSplitter->addWidget(m_mainListView);
     m_mainSplitter->addWidget(m_listView);
-    m_mainSplitter->setStretchFactor(1, 1);
+   // m_mainSplitter->setStretchFactor(1, 1);
 
     //Set attributes
-    m_mainSplitter->setCollapsible(0, false);
-    m_mainSplitter->setCollapsible(1, false);
+   // m_mainSplitter->setCollapsible(0, false);
+   // m_mainSplitter->setCollapsible(1, false);
 
 
     m_mainSplitter1->addWidget(m_mainSplitter);
     m_mainSplitter1->addWidget(m_DetailsTab);
 
-    m_mainSplitter->setStretchFactor(0, 0);
-    m_mainSplitter1->setCollapsible(0, false);
-    m_mainSplitter1->setCollapsible(1, false);
+   // m_mainSplitter->setStretchFactor(0, 0);
+   // m_mainSplitter1->setCollapsible(0, false);
+   // m_mainSplitter1->setCollapsible(1, false);
 
+    //load geometry
+    QByteArray Aria2cRemoteMainSplitterGeometry = QByteArray::fromBase64(util::LoadSetting("Aria2cRemoteMainSplitterGeometry", "Geometry").toAscii());
+    if (Aria2cRemoteMainSplitterGeometry.size() > 0)
+    {
+        m_mainSplitter->restoreGeometry(Aria2cRemoteMainSplitterGeometry);
+    }
+    QByteArray Aria2cRemoteMainSplitterGeometry1 = QByteArray::fromBase64(util::LoadSetting("Aria2cRemoteMainSplitterGeometry1", "Geometry").toAscii());
+    if (Aria2cRemoteMainSplitterGeometry1.size() > 0)
+    {
+        m_mainSplitter1->restoreGeometry(Aria2cRemoteMainSplitterGeometry1);
+    }
+    QByteArray Aria2cRemoteMainListViewGeometry = QByteArray::fromBase64(util::LoadSetting("Aria2cRemoteMainListView", "Geometry").toAscii());
+    if (Aria2cRemoteMainListViewGeometry.size() > 0)
+    {
+        m_mainListView->restoreGeometry(Aria2cRemoteMainListViewGeometry);
+    }
+
+    bool ok;
+    int Aria2cRemoteMainListViewCurrentRow = util::LoadSetting("Aria2cRemoteMainListView", "CurrentRow").toInt(&ok);
+    if (ok)
+    {
+        m_mainListView->setCurrentRow(qBound(0, 7, Aria2cRemoteMainListViewCurrentRow));
+    }
+
+    QByteArray Aria2cRemoteListViewGeometry = QByteArray::fromBase64(util::LoadSetting("Aria2cRemoteListView", "Geometry").toAscii());
+    if (Aria2cRemoteListViewGeometry.size() > 0)
+    {
+        m_listView->restoreGeometry(Aria2cRemoteListViewGeometry);
+    }
+    QByteArray Aria2cRemoteListViewHeaderState = QByteArray::fromBase64(util::LoadSetting("Aria2cRemoteListView", "HeaderState").toAscii());
+    if (Aria2cRemoteListViewHeaderState.size() > 0)
+    {
+        m_listView->header()->restoreState(Aria2cRemoteListViewHeaderState);
+    }
+    QByteArray Aria2cRemoteTabWidgetGeometry = QByteArray::fromBase64(util::LoadSetting("Aria2cRemoteTabWidget", "Geometry").toAscii());
+    if (Aria2cRemoteTabWidgetGeometry.size() > 0)
+    {
+        m_DetailsTab->restoreGeometry(Aria2cRemoteTabWidgetGeometry);
+    }
     //init status bar
     statusBar()->setStyleSheet("QStatusBar::item { border: 0px solid black }; ");
     statusBarEx = new StatusBarEx();
@@ -119,7 +162,7 @@ Aria2cRemote::Aria2cRemote(QWidget *parent) :
     m_SystemTrayMenu->addSeparator();
     m_SystemTrayMenu->addAction(ui->action_Exit);
 
-    m_SystemTrayIcon = new QSystemTrayIcon(icon);
+    m_SystemTrayIcon = new QSystemTrayIcon(QIcon(":/icon/logo_trayicon.png"));
 
     m_SystemTrayIcon->setContextMenu(m_SystemTrayMenu);
     m_SystemTrayIcon->show();
@@ -129,7 +172,6 @@ Aria2cRemote::Aria2cRemote(QWidget *parent) :
 
     //Set list view
     m_listView->setItemDelegate(new ProgressBarViewDelegate(this));
-    m_mainListView->setCurrentRow(0);
 
     //Working thread init
     m_workThread.setConnection(m_host, m_user, m_password, m_port, m_proxyServer, m_proxyUser, m_proxyPassword, m_proxyPort, m_enableProxy);
@@ -187,6 +229,15 @@ Aria2cRemote::Aria2cRemote(QWidget *parent) :
 
 Aria2cRemote::~Aria2cRemote()
 {
+    util::SaveSetting("Aria2cRemote", "Geometry", QString(saveGeometry().toBase64()));
+    util::SaveSetting("Aria2cRemoteMainListView", "Geometry", QString(m_mainListView->saveGeometry().toBase64()));
+    util::SaveSetting("Aria2cRemoteMainListView", "CurrentRow", QString::number(m_mainListView->currentRow()));
+    util::SaveSetting("Aria2cRemoteListView", "Geometry", QString(m_listView->saveGeometry().toBase64()));
+    util::SaveSetting("Aria2cRemoteListView", "HeaderState", QString(m_listView->header()->saveState().toBase64()));
+    util::SaveSetting("Aria2cRemoteTabWidget", "Geometry", QString(m_DetailsTab->saveGeometry().toBase64()));
+    util::SaveSetting("Aria2cRemoteMainSplitter", "Geometry", QString(m_mainSplitter->saveGeometry().toBase64()));
+    util::SaveSetting("Aria2cRemoteMainSplitter1", "Geometry", QString(m_mainSplitter1->saveGeometry().toBase64()));
+
     delete ui;
     m_SystemTrayIcon->hide();
     m_workThread.stop();
@@ -300,11 +351,16 @@ void Aria2cRemote::on_actionAdd_Torrent_triggered()
 
     QStringList sFileNameList = QFileDialog::getOpenFileNames(this,
                                                               tr("Open torrent file"),
-                                                              tr(""),
+                                                              util::LoadSetting(QString("LastOpenedTorrentDirectory"),QString("Dir")),
                                                               tr("Torrent Files (*.torrent)"),
                                                               &selectedFilter,
                                                               options);
 
+    if (sFileNameList.size() > 0)
+    {
+        //save the selected directory
+        util::SaveSetting(QString("LastOpenedTorrentDirectory"),QString("Dir"), QFileInfo(sFileNameList.front()).absolutePath());
+    }
     foreach(QString sFileName, sFileNameList)
     {
         if (sFileName.size() != 0)
@@ -400,7 +456,7 @@ void Aria2cRemote::on_actionAdd_Multi_HTTP_FTP_triggered()
 
     QStringList sFileNameList = QFileDialog::getOpenFileNames(this,
                                                               tr("Open URI link list file"),
-                                                              tr(""),
+                                                              util::LoadSetting(QString("LastOpenedHTTPFTPDirectory"),QString("Dir")),
                                                               tr("URI link list Files (*.txt);;All files (*.*)"),
                                                               &selectedFilter,
                                                               options);
@@ -408,6 +464,7 @@ void Aria2cRemote::on_actionAdd_Multi_HTTP_FTP_triggered()
     if (sFileNameList.size() != 0)
     {
         s.LoadServerList();
+        util::SaveSetting(QString("LastOpenedHTTPFTPDirectory"),QString("Dir"), QFileInfo(sFileNameList.front()).absolutePath());
     }
     foreach(QString sFileName, sFileNameList)
     {
@@ -548,11 +605,15 @@ void Aria2cRemote::on_actionAdd_Metalink_triggered()
 
    QStringList sFileNameList = QFileDialog::getOpenFileNames(this,
                                tr("Open metalink files"),
-                               tr(""),
+                               util::LoadSetting(QString("LastOpenedMetalinkDirectory"),QString("Dir")),
                                tr("Metalink Files (*.metalink)"),
                                &selectedFilter,
                                options);
 
+   if (sFileNameList.size() > 0)
+   {
+       util::SaveSetting(QString("LastOpenedMetalinkDirectory"),QString("Dir"), QFileInfo(sFileNameList.front()).absolutePath());
+   }
    foreach(QString sFileName, sFileNameList)
    {
        if (sFileName.size() != 0)

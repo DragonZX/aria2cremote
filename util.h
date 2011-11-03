@@ -88,6 +88,10 @@ namespace util
     QString getHomePath();
 
     QByteArray gzipDecompress(const QByteArray& compressedData);
+
+    //Save/load settings
+    void SaveSetting(const QString &Element, const QString &name, const QString &value);
+    const QString LoadSetting(const QString &Element, const QString &name);
 };
 
 #endif // UTIL_H

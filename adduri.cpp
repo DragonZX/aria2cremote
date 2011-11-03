@@ -51,13 +51,32 @@ AddURI::AddURI(QWidget *parent) :
     QFileIconProvider fileIconProvider;
     setWindowIcon(fileIconProvider.icon(QFileIconProvider::Folder));
 
-    ui->treeWidget->setColumnWidth(0, 150);
+    QByteArray AddUriGeometry = QByteArray::fromBase64(util::LoadSetting("AddUri", "Geometry").toAscii());
+    if (AddUriGeometry.size() > 0)
+    {
+        restoreGeometry(AddUriGeometry);
+    }
+
+    bool ok;
+    int iType = util::LoadSetting("AddUri", "Type").toInt(&ok);
+
+    //0 - 4 -> HTTP/FTP, Multi HTTP/FTP, Torrent, MagnetLink, MetaLink
+    ui->comboBox_Type->setCurrentIndex(ok ? qBound(0, 4, iType) : 0);
+
+    QByteArray AddUriHeaderState = QByteArray::fromBase64(util::LoadSetting("AddUri", "HeaderState").toAscii());
+    if (AddUriHeaderState.size() > 0)
+    {
+        ui->treeWidget->header()->restoreState(AddUriHeaderState);
+    }
    // connect( ui->treeWidget, SIGNAL( customContextMenuRequested( QPoint ) ), this, SLOT( on_treeWidget_customContextMenuRequested( QPoint ) ) );
 }
 
 AddURI::~AddURI()
 {
    // disconnect(m_rT, SIGNAL( ResponseGetGlobalOptions(QVariant) ), this, SLOT( GetGlobalOptions(QVariant) ));
+    util::SaveSetting("AddUri", "Geometry", QString(saveGeometry().toBase64()));
+    util::SaveSetting("AddUri", "HeaderState", QString(ui->treeWidget->header()->saveState().toBase64()));
+    util::SaveSetting("AddUri", "Type", QString::number(ui->comboBox_Type->currentIndex()));
     delete ui;
 }
 
@@ -151,12 +170,16 @@ void AddURI::changeEvent(QEvent *e)
 
             QStringList sFileNameList = QFileDialog::getOpenFileNames(this,
                                                                       tr("Open URI link list file"),
-                                                                      tr(""),
+                                                                      util::LoadSetting(QString("LastOpenedHTTPFTPDirectory"),QString("Dir")),
                                                                       tr("URI link list Files (*.txt);;All files (*.*)"),
                                                                       &selectedFilter,
                                                                       options);
 
 
+            if (sFileNameList.size() != 0)
+            {
+                util::SaveSetting(QString("LastOpenedHTTPFTPDirectory"),QString("Dir"), QFileInfo(sFileNameList.front()).absolutePath());
+            }
             foreach(QString sFileName, sFileNameList)
             {
                 if (sFileName.size() != 0)
@@ -309,11 +332,16 @@ void AddURI::changeEvent(QEvent *e)
 
             QStringList sFileNameList = QFileDialog::getOpenFileNames(this,
                                                                       tr("Open torrent file"),
-                                                                      tr(""),
+                                                                      util::LoadSetting(QString("LastOpenedTorrentDirectory"),QString("Dir")),
                                                                       tr("Torrent Files (*.torrent)"),
                                                                       &selectedFilter,
                                                                       options);
 
+            if (sFileNameList.size() > 0)
+            {
+                //save the selected directory
+                util::SaveSetting(QString("LastOpenedTorrentDirectory"),QString("Dir"), QFileInfo(sFileNameList.front()).absolutePath());
+            }
             foreach(QString sFileName, sFileNameList)
             {
                 if (sFileName.size() != 0)
@@ -389,11 +417,15 @@ void AddURI::changeEvent(QEvent *e)
 
             QStringList sFileNameList = QFileDialog::getOpenFileNames(this,
                                         tr("Open metalink files"),
-                                        tr(""),
+                                        util::LoadSetting(QString("LastOpenedMetalinkDirectory"),QString("Dir")),
                                         tr("Metalink Files (*.metalink)"),
                                         &selectedFilter,
                                         options);
 
+            if (sFileNameList.size() > 0)
+            {
+                util::SaveSetting(QString("LastOpenedMetalinkDirectory"),QString("Dir"), QFileInfo(sFileNameList.front()).absolutePath());
+            }
             foreach(QString sFileName, sFileNameList)
             {
                 if (sFileName.size() != 0)

@@ -31,10 +31,16 @@ SelectTorrentFiles::SelectTorrentFiles(QWidget *parent) :
     m_markedCount(0)
 {
     ui->setupUi(this);
-    ui->treeWidget->setColumnWidth(0, 200);
-    ui->treeWidget->setColumnWidth(1, 100);
-
-    ui->treeWidget->header()->setResizeMode(0, QHeaderView::Stretch);
+    QByteArray Geometry = QByteArray::fromBase64(util::LoadSetting("SelectTorrentFiles", "Geometry").toAscii());
+    if (Geometry.size() > 0)
+    {
+        restoreGeometry(Geometry);
+    }
+    QByteArray SelectTorrentFilesHeaderState = QByteArray::fromBase64(util::LoadSetting("SelectTorrentFiles", "HeaderState").toAscii());
+    if (SelectTorrentFilesHeaderState.size() > 0)
+    {
+        ui->treeWidget->header()->restoreState(SelectTorrentFilesHeaderState);
+    }
 }
 
 QString SelectTorrentFiles::getSelectedFileList()
@@ -88,6 +94,8 @@ QString SelectTorrentFiles::getSelectedFileList()
 
 SelectTorrentFiles::~SelectTorrentFiles()
 {
+    util::SaveSetting("SelectTorrentFiles", "Geometry", QString(saveGeometry().toBase64()));
+    util::SaveSetting("SelectTorrentFiles", "HeaderState", QString(ui->treeWidget->header()->saveState().toBase64()));
     delete ui;
 }
 

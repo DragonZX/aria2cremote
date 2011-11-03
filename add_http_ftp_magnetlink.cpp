@@ -22,16 +22,23 @@
 
 #include "add_http_ftp_magnetlink.h"
 #include "ui_add_http_ftp_magnetlink.h"
+#include "util.h"
 
 add_http_ftp_magnetlink::add_http_ftp_magnetlink(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::add_http_ftp_magnetlink)
 {
     ui->setupUi(this);
+    QByteArray DialogSize = QByteArray::fromBase64(util::LoadSetting("AddHttpFtpMagnetlink", "Geometry").toAscii());
+    if (DialogSize.size() > 0)
+    {
+        restoreGeometry(DialogSize);
+    }
 }
 
 add_http_ftp_magnetlink::~add_http_ftp_magnetlink()
 {
+    util::SaveSetting("AddHttpFtpMagnetlink", "Geometry", QString( saveGeometry().toBase64()));
     delete ui;
 }
 
