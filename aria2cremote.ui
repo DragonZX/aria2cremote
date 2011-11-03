@@ -63,6 +63,7 @@
     </widget>
     <addaction name="actionOption"/>
     <addaction name="actionGlobal_Options"/>
+    <addaction name="actionGeoIP_update"/>
     <addaction name="separator"/>
     <addaction name="menuLanguages"/>
    </widget>
@@ -377,6 +378,11 @@
   <action name="actionDefault">
    <property name="text">
     <string>Default</string>
+   </property>
+  </action>
+  <action name="actionGeoIP_update">
+   <property name="text">
+    <string>GeoIP update</string>
    </property>
   </action>
  </widget>
