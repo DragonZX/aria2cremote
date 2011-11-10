@@ -131,6 +131,7 @@ void workThread::run()
         m_syncronize->lock();
         client.request(multiCall, "system.multicall", 0, m_currentGID);
         m_syncronize->unlock();
+        conditionMutex.unlock();
     }
 }
 
