@@ -75,6 +75,7 @@ void workThread::run()
 {
     while(!m_exit)
     {
+        conditionMutex.lock();
         condition.wait(&conditionMutex, m_sleep);
         //set request
         QVariantList v;
