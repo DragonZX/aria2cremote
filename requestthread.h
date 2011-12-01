@@ -20,8 +20,8 @@
  *                                                                       *
  *************************************************************************/
 
-#ifndef WORKTHREAD_H
-#define WORKTHREAD_H
+#ifndef REQUESTTHREAD_H
+#define REQUESTTHREAD_H
 
 #include <QThread>
 #include <QMap>
@@ -30,23 +30,39 @@
 
 typedef QMap<qint64, xmlrpc::XmlRPC> XML_RPC_RESPONSE_MAP;
 
+typedef struct TFAULT_MESSAGE
+{
+    quint32 code;
+    QString string;
+}FAULT_MESSAGE,*PFAULT_MESSAGE;
+
 using namespace xmlrpc;
 
-class workThread : public QThread
+class RequestThread : public QThread
 {
     Q_OBJECT
 public:
-    workThread();
+    RequestThread();
+    ~RequestThread();
     void run();
-    void stop();
+    void stop(){ m_exit = true; }
     void SetSleep(quint32 sleep) { m_sleep = sleep;}
-    void setRequestResponseSynchronize(QMutex *Syncronize) {m_syncronize = Syncronize; }
     void setCurrentGID(int gid) { m_currentGID = gid; }
     void setConnection(const QString &host, const QString &user, const QString &password, const int &port, const QString &proxyServer, const QString &proxyUser, const QString &proxyPassword, const int &proxyPort, const bool &enableProxy);
     void SetGZipEnabled() { client.setGZipEnabled(); }
     void wakeUp() {condition.wakeOne();}
+    void setDescriptionText(QString s) {m_sDescription = s; }
+    void addRequest(Download &d);
+    void addRequest(QList<Download> &d);
 
 signals:
+    void ResponseGetGlobalOptions(QVariant params);
+    void ResponseGetLocalOptions(QVariant params);
+    void ResponseVersionInfo(QVariant params);
+    void ShowTransferDialog(QString sDescription);
+    void HideTransferDialog();
+    void RequestGID(QList<quint64>);
+    void RequestFault(QList<FAULT_MESSAGE>);
     void Response(XML_RPC_RESPONSE_MAP tellActive, XML_RPC_RESPONSE_MAP tellStopped, XML_RPC_RESPONSE_MAP tellWaiting);
     void processFaultToUI( int requestId, int errorCode, QString errorString );
 
@@ -57,7 +73,8 @@ public slots:
 private:
     volatile bool m_exit;
     quint32 m_sleep;
-    QMutex *m_syncronize;
+    static QWaitCondition condition;
+    static QMutex conditionMutex;
     xmlrpc::Client client;
 
     QString m_host;
@@ -71,8 +88,9 @@ private:
     bool m_enableProxy;
 
     qint64 m_currentGID;
-    QWaitCondition condition;
-    QMutex conditionMutex;
+
+    QQueue<Download> m_request;
+    QString m_sDescription;
 };
 
-#endif // WORKTHREAD_H
+#endif // REQUESTTHREAD_H
