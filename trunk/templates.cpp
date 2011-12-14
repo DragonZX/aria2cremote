@@ -86,6 +86,8 @@ void Templates::on_pushButton_Save_clicked()
 
 void Templates::on_comboBoxNew_currentIndexChanged(int index)
 {
+    if ( (index == -1) || (temp.size() == 0) )
+        return;
     //save
     if (lastIndex != -1)
     {
