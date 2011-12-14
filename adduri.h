@@ -29,21 +29,21 @@
 #include <QMessageBox>
 #include "metainfo.h"
 #include "download.h"
-#include "reguestthread.h"
-#include "xmlrpc.h"
+#include "requestthread.h"
+#include "util.h"
 
 namespace Ui {
     class AddURI;
 }
 
-enum URI_TYPE {URI_TYPE_HTTP_FTP = 0, URI_TYPE_MULTI_HTTP_FTP, URI_TYPE_TORRENT, URI_TYPE_MAGNETLINK, URI_TYPE_METALINK};
+using namespace util;
 
 class AddURI : public QDialog {
     Q_OBJECT
 public:
     AddURI(QWidget *parent = 0);
     QList<Download> getDownloadList() {return m_dlist; }
-    void setRequestThread(reguestThread *rt);
+    void setRequestThread(RequestThread *rt);
     bool isValidGlobalOption() {return bValidGlobalOption; }
     QMap<QString, Variant> getGlobalOption() {return m_globalOptions; }
     ~AddURI();
@@ -59,10 +59,11 @@ private:
     Ui::AddURI *ui;
     int m_iCurrentType;
     QList<Download> m_dlist;
-    reguestThread *m_rT;
+    RequestThread *m_rT;
     QMap<QString, Variant> m_globalOptions;
     bool bValidGlobalOption;
     bool bGlobalRequest;
+    QList<util::TEMPLATES> templates;
 
 private slots:
     void on_pushButton_GlobalOptions_clicked();
@@ -72,6 +73,9 @@ private slots:
     void Delete();
     void Modify();
     void Type_Change(int iPos);
+    void on_pushButton_Template_clicked();
+    void on_treeWidget_itemChanged(QTreeWidgetItem *item, int column);
+    void on_pushButton_OK_clicked();
 };
 
 #endif // ADDURI_H

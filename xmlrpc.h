@@ -57,7 +57,9 @@ namespace xmlrpc
                    ACTION_FORCE_PAUSE     = 131072,
                    ACTION_FORCE_PAUSE_ALL = 262144,
                    ACTION_FORCE_REMOVE    = 524288,
-                   ACTION_FORCE_POWER_OFF = 1048576
+                   ACTION_FORCE_POWER_OFF = 1048576,
+
+                   PERIODIC_REQUEST       = 2097152
     };
     enum URI_STATUS {
         STATUS_UNKNOWN  = 0,

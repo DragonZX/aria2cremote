@@ -31,49 +31,121 @@
 #include <QDomDocument>
 #include "metainfo.h"
 #include "gzip/zlib.h"
+#include <QMap>
+#include "xmlrpc.h"
+#include "features.h"
+#include "aria2cparameter.h"
 
 namespace util
 {
-    //Aria2c versions
-    const quint32 ARIA2C_VERSION_NONE = 0x00000000;
-    const quint32 ARIA2C_VERSION_181  = 0x00010801;
-    const quint32 ARIA2C_VERSION_182  = 0x00010802;
-    const quint32 ARIA2C_VERSION_183  = 0x00010803;
-    const quint32 ARIA2C_VERSION_190  = 0x00010900;
-    const quint32 ARIA2C_VERSION_191  = 0x00010901;
-    const quint32 ARIA2C_VERSION_192  = 0x00010902;
-    const quint32 ARIA2C_VERSION_193  = 0x00010903;
-    const quint32 ARIA2C_VERSION_194  = 0x00010904;
-    const quint32 ARIA2C_VERSION_195  = 0x00010905;
-    const quint32 ARIA2C_VERSION_1100 = 0x00010A00;
-    const quint32 ARIA2C_VERSION_1101 = 0x00010A01;
-    const quint32 ARIA2C_VERSION_1102 = 0x00010A02;
-    const quint32 ARIA2C_VERSION_1103 = 0x00010A03;
-    const quint32 ARIA2C_VERSION_1104 = 0x00010A04;
-    const quint32 ARIA2C_VERSION_1105 = 0x00010A05;
-    const quint32 ARIA2C_VERSION_1106 = 0x00010A06;
-    const quint32 ARIA2C_VERSION_1107 = 0x00010A07;
-    const quint32 ARIA2C_VERSION_1108 = 0x00010A08;
-    const quint32 ARIA2C_VERSION_1109 = 0x00010A09;
-    const quint32 ARIA2C_VERSION_1110 = 0x00010B00;
-    const quint32 ARIA2C_VERSION_1111 = 0x00010B01;
-    const quint32 ARIA2C_VERSION_1112 = 0x00010B02;
-    const quint32 ARIA2C_VERSION_1120 = 0x00010C00;
-    const quint32 ARIA2C_VERSION_1121 = 0x00010C01;
-    const quint32 ARIA2C_VERSION_1130 = 0x00010D00;
-    const quint32 ARIA2C_VERSION_MASK = 0x00FFFFFF;
+using namespace xmlrpc;
 
-    //Aria2c Features
-    const quint32 ARIA2C_FEATURES_NONE           = 0x00000000;
-    const quint32 ARIA2C_FEATURES_ASYNCDNS       = 0x01000000;
-    const quint32 ARIA2C_FEATURES_BITTORRENT     = 0x02000000;
-    const quint32 ARIA2C_FEATURES_FIREFOX3COOKIE = 0x04000000;
-    const quint32 ARIA2C_FEATURES_GZIP           = 0x08000000;
-    const quint32 ARIA2C_FEATURES_HTTPS          = 0x10000000;
-    const quint32 ARIA2C_FEATURES_MESSAGEDIGEST  = 0x20000000;
-    const quint32 ARIA2C_FEATURES_METALINK       = 0x40000000;
-    const quint32 ARIA2C_FEATURES_XMLRPC         = 0x80000000;
-    const quint32 ARIA2C_FEATURES_ALL            = 0xFF000000;
+    enum URI_TYPE {URI_TYPE_NONE = -1, URI_TYPE_HTTP_FTP = 0, URI_TYPE_MULTI_HTTP_FTP, URI_TYPE_TORRENT, URI_TYPE_MAGNETLINK, URI_TYPE_METALINK, URI_TYPE_ALL};
+
+    const static QMap<QString, Aria2cParameter> CreateAria2cParameters()
+    {
+        QMap<QString, Aria2cParameter> m;
+        //Basic
+        m["dir"] = Aria2cParameter().addType(QVariant::String);
+        m["split"] = Aria2cParameter().addType(QVariant::Int).addMinMax(1, 256);
+        m["max-tries"] = Aria2cParameter().addType(QVariant::Int).addMinMax(1, 256);
+        m["timeout"] = Aria2cParameter().addType(QVariant::Int).addMinMax(1, 64 * 1024).addSuffix(" s");
+        m["lowest-speed-limit"] = Aria2cParameter().addType(QVariant::Int).addMinMax(0, 1024 * 1024 * 1024).addSuffix(" KiB/s").addDiv(1024);
+        m["max-download-limit"] = Aria2cParameter().addType(QVariant::Int).addMinMax(0, 1024 * 1024 * 1024).addSuffix(" KiB/s").addDiv(1024);
+        m["max-file-not-found"] = Aria2cParameter().addType(QVariant::Int).addMinMax(0, 1024);
+        m["max-resume-failure-tries"] = Aria2cParameter().addType(QVariant::Int).addMinMax(0, 1024);
+        m["min-split-size"] = Aria2cParameter().addType(QVariant::Int).addMinMax(0, 1024 * 1024 * 1024).addSuffix(" KiB").addDiv(1024);
+        m["max-connection-per-server"] = Aria2cParameter().addType(QVariant::Int).addMinMax(0, 1024);
+        m["continue"] = Aria2cParameter().addType(QVariant::Bool);
+        //FTP
+        m["ftp-pasv"] = Aria2cParameter().addType(QVariant::StringList).addList(QList<QString> () << QString("active") << QString("passive"));
+        m["connect-timeout"] = Aria2cParameter().addType(QVariant::Int).addMinMax(1, 64 * 1024).addSuffix(" s");;
+        m["ftp-reuse-connection"] = Aria2cParameter().addType(QVariant::Bool);
+        m["ftp-type"] = Aria2cParameter().addType(QVariant::StringList).addList(QList<QString> () << QString("binary") << QString("ascii"));
+        //HTTP
+        m["enable-http-keep-alive"] = Aria2cParameter().addType(QVariant::Bool);
+        m["enable-http-pipelining"] = Aria2cParameter().addType(QVariant::Bool);
+        m["http-accept-gzip"] = Aria2cParameter().addType(QVariant::Bool).addFeatures(util::ARIA2C_VERSION_191);
+        m["http-auth-challenge"] = Aria2cParameter().addType(QVariant::Bool);
+        m["http-no-cache"] = Aria2cParameter().addType(QVariant::Bool);
+        m["conditional-get"] = Aria2cParameter().addType(QVariant::Bool).addFeatures(util::ARIA2C_VERSION_1100);
+        m["user-agent"] = Aria2cParameter().addType(QVariant::String);
+        m["connect-timeout"] = Aria2cParameter().addType(QVariant::Int).addMinMax(1, 64 * 1024).addSuffix(" s");
+        //Torrent
+        m["bt-enable-lpd"] = Aria2cParameter().addType(QVariant::Bool).addFeatures(util::ARIA2C_VERSION_190 | util::ARIA2C_FEATURES_BITTORRENT);
+        m["bt-hash-check-seed"] = Aria2cParameter().addType(QVariant::Bool).addFeatures(util::ARIA2C_FEATURES_BITTORRENT);
+        m["bt-metadata-only"] = Aria2cParameter().addType(QVariant::Bool).addFeatures(util::ARIA2C_FEATURES_BITTORRENT);
+        m["bt-require-crypto"] = Aria2cParameter().addType(QVariant::Bool).addFeatures(util::ARIA2C_FEATURES_BITTORRENT);
+        m["bt-save-metadata"] = Aria2cParameter().addType(QVariant::Bool).addFeatures(util::ARIA2C_FEATURES_BITTORRENT);
+        m["bt-seed-unverified"] = Aria2cParameter().addType(QVariant::Bool).addFeatures(util::ARIA2C_VERSION_1100);
+        m["follow-torrent"] = Aria2cParameter().addType(QVariant::Bool).addFeatures(util::ARIA2C_FEATURES_BITTORRENT);
+        m["enable-peer-exchange"] = Aria2cParameter().addType(QVariant::Bool).addFeatures(util::ARIA2C_FEATURES_BITTORRENT);
+        m["seed-ratio"] = Aria2cParameter().addType(QVariant::Double).addFeatures(util::ARIA2C_FEATURES_BITTORRENT);
+        m["bt-stop-timeout"] = Aria2cParameter().addType(QVariant::Int).addMinMax(1, 64 * 1024).addFeatures(util::ARIA2C_FEATURES_BITTORRENT);
+        m["max-upload-limit"] = Aria2cParameter().addType(QVariant::Int).addMinMax(0, 1024 * 1024 * 1024).addFeatures(util::ARIA2C_VERSION_1100);
+        m["bt-max-open-files"] = Aria2cParameter().addType(QVariant::Int).addMinMax(0, 1024).addFeatures(util::ARIA2C_FEATURES_BITTORRENT);
+        m["bt-max-peers"] = Aria2cParameter().addType(QVariant::Int).addMinMax(0, 1024).addFeatures(util::ARIA2C_FEATURES_BITTORRENT);
+        m["seed-time"] = Aria2cParameter().addType(QVariant::Int).addMinMax(0, 365*24*3600).addFeatures(util::ARIA2C_FEATURES_BITTORRENT);
+        m["bt-external-ip"] = Aria2cParameter().addType(QVariant::String).addFeatures(util::ARIA2C_FEATURES_BITTORRENT);
+        m["bt-prioritize-piece"] = Aria2cParameter().addType(QVariant::String).addFeatures(util::ARIA2C_FEATURES_BITTORRENT);
+
+        m["bt-tracker-interval"] = Aria2cParameter().addType(QVariant::Int).addMinMax(1, 64 * 1024).addFeatures(util::ARIA2C_FEATURES_BITTORRENT);
+        m["bt-tracker-timeout"] = Aria2cParameter().addType(QVariant::Int).addMinMax(1, 64 * 1024).addFeatures(util::ARIA2C_VERSION_191 | util::ARIA2C_FEATURES_BITTORRENT);
+        m["bt-tracker-connect-timeout"] = Aria2cParameter().addType(QVariant::Int).addMinMax(1, 64 * 1024).addFeatures(util::ARIA2C_VERSION_191 | util::ARIA2C_FEATURES_BITTORRENT);
+        m["peer-id-prefix"] = Aria2cParameter().addType(QVariant::String).addFeatures(util::ARIA2C_FEATURES_BITTORRENT);
+        m["bt-request-peer-speed-limit"] = Aria2cParameter().addType(QVariant::Int).addMinMax(1, 1024 * 1024 * 1024).addFeatures(util::ARIA2C_FEATURES_BITTORRENT).addSuffix(" KiB/s").addDiv(1024);
+
+        m["bt-min-crypto-level"] = Aria2cParameter().addType(QVariant::StringList).addList(QList<QString> () << QString("arc4") << QString("plain")).addFeatures(util::ARIA2C_FEATURES_BITTORRENT);
+        m["bt-tracker"] = Aria2cParameter().addType(QVariant::String).addFeatures(util::ARIA2C_VERSION_1101 | util::ARIA2C_FEATURES_BITTORRENT);
+        m["bt-exclude-tracker"] = Aria2cParameter().addType(QVariant::String).addFeatures(util::ARIA2C_VERSION_1101 | util::ARIA2C_FEATURES_BITTORRENT);
+
+        //Metalink
+        m["metalink-preferred-protocol"] = Aria2cParameter().addType(QVariant::StringList).addList(QList<QString> () << QString("http") << QString("https") << QString("ftp") << QString("none")).addFeatures(util::ARIA2C_FEATURES_METALINK);
+        m["follow-metalink"] = Aria2cParameter().addType(QVariant::Bool).addFeatures(util::ARIA2C_FEATURES_METALINK);
+        m["metalink-enable-unique-protocol"] = Aria2cParameter().addType(QVariant::Bool).addFeatures(util::ARIA2C_FEATURES_METALINK);
+        m["metalink-servers"] = Aria2cParameter().addType(QVariant::Int).addMinMax(0, 1024).addFeatures(util::ARIA2C_FEATURES_METALINK);
+        m["metalink-base-uri"] = Aria2cParameter().addType(QVariant::String).addFeatures(util::ARIA2C_VERSION_1112 | util::ARIA2C_FEATURES_METALINK);
+
+        m["metalink-language"] = Aria2cParameter().addType(QVariant::String).addFeatures(util::ARIA2C_FEATURES_METALINK);
+        m["metalink-os"] = Aria2cParameter().addType(QVariant::String).addFeatures(util::ARIA2C_FEATURES_METALINK);
+        m["metalink-location"] = Aria2cParameter().addType(QVariant::String).addFeatures(util::ARIA2C_FEATURES_METALINK);
+        m["metalink-version"] = Aria2cParameter().addType(QVariant::String).addFeatures(util::ARIA2C_FEATURES_METALINK);
+
+        //Advanced
+        m["allow-overwrite"] = Aria2cParameter().addType(QVariant::Bool);
+        m["allow-piece-length-change"] = Aria2cParameter().addType(QVariant::Bool);
+        m["always-resume"] = Aria2cParameter().addType(QVariant::Bool).addFeatures(util::ARIA2C_VERSION_191);
+        m["async-dns"] = Aria2cParameter().addType(QVariant::Bool).addFeatures(util::ARIA2C_FEATURES_ASYNCDNS);
+        m["async-dns6"] = Aria2cParameter().addType(QVariant::Bool).addFeatures(util::ARIA2C_VERSION_1101 | util::ARIA2C_FEATURES_ASYNCDNS);
+        m["auto-file-renaming"] = Aria2cParameter().addType(QVariant::Bool);
+        m["check-integrity"] = Aria2cParameter().addType(QVariant::Bool);
+        m["dry-run"] = Aria2cParameter().addType(QVariant::Bool);
+        m["rpc-allow-origin-all"] = Aria2cParameter().addType(QVariant::Bool).addFeatures(util::ARIA2C_VERSION_1130);
+
+        m["reuse-uri"] = Aria2cParameter().addType(QVariant::Bool).addFeatures(util::ARIA2C_VERSION_190);
+        m["remove-control-file"] = Aria2cParameter().addType(QVariant::Bool).addFeatures(util::ARIA2C_VERSION_191);
+        m["remote-time"] = Aria2cParameter().addType(QVariant::Bool);
+        m["realtime-chunk-checksum"] = Aria2cParameter().addType(QVariant::Bool);
+        m["no-netrc"] = Aria2cParameter().addType(QVariant::Bool);
+        m["parameterized-uri"] = Aria2cParameter().addType(QVariant::Bool);
+        m["use-head"] = Aria2cParameter().addType(QVariant::Bool);
+        m["pause"] = Aria2cParameter().addType(QVariant::Bool).addFeatures(util::ARIA2C_VERSION_1120);
+        m["hash-check-only"] = Aria2cParameter().addType(QVariant::Bool).addFeatures(util::ARIA2C_VERSION_1130);
+
+        m["no-file-allocation-limit"] = Aria2cParameter().addType(QVariant::Int).addMinMax(1, 1024 * 1024 * 1024).addSuffix(" KiB/s").addDiv(1024);
+        m["piece-length"] = Aria2cParameter().addType(QVariant::Int).addMinMax(1, 1024 * 1024 * 1024).addSuffix(" KiB/s").addFeatures(util::ARIA2C_VERSION_1130).addDiv(1024);
+        m["file-allocation"] = Aria2cParameter().addType(QVariant::StringList).addList(QList<QString> () << QString("none") << QString("prealloc") << QString("falloc"));
+        m["proxy-method"] = Aria2cParameter().addType(QVariant::StringList).addList(QList<QString> () << QString("get") << QString("tunnel"));
+
+        m["retry-wait"] = Aria2cParameter().addType(QVariant::Int).addMinMax(0, 1024).addFeatures(util::ARIA2C_VERSION_1110);
+        m["stream-piece-selector"] = Aria2cParameter().addType(QVariant::StringList).addList(QList<QString> () << QString("default") << QString("inorder")).addFeatures(util::ARIA2C_VERSION_1120);
+        m["download-result"] = Aria2cParameter().addType(QVariant::StringList).addList(QList<QString> () << QString("default") << QString("full"));
+        m["referer"] = Aria2cParameter().addType(QVariant::String);
+        m["header"] = Aria2cParameter().addType(QVariant::String);
+        return m;
+    }
+
+    const static QMap<QString, Aria2cParameter> Aria2cParams = CreateAria2cParameters();
 
     QString ConvertNumberToSuffixString(qint64 number);
     QIcon getWinIcon(QFileInfo &fileInfo, QString &sDesc);
@@ -92,6 +164,17 @@ namespace util
     //Save/load settings
     void SaveSetting(const QString &Element, const QString &name, const QString &value);
     const QString LoadSetting(const QString &Element, const QString &name);
-};
+
+    typedef struct _Templates
+    {
+        QMap<QString, Variant> value;
+        QString name;
+        URI_TYPE type;
+    }TEMPLATES, *PTEMPLATES;
+
+    QList<TEMPLATES> LoadTemplates(URI_TYPE Element = URI_TYPE_ALL);
+    void SaveTemplates(const QList<util::TEMPLATES> &temp);
+    QMap<QString, Variant> TemplateFromName(const QList<util::TEMPLATES> &temp, const QString &Name, URI_TYPE type = URI_TYPE_ALL );
+}
 
 #endif // UTIL_H

@@ -46,8 +46,7 @@
 #include "globaloptions.h"
 #include "selecttorrentfiles.h"
 #include "download.h"
-#include "workthread.h"
-#include "reguestthread.h"
+#include "requestthread.h"
 #include "transfer.h"
 #include "QTreeWidgetItemEx.h"
 #include "statusbarex.h"
@@ -115,9 +114,7 @@ private:
     QSplitter *m_mainSplitter1;
     QSystemTrayIcon *m_SystemTrayIcon;
 
-    workThread m_workThread;
-    reguestThread m_requestThread;
-    QMutex m_Aria2RequestResponseSynchronize;
+    RequestThread m_requestThread;
 
     Transfer *m_transfer;
 
@@ -180,6 +177,9 @@ private:
 
     GeoIP geoip;
     DownloadProgressDialog *progressDialog;
+
+    //download templates
+    QList<util::TEMPLATES> templates;
 private:
     void setTreeWidgetItem(QTreeWidgetItemEx *item, XmlRPC& x);
     void setInitTreeWidgetItem(QTreeWidgetItemEx *item);

@@ -39,6 +39,8 @@
 
 #if defined(Q_WS_WIN)
 
+using namespace xmlrpc;
+
 void util::SetToolBar()
 {
     if (QSysInfo::windowsVersion() == QSysInfo::WV_VISTA)
@@ -479,4 +481,135 @@ const QString util::LoadSetting(const QString &Element, const QString &name)
         file.close();
     }
     return sRet;
+}
+
+QList<util::TEMPLATES> util::LoadTemplates(URI_TYPE Element)
+{
+    QList<TEMPLATES> lRet;
+    QDomDocument doc("templates");
+    QFile file(util::getHomePath() + "templates.xml");
+    if (file.open(QIODevice::ReadOnly))
+    {
+        QString errorMsg;
+        int errorline;
+        int errorColumn;
+        if (doc.setContent(&file, &errorMsg, &errorline, &errorColumn))
+        {
+            QDomElement root = doc.documentElement();
+            if (root.tagName().compare("template", Qt::CaseInsensitive) == 0)
+            {
+                QDomNode n = root.firstChild();
+                while(!n.isNull())
+                {
+                    QDomElement item = n.toElement();
+                    if(!item.isNull())
+                    {
+                        TEMPLATES itemMap;
+                        itemMap.type = URI_TYPE_NONE;
+                        QString type = item.attribute("type", "");
+                        if (type.compare("HTTP/FTP", Qt::CaseInsensitive) == 0)
+                            itemMap.type = URI_TYPE_HTTP_FTP;
+                        else if (type.compare("Multi HTTP/FTP", Qt::CaseInsensitive) == 0)
+                            itemMap.type = URI_TYPE_MULTI_HTTP_FTP;
+                        else if (type.compare("Torrent", Qt::CaseInsensitive) == 0)
+                            itemMap.type = URI_TYPE_TORRENT;
+                        else if (type.compare("Magnetlink", Qt::CaseInsensitive) == 0)
+                            itemMap.type = URI_TYPE_MAGNETLINK;
+                        else if (type.compare("Metalink", Qt::CaseInsensitive) == 0)
+                            itemMap.type = URI_TYPE_METALINK;
+
+                        if (itemMap.type != URI_TYPE_NONE)
+                        {
+                            itemMap.name = QString::fromUtf8(QByteArray::fromPercentEncoding(item.attribute("name", "").toAscii()));
+                            if ( (Element == URI_TYPE_ALL) || (itemMap.type == Element) )
+                            {
+                                QDomNode NodeChild = n.firstChild();
+                                while (!NodeChild.isNull())
+                                {
+                                    QDomElement itemChild = NodeChild.toElement();
+                                    if (!itemChild.isNull())
+                                    {
+                                        QDomNamedNodeMap nodeMap = itemChild.attributes();
+                                        int itemCount = nodeMap.count();
+                                        for (int i = 0; i < itemCount; i++)
+                                        {
+                                            itemMap.value[nodeMap.item(i).nodeName()] = QString(QByteArray::fromPercentEncoding(nodeMap.item(i).nodeValue().toUtf8()));
+                                        }
+                                    }
+                                    NodeChild = NodeChild.nextSibling();
+                                }
+                                lRet << itemMap;
+                            }
+                        }
+                    }
+                    n = n.nextSibling();
+                }
+            }
+        }
+        file.close();
+    }
+    return lRet;
+}
+
+void util::SaveTemplates(const QList<util::TEMPLATES> &temp)
+{
+    QDomDocument doc("templates");
+    QDomElement root = doc.createElement("template");
+    doc.appendChild(root);
+
+    foreach (util::TEMPLATES t, temp)
+    {
+        QDomElement elem = doc.createElement("item");
+        elem.setAttribute("name", QString(t.name.toUtf8().toPercentEncoding()));
+        QString itemType;
+
+        if (t.type == URI_TYPE_HTTP_FTP)
+            itemType = "HTTP/FTP";
+        else if (t.type == URI_TYPE_MULTI_HTTP_FTP)
+            itemType = "Multi HTTP/FTP";
+        else if (t.type == URI_TYPE_TORRENT)
+            itemType = "Torrent";
+        else if (t.type == URI_TYPE_MAGNETLINK)
+            itemType = "Magnetlink";
+        else if (t.type == URI_TYPE_METALINK)
+            itemType = "Metalink";
+
+        if (itemType.size() > 0)
+        {
+            elem.setAttribute("type", itemType);
+
+            QMapIterator<QString, Variant> m(t.value);
+            while (m.hasNext())
+            {
+                m.next();
+                QDomElement e = doc.createElement("value");
+                e.setAttribute(m.key(), QString(m.value().toString().toUtf8().toPercentEncoding()));
+                elem.appendChild(e);
+            }
+            root.appendChild(elem);
+        }
+    }
+
+    QFile file(util::getHomePath() + "templates.xml");
+    if (file.open(QIODevice::WriteOnly))
+    {
+        file.write(doc.toByteArray(1));
+        file.close();
+    }
+}
+
+QMap<QString, Variant> util::TemplateFromName(const QList<util::TEMPLATES> &temp, const QString &Name, URI_TYPE type)
+{
+    QMap<QString, Variant> mRet;
+
+    foreach (util::TEMPLATES t, temp)
+    {
+        if ( ((type == URI_TYPE_ALL) || (type == t.type)) && (t.name.compare(Name, Qt::CaseInsensitive) == 0) )
+        {
+            mRet = t.value;
+            break;
+        }
+    }
+
+    return mRet;
 }

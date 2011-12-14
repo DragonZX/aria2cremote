@@ -22,13 +22,13 @@
 
 #include "add_http_ftp_magnetlink.h"
 #include "ui_add_http_ftp_magnetlink.h"
-#include "util.h"
 
 add_http_ftp_magnetlink::add_http_ftp_magnetlink(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::add_http_ftp_magnetlink)
 {
     ui->setupUi(this);
+
     QByteArray DialogSize = QByteArray::fromBase64(util::LoadSetting("AddHttpFtpMagnetlink", "Geometry").toAscii());
     if (DialogSize.size() > 0)
     {
@@ -40,6 +40,8 @@ add_http_ftp_magnetlink::~add_http_ftp_magnetlink()
 {
     util::SaveSetting("AddHttpFtpMagnetlink", "Geometry", QString( saveGeometry().toBase64()));
     delete ui;
+    delete menuTemplate;
+    delete MenuGroup;
 }
 
 void add_http_ftp_magnetlink::changeEvent(QEvent *e)
@@ -64,8 +66,48 @@ void add_http_ftp_magnetlink::SetURI(QString& s)
     ui->lineEdit->setText(s);
 }
 
-void add_http_ftp_magnetlink::SetTypeText(QString s)
+void add_http_ftp_magnetlink::slotMenuChanged(QAction* action)
 {
-    ui->label->setText(s);
+    if (action != NULL)
+    {
+        templateName = action->data().toString();
+    }
 }
 
+void add_http_ftp_magnetlink::SetMenu(URI_TYPE t, const QList<util::TEMPLATES> &temp, bool enableTemplateButton)
+{
+    type = t;
+    templates = temp;
+    setWindowIcon( (t == URI_TYPE_HTTP_FTP) ? QIcon(":/icon/uri/ftp.png") : QIcon(":/icon/uri/magnet.png") );
+    ui->label->setText( (t == URI_TYPE_HTTP_FTP) ? ("URL:") : ("Magnet Link:") );
+    setWindowTitle( (t == URI_TYPE_HTTP_FTP) ? tr("Add URL") : tr("Add Magnet Link") );
+    ui->pushButton_template->setEnabled(enableTemplateButton);
+
+    MenuGroup = new QActionGroup(ui->pushButton_template);
+    MenuGroup->setExclusive(true);
+
+    connect(MenuGroup, SIGNAL(triggered(QAction *)), this, SLOT(slotMenuChanged(QAction *)));
+    menuTemplate = new QMenu(this);
+
+    //add default menu item
+    QAction *menuDefault = new QAction(tr("Default"), this);
+    menuDefault->setCheckable(true);
+    menuDefault->setChecked(true);
+    menuDefault->setData("Default_item");
+    menuTemplate->addAction( menuDefault );
+    MenuGroup->addAction(menuDefault);
+
+    foreach (util::TEMPLATES temp, templates)
+    {
+        if ( ( (t == URI_TYPE_HTTP_FTP) && (temp.type == URI_TYPE_HTTP_FTP) ) ||
+             ( (t == URI_TYPE_MAGNETLINK) && (temp.type == URI_TYPE_MAGNETLINK) ) )
+        {
+            QAction *menuItem = new QAction(temp.name, this);
+            menuItem->setCheckable(true);
+            menuItem->setData(temp.name);
+            menuTemplate->addAction(menuItem);
+            MenuGroup->addAction(menuItem);
+        }
+    }
+    ui->pushButton_template->setMenu(menuTemplate);
+}

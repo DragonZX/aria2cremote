@@ -174,19 +174,14 @@ Aria2cRemote::Aria2cRemote(QWidget *parent) :
     m_listView->setItemDelegate(new ProgressBarViewDelegate(this));
 
     //Working thread init
-    m_workThread.setConnection(m_host, m_user, m_password, m_port, m_proxyServer, m_proxyUser, m_proxyPassword, m_proxyPort, m_enableProxy);
-    m_workThread.SetSleep(5000);
-    m_workThread.setRequestResponseSynchronize(&m_Aria2RequestResponseSynchronize);
-    qRegisterMetaType <XML_RPC_RESPONSE_MAP>("XML_RPC_RESPONSE_MAP");
-    connect(&m_workThread, SIGNAL(Response(XML_RPC_RESPONSE_MAP, XML_RPC_RESPONSE_MAP, XML_RPC_RESPONSE_MAP)), this, SLOT(ResponseXML(XML_RPC_RESPONSE_MAP, XML_RPC_RESPONSE_MAP, XML_RPC_RESPONSE_MAP)));
-    connect(&m_workThread, SIGNAL(processFaultToUI(int, int, QString)), this, SLOT(processFaultToUI(int, int, QString)));
-    m_workThread.start();
-
-    m_requestThread.setRequestResponseSynchronize(&m_Aria2RequestResponseSynchronize);
+    m_requestThread.EnablePeriodicRequest();
     m_requestThread.setConnection(m_host, m_user, m_password, m_port, m_proxyServer, m_proxyUser, m_proxyPassword, m_proxyPort, m_enableProxy);
+    m_requestThread.SetSleep(5000);
+    qRegisterMetaType <XML_RPC_RESPONSE_MAP>("XML_RPC_RESPONSE_MAP");
+    connect(&m_requestThread, SIGNAL(Response(XML_RPC_RESPONSE_MAP, XML_RPC_RESPONSE_MAP, XML_RPC_RESPONSE_MAP)), this, SLOT(ResponseXML(XML_RPC_RESPONSE_MAP, XML_RPC_RESPONSE_MAP, XML_RPC_RESPONSE_MAP)));
+    connect(&m_requestThread, SIGNAL(processFaultToUI(int, int, QString)), this, SLOT(processFaultToUI(int, int, QString)));
     connect(&m_requestThread, SIGNAL(ShowTransferDialog(QString)), this, SLOT(ShowTransferDialog(QString)));
     connect(&m_requestThread, SIGNAL(HideTransferDialog()), this, SLOT(HideTransferDialog()));
-    connect(&m_requestThread, SIGNAL(processFaultToUI(int, int, QString)), this, SLOT(processFaultToUI(int, int, QString)));
     connect(&m_requestThread, SIGNAL(ResponseVersionInfo(QVariant)), this, SLOT(ResponseVersionInfo(QVariant)));
     connect(&m_requestThread, SIGNAL(RequestGID(QList<quint64>)), this, SLOT(RequestGID(QList<quint64>)));
     connect(&m_requestThread, SIGNAL(RequestFault(QList<FAULT_MESSAGE>)), this, SLOT(RequestFault(QList<FAULT_MESSAGE>)));
@@ -240,11 +235,6 @@ Aria2cRemote::~Aria2cRemote()
 
     delete ui;
     m_SystemTrayIcon->hide();
-    m_workThread.stop();
-    m_requestThread.stop();
-    m_requestThread.wakeUp();
-    m_workThread.wait();
-    m_requestThread.wait();
 }
 
 #ifdef Q_WS_WIN
@@ -401,17 +391,14 @@ void Aria2cRemote::on_actionAdd_HTTP_FTP_triggered()
     const QClipboard *clipboard = QApplication::clipboard();
     QString sStr = clipboard->text(QClipboard::Clipboard);
     add_http_ftp_magnetlink add(this);
-    QString sUrl;
-    QMap<QString, Variant> vCurrentParam;
-    QIcon icon(":/icon/uri/ftp.png");
 
     add.SetURI(sStr);
-    add.setWindowIcon(icon);
-    add.SetTypeText("URL:");
-    add.setWindowTitle(tr("Add URL"));
+    templates = util::LoadTemplates(URI_TYPE_HTTP_FTP);
+    add.SetMenu(util::URI_TYPE_HTTP_FTP, templates);
     if (add.exec() == QDialog::Accepted)
     {
-        sUrl = add.GetURI();
+        QMap<QString, Variant> vCurrentParam;
+        QString sUrl(add.GetURI());
         util::deletePrePostSpace(sUrl);
         if (sUrl.size() > 0)
         {
@@ -435,6 +422,7 @@ void Aria2cRemote::on_actionAdd_HTTP_FTP_triggered()
                     vCurrentParam["ftp-passwd"] = si.password;
                 }
             }
+            vCurrentParam.unite(util::TemplateFromName(templates, add.getTemplateName(), util::URI_TYPE_HTTP_FTP));
             d.addHttpFtp(sUrl, vCurrentParam);
 
             m_requestThread.addRequest(d);
@@ -638,19 +626,17 @@ void Aria2cRemote::on_actionAdd_MagnetLink_triggered()
     const QClipboard *clipboard = QApplication::clipboard();
     QString sStr = clipboard->text(QClipboard::Clipboard);
     add_http_ftp_magnetlink add(this);
-    QMap<QString, Variant> vCurrentParam;
-    QString sMagnetLink;
-    QIcon icon(":/icon/uri/magnet.png");
 
     add.SetURI(sStr);
-    add.setWindowIcon(icon);
-    add.SetTypeText(tr("Magnet Link:"));
-    add.setWindowTitle(tr("Add Magnet Link"));
+    templates = util::LoadTemplates(URI_TYPE_MAGNETLINK);
+    add.SetMenu(URI_TYPE_MAGNETLINK, templates);
     if (add.exec() == QDialog::Accepted)
     {
-        sMagnetLink = add.GetURI();
+        QMap<QString, Variant> vCurrentParam;
+        QString sMagnetLink(add.GetURI());
 
         Download d;
+        vCurrentParam.unite(util::TemplateFromName(templates, add.getTemplateName(), util::URI_TYPE_MAGNETLINK));
         d.addMagnetLink(sMagnetLink, vCurrentParam);
 
         m_requestThread.addRequest(d);
@@ -802,7 +788,7 @@ void Aria2cRemote::ResponseVersionInfo(QVariant params)
     if (g_uiAria2cFeatures & ARIA2C_FEATURES_GZIP)
     {
         m_requestThread.SetGZipEnabled();
-        m_workThread.SetGZipEnabled();
+        m_requestThread.SetGZipEnabled();
     }
     m_connectStateText.setToolTip(tooltip);
 }
@@ -1091,7 +1077,7 @@ void Aria2cRemote::ResponseXML(XML_RPC_RESPONSE_MAP tellActive, XML_RPC_RESPONSE
     #endif
 
     //Set current download's GID
-    m_workThread.setCurrentGID(m_currentGID);
+    m_requestThread.setCurrentGID(m_currentGID);
 }
 
 void Aria2cRemote:: setInitTreeWidgetItem(QTreeWidgetItemEx *item)
@@ -1175,7 +1161,7 @@ void Aria2cRemote::ListViewItemClicked(QTreeWidgetItem *item, int value)
     bool bPurge = false;
 
     //wake up to workerthread
-    m_workThread.wakeUp();
+    m_requestThread.wakeUp();
 
     foreach(DOWNLOAD_LIST dl, m_downloadView)
     {
@@ -1248,7 +1234,7 @@ void Aria2cRemote::on_actionOption_triggered()
          util::SaveConnectionList(m_host, m_user, m_password, m_port, m_proxyServer, m_proxyUser, m_proxyPassword, m_proxyPort, m_enableProxy);
 
          //set threads
-         m_workThread.setConnection(m_host, m_user, m_password, m_port, m_proxyServer, m_proxyUser, m_proxyPassword, m_proxyPort, m_enableProxy);
+         m_requestThread.setConnection(m_host, m_user, m_password, m_port, m_proxyServer, m_proxyUser, m_proxyPassword, m_proxyPort, m_enableProxy);
          m_requestThread.setConnection(m_host, m_user, m_password, m_port, m_proxyServer, m_proxyUser, m_proxyPassword, m_proxyPort, m_enableProxy);
     }
 }
