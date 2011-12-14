@@ -35,8 +35,8 @@
 #include "add_http_ftp_magnetlink.h"
 #include "localoptions.h"
 #include "server.h"
-
-
+#include "comboboxitem.h"
+#include "templates.h"
 
 AddURI::AddURI(QWidget *parent) :
     QDialog(parent),
@@ -68,6 +68,9 @@ AddURI::AddURI(QWidget *parent) :
     {
         ui->treeWidget->header()->restoreState(AddUriHeaderState);
     }
+
+    //load download templates
+    templates = util::LoadTemplates();
    // connect( ui->treeWidget, SIGNAL( customContextMenuRequested( QPoint ) ), this, SLOT( on_treeWidget_customContextMenuRequested( QPoint ) ) );
 }
 
@@ -92,7 +95,7 @@ void AddURI::changeEvent(QEvent *e)
     }
 }
 
- void AddURI::setRequestThread(reguestThread *rt)
+ void AddURI::setRequestThread(RequestThread *rt)
 {
      m_rT = rt;
     // connect(m_rT, SIGNAL( ResponseGetGlobalOptions(QVariant) ), this, SLOT( GetGlobalOptions(QVariant) ));
@@ -114,12 +117,8 @@ void AddURI::changeEvent(QEvent *e)
             QString sStr = clipboard->text(QClipboard::Clipboard);
             add_http_ftp_magnetlink add(this);
 
-            QIcon icon(":/icon/uri/ftp.png");
-
             add.SetURI(sStr);
-            add.setWindowIcon(icon);
-            add.SetTypeText("URL:");
-            add.setWindowTitle(tr("Add URL"));
+            add.SetMenu(util::URI_TYPE_HTTP_FTP, templates,false);
             if (add.exec() == QDialog::Accepted)
             {
                 sUrl = add.GetURI();
@@ -144,16 +143,28 @@ void AddURI::changeEvent(QEvent *e)
                             vCurrentParam["ftp-passwd"] = si.password;
                         }
                     }
+                    vCurrentParam.unite(util::TemplateFromName(templates, add.getTemplateName(), util::URI_TYPE_HTTP_FTP));
                     d.addHttpFtp(sUrl, vCurrentParam);
 
                     //add TreeWidgetitem
                     QTreeWidgetItem *item = new QTreeWidgetItem;
 
                     d.SetTreeWidgetItemIndex(item);
-                    item->setIcon(0, icon);
+                    item->setIcon(0, QIcon(":/icon/uri/ftp.png"));
                     item->setText(0, "HTTP/FTP");
                     item->setText(1, sUrl);
                     ui->treeWidget->addTopLevelItem(item);
+
+                    ComboBoxItem *combobox_template = new ComboBoxItem(item, 2);
+                    combobox_template->addItem(tr("Default"));
+                    foreach (util::TEMPLATES t, templates)
+                    {
+                        if (t.type == URI_TYPE_HTTP_FTP)
+                        {
+                            combobox_template->addItem(t.name);
+                        }
+                    }
+                    ui->treeWidget->setItemWidget(item, 2, combobox_template);
 
                     m_dlist << d;
                 }
@@ -190,6 +201,18 @@ void AddURI::changeEvent(QEvent *e)
                     topItem->setText(0, "Multi HTTP/FTP");
                     topItem->setText(1, sFileName);
                     ui->treeWidget->addTopLevelItem(topItem);
+
+                    ComboBoxItem *combobox_template = new ComboBoxItem(topItem, 2);
+                    combobox_template->addItem(tr("Default"));
+                    foreach (util::TEMPLATES t, templates)
+                    {
+                        if (t.type == URI_TYPE_MULTI_HTTP_FTP)
+                        {
+                            combobox_template->addItem(t.name);
+                        }
+                    }
+
+                    ui->treeWidget->setItemWidget(topItem, 2, combobox_template);
 
                     QFile f(sFileName);
 
@@ -252,6 +275,18 @@ void AddURI::changeEvent(QEvent *e)
                                     item->setText(1, str1);
                                     topItem->addChild(item);
 
+                                    ComboBoxItem *combobox_template = new ComboBoxItem(item, 2);
+                                    combobox_template->addItem(tr("Default"));
+                                    foreach (util::TEMPLATES t, templates)
+                                    {
+                                        if (t.type == URI_TYPE_HTTP_FTP)
+                                        {
+                                            combobox_template->addItem(t.name);
+                                        }
+                                    }
+                                    combobox_template->setCurrentIndex(0);
+                                    ui->treeWidget->setItemWidget(item, 2, combobox_template);
+
                                     m_dlist << d;
                                 }
 
@@ -309,6 +344,18 @@ void AddURI::changeEvent(QEvent *e)
                                         item->setText(0, "HTTP/FTP");
                                         item->setText(1, line);
                                         topItem->addChild(item);
+
+                                        ComboBoxItem *combobox_template = new ComboBoxItem(item, 2);
+                                        combobox_template->addItem(tr("Default"));
+                                        foreach (util::TEMPLATES t, templates)
+                                        {
+                                            if (t.type == URI_TYPE_HTTP_FTP)
+                                            {
+                                                combobox_template->addItem(t.name);
+                                            }
+                                        }
+                                        combobox_template->setCurrentIndex(0);
+                                        ui->treeWidget->setItemWidget(item, 2, combobox_template);
 
                                         m_dlist << d;
                                     }
@@ -368,6 +415,18 @@ void AddURI::changeEvent(QEvent *e)
                             item->setText(0, "Torrent");
                             item->setText(1, sFileName);
                             ui->treeWidget->addTopLevelItem(item);
+
+                            ComboBoxItem *combobox_template = new ComboBoxItem(item, 2);
+                            combobox_template->addItem(tr("Default"));
+                            foreach (util::TEMPLATES t, templates)
+                            {
+                                if (t.type == URI_TYPE_TORRENT)
+                                {
+                                    combobox_template->addItem(t.name);
+                                }
+                            }
+                            ui->treeWidget->setItemWidget(item, 2, combobox_template);
+
                             m_dlist << d;
                         }
                     }
@@ -385,26 +444,36 @@ void AddURI::changeEvent(QEvent *e)
             QString sStr = clipboard->text(QClipboard::Clipboard);
             add_http_ftp_magnetlink add(this);
             QString sMagnetLink;
-            QIcon icon(":/icon/uri/magnet.png");
 
             add.SetURI(sStr);
-            add.setWindowIcon(icon);
-            add.SetTypeText(tr("Magnet Link:"));
-            add.setWindowTitle(tr("Add Magnet Link"));
+            add.SetMenu(URI_TYPE_MAGNETLINK, templates, false);
             if (add.exec() == QDialog::Accepted)
             {
                 sMagnetLink = add.GetURI();
                 Download d;
 
+                vCurrentParam.unite(util::TemplateFromName(templates, add.getTemplateName(), util::URI_TYPE_MAGNETLINK));
                 d.addMagnetLink(sMagnetLink, vCurrentParam);
 
                 QTreeWidgetItem *item = new QTreeWidgetItem;
 
                 d.SetTreeWidgetItemIndex(item);
-                item->setIcon(0, icon);
+                item->setIcon(0, QIcon(":/icon/uri/magnet.png"));
                 item->setText(0, "Magnet Link");
                 item->setText(1, sMagnetLink);
                 ui->treeWidget->addTopLevelItem(item);
+
+                ComboBoxItem *combobox_template = new ComboBoxItem(item, 2);
+                combobox_template->addItem(tr("Default"));
+                foreach (util::TEMPLATES t, templates)
+                {
+                    if (t.type == URI_TYPE_MAGNETLINK)
+                    {
+                        combobox_template->addItem(t.name);
+                    }
+                }
+                ui->treeWidget->setItemWidget(item, 2, combobox_template);
+
                 m_dlist << d;
             }
         }
@@ -441,6 +510,18 @@ void AddURI::changeEvent(QEvent *e)
                     item->setText(0, "Metalink");
                     item->setText(1, sFileName);
                     ui->treeWidget->addTopLevelItem(item);
+
+                    ComboBoxItem *combobox_template = new ComboBoxItem(item, 2);
+                    combobox_template->addItem(tr("Default"));
+                    foreach (util::TEMPLATES t, templates)
+                    {
+                        if (t.type == URI_TYPE_METALINK)
+                        {
+                            combobox_template->addItem(t.name);
+                        }
+                    }
+                    ui->treeWidget->setItemWidget(item, 2, combobox_template);
+
                     m_dlist << d;
                 }
             }
@@ -518,6 +599,7 @@ void AddURI::Modify()
                         if (localoptions.exec() == QDialog::Accepted)
                         {
                             m_dlist[iCounter].setCurrentParam(localoptions.getLocalOption());
+                            static_cast<ComboBoxItem*>(ui->treeWidget->itemWidget(d.GetTreeWidgetItemIndex(), 2))->setCurrentIndex(-1);
                         }
                         break;
                     }
@@ -546,6 +628,7 @@ void AddURI::Modify()
                                         if (dd.GetTreeWidgetItemIndex() == item->child(i))
                                         {
                                             m_dlist[iC].setCurrentParam(localoptions.getLocalOption());
+                                            static_cast<ComboBoxItem*>(ui->treeWidget->itemWidget(d.GetTreeWidgetItemIndex(), 2))->setCurrentIndex(0);
                                             break;
                                         }
                                         iC++;
@@ -671,6 +754,7 @@ void AddURI::GetGlobalOptions(QVariant value)
                         if (localoptions.exec() == QDialog::Accepted)
                         {
                             m_dlist[iCounter].setCurrentParam(localoptions.getLocalOption());
+                            static_cast<ComboBoxItem*>(ui->treeWidget->itemWidget(d.GetTreeWidgetItemIndex(), 2))->setCurrentIndex(-1);
                         }
                         break;
                     }
@@ -699,6 +783,7 @@ void AddURI::GetGlobalOptions(QVariant value)
                                         if (dd.GetTreeWidgetItemIndex() == item->child(i))
                                         {
                                             m_dlist[iC].setCurrentParam(localoptions.getLocalOption());
+                                            static_cast<ComboBoxItem*>(ui->treeWidget->itemWidget(d.GetTreeWidgetItemIndex(), 2))->setCurrentIndex(-1);
                                             break;
                                         }
                                         iC++;
@@ -720,4 +805,83 @@ void AddURI::processFaultToUI( int requestId, int errorCode, QString errorString
     m_globalOptions.clear();
     bValidGlobalOption = false;
     QMessageBox::warning(this, tr("Request failed"), QString("XML-RPC request  failed.\n\nFault code: %1\n%2\n").arg(errorCode).arg(errorString), QMessageBox::Ok );
+}
+
+void AddURI::on_pushButton_Template_clicked()
+{
+    Templates temp(this);
+    temp.setTemplates(templates);
+    if (temp.exec() == QDialog::Accepted)
+    {
+        templates = temp.getTemplates();
+    }
+}
+
+void AddURI::on_treeWidget_itemChanged(QTreeWidgetItem *item, int column)
+{
+    if (item != NULL)
+    {
+        int childCount = item->childCount();
+        if ( (column == 2) && (childCount > 0) )
+        {
+            for (int i = 0; i < childCount; i++)
+            {
+                static_cast<ComboBoxItem*>(ui->treeWidget->itemWidget(item->child(i), 2))->setCurrentIndex(0);
+            }
+        }
+    }
+}
+
+void AddURI::on_pushButton_OK_clicked()
+{
+    int iCounter = 0;
+    foreach(Download d, m_dlist)
+    {
+        QMap<QString, Variant> param = d.getCurrentParam();
+        QMap<QString, Variant> paramMerge;
+        QString name = static_cast<ComboBoxItem*>(ui->treeWidget->itemWidget(d.GetTreeWidgetItemIndex(), 2))->currentText();
+        int index = static_cast<ComboBoxItem*>(ui->treeWidget->itemWidget(d.GetTreeWidgetItemIndex(), 2))->currentIndex();
+        if (index == -1)
+        {
+            //custom
+            paramMerge = param;
+        }
+        else
+        {
+            //Template
+            XML_TYPE t = d.getType();
+            if (d.GetTreeWidgetItemIndex()->parent())
+            {
+                //multi download
+                if (name.compare(tr("Default"), Qt::CaseInsensitive) == 0)
+                {
+                    QString parentName = static_cast<ComboBoxItem*>(ui->treeWidget->itemWidget(d.GetTreeWidgetItemIndex()->parent(), 2))->currentText();
+                    paramMerge = util::TemplateFromName(templates, parentName, URI_TYPE_MULTI_HTTP_FTP);
+                }
+                else
+                {
+                    paramMerge = util::TemplateFromName(templates, name, URI_TYPE_HTTP_FTP);
+                }
+            }
+            else
+            {
+                //single download
+                if (name.compare(tr("Default"), Qt::CaseInsensitive) == 0)
+                {
+                    paramMerge = param;
+                }
+                else
+                {
+                    URI_TYPE u = (t == HTTP_FTP) ? (URI_TYPE_HTTP_FTP) :(
+                                 (t == TORRENT) ? (URI_TYPE_TORRENT) :(
+                                 (t == MAGNETLINK) ? (URI_TYPE_MAGNETLINK) : (
+                                 (t == METALINK) ? (URI_TYPE_METALINK) :(URI_TYPE_NONE)
+                                 ) ) );
+                    paramMerge = util::TemplateFromName(templates, name, u);
+                }
+            }
+        }
+        m_dlist[iCounter].setCurrentParam(paramMerge, false);
+        iCounter++;
+    }
 }

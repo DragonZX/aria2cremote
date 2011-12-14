@@ -126,9 +126,6 @@
      <attribute name="headerMinimumSectionSize">
       <number>50</number>
      </attribute>
-     <attribute name="headerMinimumSectionSize">
-      <number>50</number>
-     </attribute>
      <column>
       <property name="text">
        <string>Type</string>
@@ -139,6 +136,11 @@
        <string>URI</string>
       </property>
      </column>
+     <column>
+      <property name="text">
+       <string>Template</string>
+      </property>
+     </column>
     </widget>
    </item>
    <item>
@@ -147,6 +149,13 @@
       <widget class="QPushButton" name="pushButton_GlobalOptions">
        <property name="text">
         <string>Global Options</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_Template">
+       <property name="text">
+        <string>Templates</string>
        </property>
       </widget>
      </item>
@@ -191,6 +200,7 @@
   <tabstop>pushButton_Modify</tabstop>
   <tabstop>treeWidget</tabstop>
   <tabstop>pushButton_GlobalOptions</tabstop>
+  <tabstop>pushButton_Template</tabstop>
   <tabstop>pushButton_OK</tabstop>
   <tabstop>pushButton_Cancel</tabstop>
  </tabstops>

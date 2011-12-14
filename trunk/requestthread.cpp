@@ -43,8 +43,8 @@ RequestThread::RequestThread() :
         m_proxyPassword(""),
         m_proxyPort(8080),
         m_enableProxy(false),
-        m_currentGID(-1)
-
+        m_currentGID(-1),
+        m_periodicRequest(false)
 {
     client.setHost(m_host, m_port, "/rpc");
     client.setUser(m_user, m_password);
@@ -83,9 +83,9 @@ void RequestThread::setConnection(const QString &host, const QString &user, cons
 
 void RequestThread::addRequest(Download &d)
 {
-    RequestThread::conditionMutex.lock();
+    conditionMutex.lock();
         m_request.enqueue(d);
-    RequestThread::conditionMutex.unlock();
+    conditionMutex.unlock();
 }
 
 void RequestThread::addRequest(QList<Download> &d)
@@ -106,7 +106,7 @@ void RequestThread::run()
         condition.wait(&conditionMutex, m_sleep);
         //set request
         QVariantList v;
-        int iRequestTypes = 0;
+        int iRequestTypes = UNKNOWN;
 
         if (m_request.size() > 0)
         {
@@ -122,7 +122,7 @@ void RequestThread::run()
                 emit ShowTransferDialog(m_sDescription);
             }
         }
-        else
+        else if (m_periodicRequest)
         {
             QMap<QString, Variant> methodTellActive;
             QVariantList paramsTellActive;
@@ -170,10 +170,13 @@ void RequestThread::run()
             iRequestTypes = PERIODIC_REQUEST;
         }
 
-        //response from Aria2c
-        QList<Variant> multiCall;
-        multiCall << Variant(v);
-        client.request(multiCall, "system.multicall", iRequestTypes, m_currentGID);
+        if (iRequestTypes != UNKNOWN)
+        {
+            //response from Aria2c
+            QList<Variant> multiCall;
+            multiCall << Variant(v);
+            client.request(multiCall, "system.multicall", iRequestTypes, m_currentGID);
+        }
         conditionMutex.unlock();
     }
 }

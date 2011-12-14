@@ -47,10 +47,11 @@ public:
     void run();
     void stop(){ m_exit = true; }
     void SetSleep(quint32 sleep) { m_sleep = sleep;}
+    void EnablePeriodicRequest() { m_periodicRequest = true; }
     void setCurrentGID(int gid) { m_currentGID = gid; }
     void setConnection(const QString &host, const QString &user, const QString &password, const int &port, const QString &proxyServer, const QString &proxyUser, const QString &proxyPassword, const int &proxyPort, const bool &enableProxy);
     void SetGZipEnabled() { client.setGZipEnabled(); }
-    void wakeUp() {condition.wakeOne();}
+    void wakeUp() {condition.wakeAll();}
     void setDescriptionText(QString s) {m_sDescription = s; }
     void addRequest(Download &d);
     void addRequest(QList<Download> &d);
@@ -91,6 +92,7 @@ private:
 
     QQueue<Download> m_request;
     QString m_sDescription;
+    bool m_periodicRequest;
 };
 
 #endif // REQUESTTHREAD_H

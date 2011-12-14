@@ -28,8 +28,6 @@ SOURCES += main.cpp \
     xmlrpc/request.cpp \
     xmlrpc/client.cpp \
     download.cpp \
-    workthread.cpp \
-    reguestthread.cpp \
     globaloptions.cpp \
     localoptions.cpp \
     transfer.cpp \
@@ -47,7 +45,15 @@ SOURCES += main.cpp \
     peerinfo.cpp \
     geoip.cpp \
     torrentclient.cpp \
-    downloadprogressdialog.cpp
+    downloadprogressdialog.cpp \
+    comboboxitem.cpp \
+    templates.cpp \
+    checkboxitem.cpp \
+    lineedititem.cpp \
+    spinboxitem.cpp \
+    newtemplate.cpp \
+    doublespinboxitem.cpp \
+    requestthread.cpp
 HEADERS += aria2cremote.h \
     tabwidget.h \
     listview.h \
@@ -64,8 +70,6 @@ HEADERS += aria2cremote.h \
     xmlrpc/request.h \
     xmlrpc/client.h \
     download.h \
-    workthread.h \
-    reguestthread.h \
     globaloptions.h \
     localoptions.h \
     transfer.h \
@@ -85,7 +89,17 @@ HEADERS += aria2cremote.h \
     peerinfo.h \
     geoip.h \
     torrentclient.h \
-    downloadprogressdialog.h
+    downloadprogressdialog.h \
+    comboboxitem.h \
+    templates.h \
+    checkboxitem.h \
+    lineedititem.h \
+    spinboxitem.h \
+    newtemplate.h \
+    doublespinboxitem.h \
+    features.h \
+    aria2cparameter.h \
+    requestthread.h
 FORMS += aria2cremote.ui \
     tabwidget.ui \
     listview.ui \
@@ -98,7 +112,9 @@ FORMS += aria2cremote.ui \
     transfer.ui \
     addserver.ui \
     aria2options.ui \
-    about.ui
+    about.ui \
+    templates.ui \
+    newtemplate.ui
 RESOURCES += Aria2cRemote.qrc
 
 TRANSLATIONS = translations/Aria2cRemoteControl_en.ts \
@@ -119,3 +135,54 @@ win32 {
     DEFINES += BUILDTIME=\\\"$$system(date '+%H:%M.%s')\\\"
     DEFINES += BUILDDATE=\\\"$$system(date '+%d/%m/%y')\\\"
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

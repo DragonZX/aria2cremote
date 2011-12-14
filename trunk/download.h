@@ -49,7 +49,7 @@ public:
     QVariantList getParamList() { return m_params; }
     QString getURI() {return m_sURI;}
     QMap<QString, Variant> getCurrentParam() {return m_vCurrentParam;}
-    void setCurrentParam(const QMap<QString, Variant> &param) { m_vCurrentParam.unite(param); }
+    void setCurrentParam(const QMap<QString, Variant> &param, bool Mode = true) { if (Mode) m_vCurrentParam.unite(param); else m_vCurrentParam = param; }
 
     //add download
     int addHttpFtp(QString &sUrl, QMap<QString, Variant> &vCurrentParam);
