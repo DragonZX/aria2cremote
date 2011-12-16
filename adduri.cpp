@@ -814,6 +814,32 @@ void AddURI::on_pushButton_Template_clicked()
     if (temp.exec() == QDialog::Accepted)
     {
         templates = temp.getTemplates();
+        foreach (Download d, m_dlist)
+        {
+            QTreeWidgetItem *item = d.GetTreeWidgetItemIndex();
+            QString temp_name = static_cast<ComboBoxItem*>(ui->treeWidget->itemWidget(item, 2))->currentText();
+            int pos = static_cast<ComboBoxItem*>(ui->treeWidget->itemWidget(item, 2))->currentIndex();
+            XML_TYPE t = d.getType();
+            URI_TYPE u = (t == HTTP_FTP) ? (URI_TYPE_HTTP_FTP) :(
+                         (t == TORRENT) ? (URI_TYPE_TORRENT) :(
+                         (t == MAGNETLINK) ? (URI_TYPE_MAGNETLINK) : (
+                         (t == METALINK) ? (URI_TYPE_METALINK) :(URI_TYPE_NONE)
+                         ) ) );
+            static_cast<ComboBoxItem*>(ui->treeWidget->itemWidget(item, 2))->clear();
+            static_cast<ComboBoxItem*>(ui->treeWidget->itemWidget(item, 2))->addItem(tr("Default"));
+
+            foreach (TEMPLATES t, templates)
+            {
+                if (t.type == u)
+                {
+                    static_cast<ComboBoxItem*>(ui->treeWidget->itemWidget(item, 2))->addItem(t.name);
+                    if ( (pos != -1) && (temp_name.compare(t.name, Qt::CaseInsensitive) == 0) )
+                        static_cast<ComboBoxItem*>(ui->treeWidget->itemWidget(item, 2))->setCurrentIndex(pos);
+                }
+            }
+            if (pos == -1)
+                static_cast<ComboBoxItem*>(ui->treeWidget->itemWidget(item, 2))->setCurrentIndex(pos);
+        }
     }
 }
 
