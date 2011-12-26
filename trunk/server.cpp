@@ -31,94 +31,14 @@ Server::Server():
 
 void Server::LoadServerList()
 {
-    QDomDocument doc("ServerConfiguration");
-    QFile file(util::getHomePath() + "serverconfig.xml");
-    if (file.open(QIODevice::ReadOnly))
-    {
-        QString errorMsg;
-        int errorline;
-        int errorColumn;
-        if (doc.setContent(&file, &errorMsg, &errorline, &errorColumn))
-        {
-            QDomElement root = doc.documentElement();
-            if (root.tagName() == "Serverlist")
-            {
-                m_serverList.clear();
-                QDomNode n = root.firstChild();
-                while(!n.isNull())
-                {
-                    QDomElement element = n.toElement(); // try to convert the node to an element.
-                    if(!element.isNull())
-                    {
-                        if (element.nodeName() == "Server")
-                        {
-                            SERVER_ITEM s;
-
-                            s.server = QString( QByteArray::fromPercentEncoding(element.attribute("Name", "").toAscii()) );
-                            s.user = QString( QByteArray::fromPercentEncoding(element.attribute("User", "").toAscii()) );
-                            s.password = QString( RC4( QByteArray::fromBase64( element.attribute("Password", "").toAscii() ) ) );
-                            QString sType = element.attribute("Type", "");
-
-                            if (sType == Server_Type_String[SERVER_ALL_PROXY])
-                                s.type = SERVER_ALL_PROXY;
-                            else if (sType == Server_Type_String[SERVER_HTTP_PROXY])
-                                s.type = SERVER_HTTP_PROXY;
-                            else if (sType == Server_Type_String[SERVER_HTTPS_PROXY])
-                                s.type = SERVER_HTTPS_PROXY;
-                            else if (sType == Server_Type_String[SERVER_FTP_PROXY])
-                                s.type = SERVER_FTP_PROXY;
-                            else if (sType == Server_Type_String[SERVER_HTTP_FTP])
-                                s.type = SERVER_HTTP_FTP;
-
-                            s.port = element.attribute("Port", "0").toInt();
-                            m_serverList << s;
-                        } else if (element.nodeName() == "Property")
-                        {
-                            m_AllProxyEnabled = element.attribute("AllProxyEnabled", "false").compare("true") == 0;
-                        }
-                    }
-                    n = n.nextSibling();
-                }
-            }
-        }
-        file.close();
-    }
+    m_serverList = util::LoadServerList();
+    m_AllProxyEnabled = util::AllProxyEnabled;
 }
 
 void Server::SaveServerList()
 {
-    QDomDocument doc("ServerConfiguration");
-    QDomElement root = doc.createElement("Serverlist");
-    doc.appendChild(root);
-
-    foreach (SERVER_ITEM si, m_serverList)
-    {
-        QDomElement elem = doc.createElement("Server");
-
-        elem.setAttribute("Password", QString( RC4(si.password.toAscii()).toBase64()) );
-        elem.setAttribute("User", QString( si.user.toAscii().toPercentEncoding() ) );
-        elem.setAttribute("Name", QString( si.server.toAscii().toPercentEncoding() ) );
-        elem.setAttribute("Type", Server_Type_String[si.type]);
-        if (si.port != 0)
-        {
-            elem.setAttribute("Port", QString::number(si.port));
-        }
-
-        root.appendChild(elem);
-    }
-
-    QDomElement elemProperty = doc.createElement("Property");
-
-    elemProperty.setAttribute("AllProxyEnabled", QVariant(m_AllProxyEnabled).toString());
-    root.appendChild(elemProperty);
-
-
-    QFile file(util::getHomePath() + "serverconfig.xml");
-    if (file.open(QIODevice::WriteOnly))
-    {
-        file.write(doc.toByteArray());
-        file.close();
-    }
+    util::AllProxyEnabled = m_AllProxyEnabled;
+    util::SaveServerList(m_serverList);
 }
 
 QList<SERVER_ITEM> Server::GetServers(SERVER_TYPE type)

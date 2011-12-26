@@ -78,7 +78,7 @@ void Templates::on_pushButton_Save_clicked()
         temp[index].value[item->text(0)] = item->data(1, Qt::UserRole).toString();
     }
 
-    util::SaveTemplates(temp);
+    util::SaveTemplate(temp);
     tempOriginal = temp;
     QMessageBox::information(this, tr("Save"), tr("Modified templates saved"));
     on_comboBoxNew_currentIndexChanged(ui->comboBoxNew->currentIndex());
@@ -201,5 +201,5 @@ void Templates::on_pushButton_Delete_clicked()
 
 void Templates::on_buttonBox_accepted()
 {
-    util::SaveTemplates(temp);
+    util::SaveTemplate(temp);
 }

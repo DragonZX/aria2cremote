@@ -28,27 +28,28 @@
 
 Aria2Options::Aria2Options(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::Aria2Options),
-    m_host(""),
-    m_user(""),
-    m_password(""),
-    m_port(6800),
-    m_proxyServer(""),
-    m_proxyUser(""),
-    m_proxyPassword(""),
-    m_proxyPort(8080)
+    ui(new Ui::Aria2Options)
 {
     ui->setupUi(this);
 
-    ui->lineEdit_RemoteHost->setText(m_host);
-    ui->lineEdit_UserName->setText(m_user);
-    ui->lineEdit_Password->setText(m_password);
-    ui->spinBox_Port->setValue(m_port);
+    m_connection.host = "";
+    m_connection.user = "";
+    m_connection.password = "";
+    m_connection.port = 6800;
+    m_connection.proxyServer = "";
+    m_connection.proxyUser = "";
+    m_connection.proxyPassword = "";
+    m_connection.proxyPort = 8080;
 
-    ui->lineEdit_Proxy_Server->setText(m_proxyServer);
-    ui->lineEdit_Proxy_UserName->setText(m_proxyUser);
-    ui->lineEdit_Proxy_Password->setText(m_proxyPassword);
-    ui->spinBox_Proxy_Port->setValue(m_proxyPort);
+    ui->lineEdit_RemoteHost->setText(m_connection.host);
+    ui->lineEdit_UserName->setText(m_connection.user);
+    ui->lineEdit_Password->setText(m_connection.password);
+    ui->spinBox_Port->setValue(m_connection.port);
+
+    ui->lineEdit_Proxy_Server->setText(m_connection.proxyServer);
+    ui->lineEdit_Proxy_UserName->setText(m_connection.proxyUser);
+    ui->lineEdit_Proxy_Password->setText(m_connection.proxyPassword);
+    ui->spinBox_Proxy_Port->setValue(m_connection.proxyPort);
 
     m_servers.LoadServerList();
     foreach (SERVER_ITEM si, m_servers.GetServers())
@@ -84,48 +85,39 @@ void Aria2Options::changeEvent(QEvent *e)
     }
 }
 
-void Aria2Options::setConnection(const QString &host, const QString &user, const QString &password, const int &port, const QString &proxyServer, const QString &proxyUser, const QString &proxyPassword, const int &proxyPort, const bool &enableProxy)
+void Aria2Options::setConnection(const util::CONNECTION &connection)
 {
-    m_host = host;
-    m_user = user;
-    m_password = password;
-    m_port = port;
+    m_connection = connection;
 
-    m_proxyServer = proxyServer;
-    m_proxyUser = proxyUser;
-    m_proxyPassword = proxyPassword;
-    m_proxyPort = proxyPort;
-    m_enableProxy = enableProxy;
+    ui->lineEdit_RemoteHost->setText(m_connection.host);
+    ui->lineEdit_UserName->setText(m_connection.user);
+    ui->lineEdit_Password->setText(m_connection.password);
+    ui->spinBox_Port->setValue(m_connection.port);
 
-    ui->lineEdit_RemoteHost->setText(m_host);
-    ui->lineEdit_UserName->setText(m_user);
-    ui->lineEdit_Password->setText(m_password);
-    ui->spinBox_Port->setValue(m_port);
+    ui->lineEdit_Proxy_Server->setText(m_connection.proxyServer);
+    ui->lineEdit_Proxy_UserName->setText(m_connection.proxyUser);
+    ui->lineEdit_Proxy_Password->setText(m_connection.proxyPassword);
+    ui->spinBox_Proxy_Port->setValue(m_connection.proxyPort);
 
-    ui->lineEdit_Proxy_Server->setText(m_proxyServer);
-    ui->lineEdit_Proxy_UserName->setText(m_proxyUser);
-    ui->lineEdit_Proxy_Password->setText(m_proxyPassword);
-    ui->spinBox_Proxy_Port->setValue(m_proxyPort);
+    ui->checkBox_Enable_Proxy->setCheckState(m_connection.enableProxy ? (Qt::Checked) :(Qt::Unchecked));
 
-    ui->checkBox_Enable_Proxy->setCheckState(m_enableProxy ? (Qt::Checked) :(Qt::Unchecked));
-
-    ui->lineEdit_Proxy_Server->setEnabled(m_enableProxy);
-    ui->lineEdit_Proxy_UserName->setEnabled(m_enableProxy);
-    ui->lineEdit_Proxy_Password->setEnabled(m_enableProxy);
-    ui->spinBox_Proxy_Port->setEnabled(m_enableProxy);
+    ui->lineEdit_Proxy_Server->setEnabled(m_connection.enableProxy);
+    ui->lineEdit_Proxy_UserName->setEnabled(m_connection.enableProxy);
+    ui->lineEdit_Proxy_Password->setEnabled(m_connection.enableProxy);
+    ui->spinBox_Proxy_Port->setEnabled(m_connection.enableProxy);
 }
 
 void Aria2Options::on_buttonBox_accepted()
 {
-    m_host = ui->lineEdit_RemoteHost->text();
-    m_user = ui->lineEdit_UserName->text();
-    m_password = ui->lineEdit_Password->text();
-    m_port = ui->spinBox_Port->value();
-    m_proxyServer =ui->lineEdit_Proxy_Server->text();
-    m_proxyUser = ui->lineEdit_Proxy_UserName->text();
-    m_proxyPassword = ui->lineEdit_Proxy_Password->text();
-    m_proxyPort = ui->spinBox_Proxy_Port->value();
-    m_enableProxy = (ui->checkBox_Enable_Proxy->checkState() == Qt::Checked);
+    m_connection.host = ui->lineEdit_RemoteHost->text();
+    m_connection.user = ui->lineEdit_UserName->text();
+    m_connection.password = ui->lineEdit_Password->text();
+    m_connection.port = ui->spinBox_Port->value();
+    m_connection.proxyServer =ui->lineEdit_Proxy_Server->text();
+    m_connection.proxyUser = ui->lineEdit_Proxy_UserName->text();
+    m_connection.proxyPassword = ui->lineEdit_Proxy_Password->text();
+    m_connection.proxyPort = ui->spinBox_Proxy_Port->value();
+    m_connection.enableProxy = (ui->checkBox_Enable_Proxy->checkState() == Qt::Checked);
 }
 
 void Aria2Options::on_checkBox_Enable_Proxy_stateChanged(int value)

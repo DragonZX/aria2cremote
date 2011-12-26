@@ -27,6 +27,7 @@
 #include <QDir>
 #include <QDomDocument>
 #include <QSysInfo>
+#include <QMessageBox>
 
 #if defined(Q_WS_WIN)
 #  define _WIN32_IE 0x0500
@@ -250,73 +251,6 @@ void util::deletePrePostSpace(QString &str)
         str.remove(str.size() - 1, 1);
 }
 
-void util::LoadConnectionList(QString &host, QString &user, QString &password, int &port, QString &proxyServer, QString &proxyUser, QString &proxyPassword, int &proxyPort, bool &enableProxy)
-{
-    QDomDocument doc("Aria2cRemoteConfiguration");
-    QFile file(util::getHomePath() + "configuration.xml");
-    if (file.open(QIODevice::ReadOnly))
-    {
-        QString errorMsg;
-        int errorline;
-        int errorColumn;
-        if (doc.setContent(&file, &errorMsg, &errorline, &errorColumn))
-        {
-            QDomElement root = doc.documentElement();
-            if (root.tagName() == "Connections")
-            {
-
-                QDomNode n = root.firstChild();
-                while(!n.isNull())
-                {
-                    QDomElement element = n.toElement(); // try to convert the node to an element.
-                    if(!element.isNull())
-                    {
-                        password = QString( RC4( QByteArray::fromBase64( element.attribute("Password", "").toAscii() ) ) );
-                        user = QString( QByteArray::fromPercentEncoding(element.attribute("User", "").toAscii()) );
-                        host = QString( QByteArray::fromPercentEncoding(element.attribute("Host", "localhost").toAscii()) );
-                        port = element.attribute("Port", "6800").toInt();
-                        proxyPassword = QString( RC4( QByteArray::fromBase64( element.attribute("ProxyPassword", "").toAscii() ) ) );
-                        proxyUser = QString( QByteArray::fromPercentEncoding(element.attribute("ProxyUser", "").toAscii()) );
-                        proxyServer = QString( QByteArray::fromPercentEncoding(element.attribute("ProxyServer", "").toAscii()) );
-                        proxyPort = element.attribute("ProxyPort", "8080").toInt();
-                        enableProxy = element.attribute("EnableProxy", "false").compare("true") == 0;
-                    }
-                    n = n.nextSibling();
-                }
-            }
-        }
-        file.close();
-    }
-}
-
-void util::SaveConnectionList(const QString &host, const QString &user, const QString &password, const int &port, const QString &proxyServer, const QString &proxyUser, const QString &proxyPassword, const int &proxyPort, const bool &enableProxy)
-{
-    QDomDocument doc("Aria2cRemoteConfiguration");
-    QDomElement root = doc.createElement("Connections");
-    doc.appendChild(root);
-
-    QDomElement elem = doc.createElement("Connection");
-
-    elem.setAttribute("Password", QString( RC4(password.toAscii()).toBase64()) );
-    elem.setAttribute("User", QString( user.toAscii().toPercentEncoding() ) );
-    elem.setAttribute("Host", QString( host.toAscii().toPercentEncoding() ) );
-    elem.setAttribute("Port", QString::number(port));
-    elem.setAttribute("EnableProxy", QVariant(enableProxy).toString());
-    elem.setAttribute("ProxyPassword", QString( RC4(proxyPassword.toAscii()).toBase64()) );
-    elem.setAttribute("ProxyUser", QString( proxyUser.toAscii().toPercentEncoding() ) );
-    elem.setAttribute("ProxyServer", QString( proxyServer.toAscii().toPercentEncoding() ) );
-    elem.setAttribute("ProxyPort", QString::number(proxyPort));
-
-    root.appendChild(elem);
-
-    QFile file(util::getHomePath() + "configuration.xml");
-    if (file.open(QIODevice::WriteOnly))
-    {
-        file.write(doc.toByteArray());
-        file.close();
-    }
-}
-
 QString util::getHomePath()
 {
     QString sRet(QDir::homePath() + QDir::separator());
@@ -380,184 +314,310 @@ QByteArray util::gzipDecompress(const QByteArray& compressedData)
     return uncompressed;
 }
 
-void util::SaveSetting(const QString &Element, const QString &name, const QString &value)
+QMap<QString, Variant> util::TemplateFromName(const QList<util::TEMPLATES> &temp, const QString &Name, URI_TYPE type)
 {
-    QList<QDomElement> ElementList;
-    QDomElement root;
-    QDomDocument doc("Aria2cRemoteSetting");
-    QFile fileRead(util::getHomePath() + "setting.xml");
-    if (fileRead.open(QIODevice::ReadOnly))
+    QMap<QString, Variant> mRet;
+
+    foreach (util::TEMPLATES t, temp)
+    {
+        if ( ((type == URI_TYPE_ALL) || (type == t.type)) && (t.name.compare(Name, Qt::CaseInsensitive) == 0) )
+        {
+            mRet = t.value;
+            break;
+        }
+    }
+
+    return mRet;
+}
+
+QDomNode util::LoadConfigurationNode(const QString &node)
+{
+    QDomDocument doc("Aria2cRemoteConfiguration");
+    QFile file(util::getHomePath() + "configuration.xml");
+    QDomNode retNode;
+
+    if (file.open(QIODevice::ReadOnly))
     {
         QString errorMsg;
         int errorline;
         int errorColumn;
-        if (doc.setContent(&fileRead, &errorMsg, &errorline, &errorColumn))
+        if (doc.setContent(&file, &errorMsg, &errorline, &errorColumn))
         {
-            root = doc.documentElement();
-            if (root.tagName().compare("UISetting", Qt::CaseInsensitive) == 0)
+            QDomElement root = doc.documentElement();
+            if (root.tagName().compare("Configuration", Qt::CaseInsensitive) == 0)
             {
-
-                QDomNode n = root.firstChild();
-                while(!n.isNull())
+                QDomNode child = root.firstChild();
+                while (!child.isNull())
                 {
-                    QDomElement element = n.toElement();
-                    ElementList.append(element);
-                    n = n.nextSibling();
+                    if (child.nodeName().compare(node, Qt::CaseInsensitive) == 0)
+                    {
+                        retNode = child;
+                        break;
+                    }
+                    child = child.nextSibling();
                 }
             }
-            else
+        }
+        file.close();
+    }
+    return retNode;
+}
+
+CONNECTION util::LoadConnectionList()
+{
+    CONNECTION connectionReturn = {QString(""), QString(""), QString(""), 6800, QString(""), QString(""), QString(""), 8080, false};
+    QDomNode node = LoadConfigurationNode("ConnectionList");
+
+    if (!node.isNull())
+    {
+        QDomNode child = node.firstChild();
+        while(!child.isNull())
+        {
+            QDomElement element = child.toElement(); // try to convert the node to an element.
+            if(!element.isNull())
             {
-                root = doc.createElement("UISetting");
+                connectionReturn.password = QString( RC4( QByteArray::fromBase64( element.attribute("Password", "").toAscii() ) ) );
+                connectionReturn.user = QString( QByteArray::fromPercentEncoding(element.attribute("User", "").toAscii()) );
+                connectionReturn.host = QString( QByteArray::fromPercentEncoding(element.attribute("Host", "localhost").toAscii()) );
+                connectionReturn.port = element.attribute("Port", "6800").toInt();
+                connectionReturn.proxyPassword = QString( RC4( QByteArray::fromBase64( element.attribute("ProxyPassword", "").toAscii() ) ) );
+                connectionReturn.proxyUser = QString( QByteArray::fromPercentEncoding(element.attribute("ProxyUser", "").toAscii()) );
+                connectionReturn.proxyServer = QString( QByteArray::fromPercentEncoding(element.attribute("ProxyServer", "").toAscii()) );
+                connectionReturn.proxyPort = element.attribute("ProxyPort", "8080").toInt();
+                connectionReturn.enableProxy = element.attribute("EnableProxy", "false").compare("true") == 0;
             }
-        }
-        else
-        {
-            root = doc.createElement("UISetting");
-        }
-        fileRead.close();
-    }
-    else
-    {
-        root = doc.createElement("UISetting");
-        doc.appendChild(root);
-    }
-
-    QDomElement elem;
-    bool bFoundElement = false;
-    foreach (QDomElement e, ElementList)
-    {
-        if (e.tagName().compare(Element, Qt::CaseInsensitive) == 0)
-        {
-            bFoundElement = true;
-            elem = e;
+            child = child.nextSibling();
         }
     }
-
-    if (!bFoundElement)
-    {
-        elem = doc.createElement(Element);
-    }
-
-    elem.setAttribute(name, value);
-    root.appendChild(elem);
-
-    QFile fileWrite(util::getHomePath() + "setting.xml");
-    if (fileWrite.open(QIODevice::WriteOnly))
-    {
-        fileWrite.write(doc.toByteArray());
-        fileWrite.close();
-    }
+    connectionNode = connectionReturn;
+    return connectionReturn;
 }
 
 const QString util::LoadSetting(const QString &Element, const QString &name)
 {
-    QDomDocument doc("Aria2cRemoteSetting");
-    QFile file(util::getHomePath() + "setting.xml");
     QString sRet;
-    if (file.open(QIODevice::ReadOnly))
+    if (uiSettingNode.size() > 0)
     {
-        QString errorMsg;
-        int errorline;
-        int errorColumn;
-        if (doc.setContent(&file, &errorMsg, &errorline, &errorColumn))
-        {
-            QDomElement root = doc.documentElement();
-            if (root.tagName().compare("UISetting", Qt::CaseInsensitive) == 0)
-            {
+        sRet = uiSettingNode[Element][name];
+    }
 
-                QDomNode n = root.firstChild();
-                while(!n.isNull())
+    if (sRet.size() == 0)
+    {
+        uiSettingNode.clear();
+        QDomNode node = LoadConfigurationNode("UISetting");
+        if (!node.isNull())
+        {
+            QDomNode child = node.firstChild();
+
+            while(!child.isNull())
+            {
+                QDomElement elem = child.toElement(); // try to convert the node to an element.
+                if(elem.tagName().compare(Element, Qt::CaseInsensitive) == 0)
                 {
-                    QDomElement elem = n.toElement(); // try to convert the node to an element.
-                    if(elem.tagName().compare(Element, Qt::CaseInsensitive) == 0)
-                    {
-                        sRet =  elem.attribute(name, "");
-                        break;
-                    }
-                    n = n.nextSibling();
+                    sRet =  elem.attribute(name, "");
                 }
+
+                //Attributes to QMap
+                QDomNamedNodeMap nodeMap = elem.attributes();
+                int itemCount = nodeMap.count();
+                QMap<QString, QString> m;
+                for (int i = 0; i < itemCount; i++)
+                {
+                    m[nodeMap.item(i).nodeName()] = nodeMap.item(i).nodeValue();
+                }
+                uiSettingNode[elem.tagName()] = m;
+                child = child.nextSibling();
             }
         }
-        file.close();
     }
     return sRet;
 }
 
-QList<util::TEMPLATES> util::LoadTemplates(URI_TYPE Element)
+QList<SERVER_ITEM> util::LoadServerList()
+{
+    QDomNode node = LoadConfigurationNode("ServerList");
+    QDomNode n = node.firstChild();
+    QList<SERVER_ITEM> ret;
+    AllProxyEnabled = false;
+    while(!n.isNull())
+    {
+        QDomElement element = n.toElement(); // try to convert the node to an element.
+        if(!element.isNull())
+        {
+            if (element.nodeName() == "Server")
+            {
+                SERVER_ITEM s;
+
+                s.server = QString( QByteArray::fromPercentEncoding(element.attribute("Name", "").toAscii()) );
+                s.user = QString( QByteArray::fromPercentEncoding(element.attribute("User", "").toAscii()) );
+                s.password = QString( RC4( QByteArray::fromBase64( element.attribute("Password", "").toAscii() ) ) );
+                QString sType = element.attribute("Type", "");
+
+                if (sType == Server_Type_String[SERVER_ALL_PROXY])
+                    s.type = SERVER_ALL_PROXY;
+                else if (sType == Server_Type_String[SERVER_HTTP_PROXY])
+                    s.type = SERVER_HTTP_PROXY;
+                else if (sType == Server_Type_String[SERVER_HTTPS_PROXY])
+                    s.type = SERVER_HTTPS_PROXY;
+                else if (sType == Server_Type_String[SERVER_FTP_PROXY])
+                    s.type = SERVER_FTP_PROXY;
+                else if (sType == Server_Type_String[SERVER_HTTP_FTP])
+                    s.type = SERVER_HTTP_FTP;
+
+                s.port = element.attribute("Port", "0").toInt();
+                ret << s;
+            } else if (element.nodeName() == "Property")
+            {
+                AllProxyEnabled = element.attribute("AllProxyEnabled", "false").compare("true") == 0;
+            }
+        }
+        n = n.nextSibling();
+    }
+
+    serverListNode = ret;
+    return ret;
+}
+
+QList<TEMPLATES> util::LoadTemplates(URI_TYPE Element)
 {
     QList<TEMPLATES> lRet;
-    QDomDocument doc("templates");
-    QFile file(util::getHomePath() + "templates.xml");
-    if (file.open(QIODevice::ReadOnly))
+    QDomNode node = LoadConfigurationNode("templateList");
+    QDomNode n = node.firstChild();
+    while(!n.isNull())
     {
-        QString errorMsg;
-        int errorline;
-        int errorColumn;
-        if (doc.setContent(&file, &errorMsg, &errorline, &errorColumn))
+        QDomElement item = n.toElement();
+        if(!item.isNull())
         {
-            QDomElement root = doc.documentElement();
-            if (root.tagName().compare("template", Qt::CaseInsensitive) == 0)
-            {
-                QDomNode n = root.firstChild();
-                while(!n.isNull())
-                {
-                    QDomElement item = n.toElement();
-                    if(!item.isNull())
-                    {
-                        TEMPLATES itemMap;
-                        itemMap.type = URI_TYPE_NONE;
-                        QString type = item.attribute("type", "");
-                        if (type.compare("HTTP/FTP", Qt::CaseInsensitive) == 0)
-                            itemMap.type = URI_TYPE_HTTP_FTP;
-                        else if (type.compare("Multi HTTP/FTP", Qt::CaseInsensitive) == 0)
-                            itemMap.type = URI_TYPE_MULTI_HTTP_FTP;
-                        else if (type.compare("Torrent", Qt::CaseInsensitive) == 0)
-                            itemMap.type = URI_TYPE_TORRENT;
-                        else if (type.compare("Magnetlink", Qt::CaseInsensitive) == 0)
-                            itemMap.type = URI_TYPE_MAGNETLINK;
-                        else if (type.compare("Metalink", Qt::CaseInsensitive) == 0)
-                            itemMap.type = URI_TYPE_METALINK;
+            TEMPLATES itemMap;
+            itemMap.type = URI_TYPE_NONE;
+            QString type = item.attribute("type", "");
+            if (type.compare("HTTP/FTP", Qt::CaseInsensitive) == 0)
+                itemMap.type = URI_TYPE_HTTP_FTP;
+            else if (type.compare("Multi HTTP/FTP", Qt::CaseInsensitive) == 0)
+                itemMap.type = URI_TYPE_MULTI_HTTP_FTP;
+            else if (type.compare("Torrent", Qt::CaseInsensitive) == 0)
+                itemMap.type = URI_TYPE_TORRENT;
+            else if (type.compare("Magnetlink", Qt::CaseInsensitive) == 0)
+                itemMap.type = URI_TYPE_MAGNETLINK;
+            else if (type.compare("Metalink", Qt::CaseInsensitive) == 0)
+                itemMap.type = URI_TYPE_METALINK;
 
-                        if (itemMap.type != URI_TYPE_NONE)
+            if (itemMap.type != URI_TYPE_NONE)
+            {
+                itemMap.name = QString::fromUtf8(QByteArray::fromPercentEncoding(item.attribute("name", "").toAscii()));
+                if ( (Element == URI_TYPE_ALL) || (itemMap.type == Element) )
+                {
+                    QDomNode NodeChild = n.firstChild();
+                    while (!NodeChild.isNull())
+                    {
+                        QDomElement itemChild = NodeChild.toElement();
+                        if (!itemChild.isNull())
                         {
-                            itemMap.name = QString::fromUtf8(QByteArray::fromPercentEncoding(item.attribute("name", "").toAscii()));
-                            if ( (Element == URI_TYPE_ALL) || (itemMap.type == Element) )
+                            QDomNamedNodeMap nodeMap = itemChild.attributes();
+                            int itemCount = nodeMap.count();
+                            for (int i = 0; i < itemCount; i++)
                             {
-                                QDomNode NodeChild = n.firstChild();
-                                while (!NodeChild.isNull())
-                                {
-                                    QDomElement itemChild = NodeChild.toElement();
-                                    if (!itemChild.isNull())
-                                    {
-                                        QDomNamedNodeMap nodeMap = itemChild.attributes();
-                                        int itemCount = nodeMap.count();
-                                        for (int i = 0; i < itemCount; i++)
-                                        {
-                                            itemMap.value[nodeMap.item(i).nodeName()] = QString(QByteArray::fromPercentEncoding(nodeMap.item(i).nodeValue().toUtf8()));
-                                        }
-                                    }
-                                    NodeChild = NodeChild.nextSibling();
-                                }
-                                lRet << itemMap;
+                                itemMap.value[nodeMap.item(i).nodeName()] = QString(QByteArray::fromPercentEncoding(nodeMap.item(i).nodeValue().toUtf8()));
                             }
                         }
+                        NodeChild = NodeChild.nextSibling();
                     }
-                    n = n.nextSibling();
+                    lRet << itemMap;
                 }
             }
         }
-        file.close();
+        n = n.nextSibling();
+    }
+    if (Element == URI_TYPE_ALL)
+    {
+        templateNode = lRet;
     }
     return lRet;
 }
 
-void util::SaveTemplates(const QList<util::TEMPLATES> &temp)
+void util::LoadConfigurationAll()
 {
-    QDomDocument doc("templates");
-    QDomElement root = doc.createElement("template");
+    connectionNode = LoadConnectionList();
+    LoadSetting("", "");
+    templateNode = LoadTemplates();
+    serverListNode = LoadServerList();
+}
+
+void util::SaveConfigurationNode()
+{
+    QDomDocument doc("Aria2cRemoteConfiguration");
+    QDomElement root = doc.createElement("Configuration");
     doc.appendChild(root);
 
-    foreach (util::TEMPLATES t, temp)
+    SaveConnectionList(doc, root);
+    SaveSetting(doc, root);
+    SaveTemplate(doc,root);
+    SaveServerList(doc,root);
+
+    QFile file(util::getHomePath() + "configuration.xml");
+    if (file.open(QIODevice::WriteOnly))
+    {
+        file.write(doc.toByteArray());
+        file.close();
+    }
+}
+
+void util::SaveConnectionList(const CONNECTION &connection)
+{
+    connectionNode = connection;
+    SaveConfigurationNode();
+}
+
+void util::SaveConnectionList(QDomDocument &doc, QDomElement &root)
+{
+    QDomElement nodeRoot = doc.createElement("ConnectionList");
+    root.appendChild(nodeRoot);
+
+    QDomElement elem = doc.createElement("Connection");
+    elem.setAttribute("Password", QString( RC4(connectionNode.password.toAscii()).toBase64()) );
+    elem.setAttribute("User", QString( connectionNode.user.toAscii().toPercentEncoding() ) );
+    elem.setAttribute("Host", QString( connectionNode.host.toAscii().toPercentEncoding() ) );
+    elem.setAttribute("Port", QString::number( connectionNode.port ));
+    elem.setAttribute("EnableProxy", QVariant( connectionNode.enableProxy).toString() );
+    elem.setAttribute("ProxyPassword", QString( RC4( connectionNode.proxyPassword.toAscii()).toBase64()) );
+    elem.setAttribute("ProxyUser", QString( connectionNode.proxyUser.toAscii().toPercentEncoding() ) );
+    elem.setAttribute("ProxyServer", QString( connectionNode.proxyServer.toAscii().toPercentEncoding() ) );
+    elem.setAttribute("ProxyPort", QString::number( connectionNode.proxyPort ));
+    nodeRoot.appendChild(elem);
+}
+
+void util::SaveSetting(QDomDocument &doc, QDomElement &root)
+{
+    QDomElement nodeRoot = doc.createElement("UISetting");
+    root.appendChild(nodeRoot);
+
+    QMapIterator<QString, QMap<QString, QString> > m(uiSettingNode);
+    while (m.hasNext())
+    {
+        m.next();
+        QDomElement elem = doc.createElement(m.key());
+        QMapIterator<QString, QString> v(m.value());
+        while (v.hasNext())
+        {
+            v.next();
+            elem.setAttribute(v.key(), v.value());
+        }
+        nodeRoot.appendChild(elem);
+    }
+}
+
+void util::SaveSetting(const QString &Element, const QString &name, const QString &value)
+{
+    uiSettingNode[Element][name] = value;
+    SaveConfigurationNode();
+}
+
+void util::SaveTemplate(QDomDocument &doc, QDomElement &root)
+{
+    QDomElement nodeRoot = doc.createElement("TemplateList");
+    root.appendChild(nodeRoot);
+
+    foreach (util::TEMPLATES t, templateNode)
     {
         QDomElement elem = doc.createElement("item");
         elem.setAttribute("name", QString(t.name.toUtf8().toPercentEncoding()));
@@ -586,30 +646,47 @@ void util::SaveTemplates(const QList<util::TEMPLATES> &temp)
                 e.setAttribute(m.key(), QString(m.value().toString().toUtf8().toPercentEncoding()));
                 elem.appendChild(e);
             }
-            root.appendChild(elem);
+            nodeRoot.appendChild(elem);
         }
-    }
-
-    QFile file(util::getHomePath() + "templates.xml");
-    if (file.open(QIODevice::WriteOnly))
-    {
-        file.write(doc.toByteArray(1));
-        file.close();
     }
 }
 
-QMap<QString, Variant> util::TemplateFromName(const QList<util::TEMPLATES> &temp, const QString &Name, URI_TYPE type)
+void util::SaveTemplate(const QList<util::TEMPLATES> &temp)
 {
-    QMap<QString, Variant> mRet;
+    templateNode = temp;
+    SaveConfigurationNode();
+}
 
-    foreach (util::TEMPLATES t, temp)
+void util::SaveServerList(QDomDocument &doc, QDomElement &root)
+{
+    QDomElement nodeRoot = doc.createElement("ServerList");
+    root.appendChild(nodeRoot);
+
+    foreach (SERVER_ITEM si, serverListNode)
     {
-        if ( ((type == URI_TYPE_ALL) || (type == t.type)) && (t.name.compare(Name, Qt::CaseInsensitive) == 0) )
+        QDomElement elem = doc.createElement("Server");
+
+        elem.setAttribute("Password", QString( RC4(si.password.toAscii()).toBase64()) );
+        elem.setAttribute("User", QString( si.user.toAscii().toPercentEncoding() ) );
+        elem.setAttribute("Name", QString( si.server.toAscii().toPercentEncoding() ) );
+        elem.setAttribute("Type", Server_Type_String[si.type]);
+        if (si.port != 0)
         {
-            mRet = t.value;
-            break;
+            elem.setAttribute("Port", QString::number(si.port));
         }
+
+        nodeRoot.appendChild(elem);
     }
 
-    return mRet;
+    QDomElement elemProperty = doc.createElement("Property");
+
+    elemProperty.setAttribute("AllProxyEnabled", QVariant(AllProxyEnabled).toString());
+    nodeRoot.appendChild(elemProperty);
+}
+
+void util::SaveServerList(const QList<SERVER_ITEM> &serverlist)
+{
+    serverListNode = serverlist;
+    SaveConfigurationNode();
+
 }

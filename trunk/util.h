@@ -35,6 +35,7 @@
 #include "xmlrpc.h"
 #include "features.h"
 #include "aria2cparameter.h"
+#include <QDomElement>
 
 namespace util
 {
@@ -154,17 +155,12 @@ using namespace xmlrpc;
     QByteArray RC4(QByteArray data);
     void deletePrePostSpace(QString &str);
 
-    void LoadConnectionList(QString &host, QString &user, QString &password, int &port, QString &proxyServer, QString &proxyUser, QString &proxyPassword, int &proxyPort, bool &enableProxy);
-    void SaveConnectionList(const QString &host, const QString &user, const QString &password, const int &port, const QString &proxyServer, const QString &proxyUser, const QString &proxyPassword, const int &proxyPort, const bool &enableProxy);
 
     QString getHomePath();
 
     QByteArray gzipDecompress(const QByteArray& compressedData);
 
-    //Save/load settings
-    void SaveSetting(const QString &Element, const QString &name, const QString &value);
-    const QString LoadSetting(const QString &Element, const QString &name);
-
+    //Configuration file load/save
     typedef struct _Templates
     {
         QMap<QString, Variant> value;
@@ -172,9 +168,64 @@ using namespace xmlrpc;
         URI_TYPE type;
     }TEMPLATES, *PTEMPLATES;
 
-    QList<TEMPLATES> LoadTemplates(URI_TYPE Element = URI_TYPE_ALL);
-    void SaveTemplates(const QList<util::TEMPLATES> &temp);
     QMap<QString, Variant> TemplateFromName(const QList<util::TEMPLATES> &temp, const QString &Name, URI_TYPE type = URI_TYPE_ALL );
+
+    typedef struct _Connection
+    {
+        QString host;
+        QString user;
+        QString password;
+        int port;
+        QString proxyServer;
+        QString proxyUser;
+        QString proxyPassword;
+        int proxyPort;
+        bool enableProxy;
+    } CONNECTION, *PCONNECTION;
+
+    static QString Server_Type_String[] = {"All Proxy", "HTTP Proxy", "HTTPS Proxy", "FTP Proxy", "HTTP FTP"};
+    enum SERVER_TYPE {
+        SERVER_ALL_PROXY = 0,
+        SERVER_HTTP_PROXY,
+        SERVER_HTTPS_PROXY,
+        SERVER_FTP_PROXY,
+        SERVER_HTTP_FTP
+    };
+
+    typedef struct Server_Item
+    {
+        QString server;
+        QString user;
+        QString password;
+        SERVER_TYPE type;
+        int port;
+    }SERVER_ITEM, *PSERVER_ITEM;
+
+    static CONNECTION connectionNode;
+    static QMap<QString, QMap<QString, QString> > uiSettingNode;
+    static QList<SERVER_ITEM> serverListNode;
+    static QList<util::TEMPLATES> templateNode;
+    static bool AllProxyEnabled = false;
+
+    void LoadConfigurationAll();
+    QDomNode LoadConfigurationNode(const QString &node);
+    void SaveConfigurationNode();
+
+    //load
+    CONNECTION LoadConnectionList();
+    const QString LoadSetting(const QString &Element, const QString &name);
+    QList<SERVER_ITEM> LoadServerList();
+    QList<TEMPLATES> LoadTemplates(URI_TYPE Element = URI_TYPE_ALL);
+
+    //save
+    void SaveConnectionList(QDomDocument &doc, QDomElement &root);
+    void SaveConnectionList(const CONNECTION &connection);
+    void SaveSetting(QDomDocument &doc, QDomElement &root);
+    void SaveSetting(const QString &Element, const QString &name, const QString &value);
+    void SaveTemplate(QDomDocument &doc, QDomElement &root);
+    void SaveTemplate(const QList<util::TEMPLATES> &temp);
+    void SaveServerList(QDomDocument &doc, QDomElement &root);
+    void SaveServerList(const QList<SERVER_ITEM> &serverlist);
 }
 
 #endif // UTIL_H
