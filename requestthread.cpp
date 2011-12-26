@@ -34,20 +34,20 @@ QMutex RequestThread::conditionMutex;
 RequestThread::RequestThread() :
         m_exit(false),
         m_sleep(10000),
-        m_host("localhost"),
-        m_user(""),
-        m_password(""),
-        m_port(6800),
-        m_proxyServer(""),
-        m_proxyUser(""),
-        m_proxyPassword(""),
-        m_proxyPort(8080),
-        m_enableProxy(false),
         m_currentGID(-1),
         m_periodicRequest(false)
 {
-    client.setHost(m_host, m_port, "/rpc");
-    client.setUser(m_user, m_password);
+    m_connection.host = "";
+    m_connection.user = "";
+    m_connection.password = "";
+    m_connection.port = 6800;
+    m_connection.proxyServer = "";
+    m_connection.proxyUser = "";
+    m_connection.proxyPassword = "";
+    m_connection.proxyPort = 8080;
+
+    client.setHost(m_connection.host, m_connection.port, "/rpc");
+    client.setUser(m_connection.user, m_connection.password);
 
     connect( &client, SIGNAL(done( int, qint64, int, QVariant )), this, SLOT(processReturnValue( int, qint64, int, QVariant )) );
     connect( &client, SIGNAL(failed( int, int, QString )), this, SLOT(processFault( int, int, QString )) );
@@ -60,24 +60,15 @@ RequestThread::~RequestThread()
     wait();
 }
 
-void RequestThread::setConnection(const QString &host, const QString &user, const QString &password, const int &port, const QString &proxyServer, const QString &proxyUser, const QString &proxyPassword, const int &proxyPort, const bool &enableProxy)
+void RequestThread::setConnection(const util::CONNECTION &connection)
 {
-    m_host = host;
-    m_user = user;
-    m_password = password;
-    m_port = port;
+    m_connection = connection;
 
-    m_proxyServer = proxyServer;
-    m_proxyUser = proxyUser;
-    m_proxyPassword = proxyPassword;
-    m_proxyPort = proxyPort;
-    m_enableProxy = enableProxy;
-
-    client.setHost(m_host, m_port, "/rpc");
-    client.setUser(m_user, m_password);
-    if (m_enableProxy)
+    client.setHost(m_connection.host, m_connection.port, "/rpc");
+    client.setUser(m_connection.user, m_connection.password);
+    if (m_connection.enableProxy)
     {
-       client.setProxy(m_proxyServer, m_proxyPort, m_proxyUser, m_proxyPassword);
+       client.setProxy(m_connection.proxyServer, m_connection.proxyPort, m_connection.proxyUser, m_connection.proxyPassword);
     }
 }
 

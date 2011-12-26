@@ -28,24 +28,6 @@
 
 using namespace util;
 
-static QString Server_Type_String[] = {"All Proxy", "HTTP Proxy", "HTTPS Proxy", "FTP Proxy", "HTTP FTP"};
-enum SERVER_TYPE {
-    SERVER_ALL_PROXY = 0,
-    SERVER_HTTP_PROXY,
-    SERVER_HTTPS_PROXY,
-    SERVER_FTP_PROXY,
-    SERVER_HTTP_FTP
-};
-
-typedef struct Server_Item
-{
-    QString server;
-    QString user;
-    QString password;
-    SERVER_TYPE type;
-    int port;
-}SERVER_ITEM, *PSERVER_ITEM;
-
 class Server
 {
     public:

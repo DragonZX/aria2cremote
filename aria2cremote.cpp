@@ -43,14 +43,6 @@ Aria2cRemote::Aria2cRemote(QWidget *parent) :
     bValidGlobalOption(false),
     m_bConnected(false),
     m_currentGID(-1),
-    m_host("localhost"),
-    m_user(""),
-    m_password(""),
-    m_port(6800),
-    m_proxyServer(""),
-    m_proxyUser(""),
-    m_proxyPassword(""),
-    m_proxyPort(8080),
     m_seeding(0),
     m_downloading(0),
     m_complete(0),
@@ -61,6 +53,9 @@ Aria2cRemote::Aria2cRemote(QWidget *parent) :
  {
     ui->setupUi(this);
 
+    //load all configuration settings
+    LoadConfigurationAll();
+
     //load geometry
     QByteArray Aria2cRemoteGeometry = QByteArray::fromBase64(util::LoadSetting("Aria2cRemote", "Geometry").toAscii());
     if (Aria2cRemoteGeometry.size() > 0)
@@ -69,7 +64,7 @@ Aria2cRemote::Aria2cRemote(QWidget *parent) :
     }
 
     //Connection options load
-    util::LoadConnectionList(m_host, m_user, m_password, m_port, m_proxyServer, m_proxyUser, m_proxyPassword, m_proxyPort, m_enableProxy);
+    m_connection = util::LoadConnectionList();
 
     //set main view;
     m_DetailsTab = new DetailsTabView;
@@ -175,7 +170,7 @@ Aria2cRemote::Aria2cRemote(QWidget *parent) :
 
     //Working thread init
     m_requestThread.EnablePeriodicRequest();
-    m_requestThread.setConnection(m_host, m_user, m_password, m_port, m_proxyServer, m_proxyUser, m_proxyPassword, m_proxyPort, m_enableProxy);
+    m_requestThread.setConnection(m_connection);
     m_requestThread.SetSleep(5000);
     qRegisterMetaType <XML_RPC_RESPONSE_MAP>("XML_RPC_RESPONSE_MAP");
     connect(&m_requestThread, SIGNAL(Response(XML_RPC_RESPONSE_MAP, XML_RPC_RESPONSE_MAP, XML_RPC_RESPONSE_MAP)), this, SLOT(ResponseXML(XML_RPC_RESPONSE_MAP, XML_RPC_RESPONSE_MAP, XML_RPC_RESPONSE_MAP)));
@@ -393,7 +388,7 @@ void Aria2cRemote::on_actionAdd_HTTP_FTP_triggered()
     add_http_ftp_magnetlink add(this);
 
     add.SetURI(sStr);
-    templates = util::LoadTemplates(URI_TYPE_HTTP_FTP);
+    QList<util::TEMPLATES> templates(util::LoadTemplates(URI_TYPE_HTTP_FTP));
     add.SetMenu(util::URI_TYPE_HTTP_FTP, templates);
     if (add.exec() == QDialog::Accepted)
     {
@@ -628,7 +623,7 @@ void Aria2cRemote::on_actionAdd_MagnetLink_triggered()
     add_http_ftp_magnetlink add(this);
 
     add.SetURI(sStr);
-    templates = util::LoadTemplates(URI_TYPE_MAGNETLINK);
+    QList<util::TEMPLATES> templates(util::LoadTemplates(URI_TYPE_MAGNETLINK));
     add.SetMenu(URI_TYPE_MAGNETLINK, templates);
     if (add.exec() == QDialog::Accepted)
     {
@@ -1227,15 +1222,14 @@ void Aria2cRemote::on_actionOption_triggered()
 {
     Aria2Options options(this);
 
-    options.setConnection(m_host, m_user, m_password, m_port, m_proxyServer, m_proxyUser, m_proxyPassword, m_proxyPort, m_enableProxy);
+    options.setConnection(m_connection);
     if (options.exec() == QDialog::Accepted)
     {
-         options.getConnection(m_host, m_user, m_password, m_port, m_proxyServer, m_proxyUser, m_proxyPassword, m_proxyPort, m_enableProxy);
-         util::SaveConnectionList(m_host, m_user, m_password, m_port, m_proxyServer, m_proxyUser, m_proxyPassword, m_proxyPort, m_enableProxy);
+        m_connection = options.getConnection();
+        util::SaveConnectionList(m_connection);
 
-         //set threads
-         m_requestThread.setConnection(m_host, m_user, m_password, m_port, m_proxyServer, m_proxyUser, m_proxyPassword, m_proxyPort, m_enableProxy);
-         m_requestThread.setConnection(m_host, m_user, m_password, m_port, m_proxyServer, m_proxyUser, m_proxyPassword, m_proxyPort, m_enableProxy);
+        //set threads
+        m_requestThread.setConnection(m_connection);
     }
 }
 

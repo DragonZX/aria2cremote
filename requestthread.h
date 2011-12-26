@@ -27,6 +27,7 @@
 #include <QMap>
 #include "xmlrpc.h"
 #include "download.h"
+#include "util.h"
 
 typedef QMap<qint64, xmlrpc::XmlRPC> XML_RPC_RESPONSE_MAP;
 
@@ -37,6 +38,7 @@ typedef struct TFAULT_MESSAGE
 }FAULT_MESSAGE,*PFAULT_MESSAGE;
 
 using namespace xmlrpc;
+using namespace util;
 
 class RequestThread : public QThread
 {
@@ -49,7 +51,7 @@ public:
     void SetSleep(quint32 sleep) { m_sleep = sleep;}
     void EnablePeriodicRequest() { m_periodicRequest = true; }
     void setCurrentGID(int gid) { m_currentGID = gid; }
-    void setConnection(const QString &host, const QString &user, const QString &password, const int &port, const QString &proxyServer, const QString &proxyUser, const QString &proxyPassword, const int &proxyPort, const bool &enableProxy);
+    void setConnection(const util::CONNECTION &connection);
     void SetGZipEnabled() { client.setGZipEnabled(); }
     void wakeUp() {condition.wakeAll();}
     void setDescriptionText(QString s) {m_sDescription = s; }
@@ -78,15 +80,7 @@ private:
     static QMutex conditionMutex;
     xmlrpc::Client client;
 
-    QString m_host;
-    QString m_user;
-    QString m_password;
-    int m_port;
-    QString m_proxyServer;
-    QString m_proxyUser;
-    QString m_proxyPassword;
-    int m_proxyPort;
-    bool m_enableProxy;
+    util::CONNECTION m_connection;
 
     qint64 m_currentGID;
 

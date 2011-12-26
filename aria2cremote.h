@@ -129,15 +129,7 @@ private:
     qint64 m_currentGID;
 
     //Connection options + proxy
-    QString m_host;
-    QString m_user;
-    QString m_password;
-    int m_port;
-    QString m_proxyServer;
-    QString m_proxyUser;
-    QString m_proxyPassword;
-    int m_proxyPort;
-    bool m_enableProxy;
+    util::CONNECTION m_connection;
 
     XML_RPC_RESPONSE_MAP m_tellActive;
     XML_RPC_RESPONSE_MAP m_tellStopped;
@@ -177,9 +169,6 @@ private:
 
     GeoIP geoip;
     DownloadProgressDialog *progressDialog;
-
-    //download templates
-    QList<util::TEMPLATES> templates;
 private:
     void setTreeWidgetItem(QTreeWidgetItemEx *item, XmlRPC& x);
     void setInitTreeWidgetItem(QTreeWidgetItemEx *item);

@@ -40,36 +40,15 @@ public:
     ~Aria2Options();
     void LoadConnectionList();
     void SaveConnectionList();
-    void getConnection(QString &host, QString &user, QString &password, int &port, QString &proxyServer, QString &proxyUser, QString &proxyPassword, int &proxyPort, bool &enableProxy)
-    {
-        host = m_host;
-        user = m_user;
-        password = m_password;
-        port = m_port;
-
-        proxyServer = m_proxyServer;
-        proxyUser = m_proxyUser;
-        proxyPassword = m_proxyPassword;
-        proxyPort = m_proxyPort;
-        enableProxy = m_enableProxy;
-    }
-
-    void setConnection(const QString &host, const QString &user, const QString &password, const int &port, const QString &proxyServer, const QString &proxyUser, const QString &proxyPassword, const int &proxyPort, const bool &enableProxy);
+    util::CONNECTION getConnection() { return m_connection; }
+    void setConnection(const util::CONNECTION &connection);
 
 protected:
     void changeEvent(QEvent *e);
 
 private:
     Ui::Aria2Options *ui;
-    QString m_host;
-    QString m_user;
-    QString m_password;
-    int m_port;
-    QString m_proxyServer;
-    QString m_proxyUser;
-    QString m_proxyPassword;
-    int m_proxyPort;
-    bool m_enableProxy;
+    util::CONNECTION m_connection;
 
     //Server
     Server m_servers;

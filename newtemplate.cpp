@@ -7,19 +7,9 @@ newTemplate::newTemplate(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::newTemplate)
 {
-    QString host;
-    QString user;
-    QString password;
-    int port;
-    QString proxyServer;
-    QString proxyUser;
-    QString proxyPassword;
-    int proxyPort;
-    bool enableProxy;
-
     ui->setupUi(this);
-    util::LoadConnectionList(host, user, password, port, proxyServer, proxyUser, proxyPassword, proxyPort, enableProxy);
-    request.setConnection(host, user, password, port, proxyServer, proxyUser, proxyPassword, proxyPort, enableProxy);
+    util::CONNECTION connection = util::LoadConnectionList();
+    request.setConnection(connection);
     connect(&request, SIGNAL(ResponseGetGlobalOptions(QVariant)), this, SLOT(GetGlobalOptions(QVariant)));
     request.start();
 }
