@@ -143,7 +143,7 @@ bool GeoIP::update(const QByteArray &content)
         mutex.unlock();
         return false;
     }
-    file.write(content);
+    file.write(util::gzipDecompress(content));
     file.close();
     mutex.unlock();
     return true;
