@@ -255,7 +255,7 @@ void DetailsTabView::setTabPagePeers(xmlrpc::XmlRPC &dw)
         else if (type != UNKNOWN)
         {
             //create servers column
-            headers << tr("Uri") << tr("Current URI") << tr("Size");
+            headers << tr("Uri") << tr("Current URI") << tr("Down speed");
 
             ui->treeWidget_Peers_Servers->setRootIsDecorated(true);
         }

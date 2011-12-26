@@ -936,6 +936,7 @@ Hiba szöveg: %2
     </message>
     <message>
         <location filename="../tabwidget.cpp" line="252"/>
+        <location filename="../tabwidget.cpp" line="258"/>
         <source>Down speed</source>
         <translation>Letöltési sebesség</translation>
     </message>
@@ -963,11 +964,6 @@ Hiba szöveg: %2
         <location filename="../tabwidget.cpp" line="258"/>
         <source>Current URI</source>
         <translation>Aktuális URI</translation>
-    </message>
-    <message>
-        <location filename="../tabwidget.cpp" line="258"/>
-        <source>Size</source>
-        <translation>Méret</translation>
     </message>
 </context>
 <context>
