@@ -925,6 +925,7 @@ Fault string: %2
     </message>
     <message>
         <location filename="../tabwidget.cpp" line="252"/>
+        <location filename="../tabwidget.cpp" line="258"/>
         <source>Down speed</source>
         <translation type="unfinished"></translation>
     </message>
@@ -951,11 +952,6 @@ Fault string: %2
     <message>
         <location filename="../tabwidget.cpp" line="258"/>
         <source>Current URI</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../tabwidget.cpp" line="258"/>
-        <source>Size</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
