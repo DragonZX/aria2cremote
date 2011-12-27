@@ -10,6 +10,7 @@ DownloadProgressDialog::DownloadProgressDialog(QWidget * parent, Qt::WindowFlags
     setAutoReset(true);
 
     connect(&networkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(httpFinished(QNetworkReply*)));
+    connect(this, SIGNAL(canceled()), this, SLOT(DialogCancel()));
  }
 
 void DownloadProgressDialog::AddUrls(const QList<QUrl> &urls)
@@ -18,6 +19,7 @@ void DownloadProgressDialog::AddUrls(const QList<QUrl> &urls)
     foreach (QUrl url, urls)
     {
         reply = networkManager.get(QNetworkRequest(url));
+        listReply.append(reply);
         connect(reply, SIGNAL(downloadProgress(qint64,qint64)),
                 this, SLOT(updateDataReadProgress(qint64,qint64)));
     }
@@ -46,7 +48,6 @@ void DownloadProgressDialog::httpFinished(QNetworkReply* reply)
     {
         if (urlNumber == 1)
         {
-            listReply.append(reply);
             emit downloadFinished(listReply);
         }
         else
@@ -61,4 +62,11 @@ void DownloadProgressDialog::httpFinished(QNetworkReply* reply)
     }
 }
 
-
+void DownloadProgressDialog::DialogCancel()
+{
+    foreach (QNetworkReply *r, listReply)
+    {
+        r->abort();
+        r->deleteLater();
+    }
+}
