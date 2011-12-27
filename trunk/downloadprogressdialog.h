@@ -26,6 +26,7 @@ signals:
 private slots:
     void httpFinished(QNetworkReply* reply);
     void updateDataReadProgress(qint64 bytesRead, qint64 totalBytes);
+    void DialogCancel();
 };
 
 #endif // DOWNLOADPROGRESSDIALOG_H
