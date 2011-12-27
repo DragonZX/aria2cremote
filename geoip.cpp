@@ -137,7 +137,7 @@ quint32 GeoIP::seekCountry(quint32 offset, quint32 ipnum, int depth)
 bool GeoIP::update(const QByteArray &content)
 {
     mutex.lock();
-    QFile file("geoip.dat");
+    QFile file(util::getHomePath() + "geoip.dat");
     if (!file.open(QIODevice::WriteOnly))
     {
         mutex.unlock();
