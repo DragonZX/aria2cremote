@@ -31,7 +31,7 @@ DetailsTabView::DetailsTabView(QWidget *parent) :
     m_pieces(NULL),
     m_availability(NULL),
     m_currentType(UNKNOWN),
-    m_PeerInfo("geoip.dat")
+    m_PeerInfo(util::getHomePath() + "geoip.dat")
 {
     ui->setupUi(this);
     m_progress = new bargraph(this);
