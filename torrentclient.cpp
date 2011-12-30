@@ -66,7 +66,6 @@ QString TorrentClient::getClientName(const QString &origStr)
         bFirst = false;
     }
 
-    bool ok;
     QString ret;
     QString str = QString(QByteArray::fromPercentEncoding(origStr.toAscii()));
 
@@ -94,12 +93,12 @@ QString TorrentClient::getClientName(const QString &origStr)
                     if (str.at(5).toAscii() == '0')
                         ret = cli + " 0." + str.at(6);
                     else
-                        ret = cli + " 0." + str.mid(5, 2).toUInt(&ok);
+                        ret = cli + " 0." + str.mid(5, 2);
                 }
                 else
                 {
                     char type = str.at(6).toAscii();
-                    ret = cli + " " + str.mid(3, 1).toUInt(&ok) + "." + str.mid(4, 2).toUInt(&ok) + (((type == 'Z') || (type == 'X')) ? "+" : "");
+                    ret = cli + " " + str.mid(3, 1) + "." + str.mid(4, 2) + (((type == 'Z') || (type == 'X')) ? "+" : "");
                 }
             } else if (!sign.compare("KT"))
             {
@@ -124,17 +123,17 @@ QString TorrentClient::getClientName(const QString &origStr)
                 ret = cli + " " + str.at(3) + "." + str.at(4) + " (" + str.at(5) + str.at(6) + ")";
             } else if (!sign.compare("CT"))
             {
-                ret = cli + " " + shChar(str.at(3)) + "." + shChar(str.at(4)) + "." + str.mid(5, 2).toUInt(&ok);
+                ret = cli + " " + shChar(str.at(3)) + "." + shChar(str.at(4)) + "." + str.mid(5, 2);
             } else if (!sign.compare("XX"))
             {
-                ret = cli + " " + shChar(str.at(3)) + "." + shChar(str.at(4)) + " (" + str.mid(5, 2).toUInt(&ok) + ")";
+                ret = cli + " " + shChar(str.at(3)) + "." + shChar(str.at(4)) + " (" + str.mid(5, 2) + ")";
             } else if (!sign.compare("LP"))
             {
-                ret = cli + " " + str.mid(3, 1).toUInt(&ok) + "." + str.mid(5, 2).toUInt(&ok);
+                ret = cli + " " + str.mid(3, 1) + "." + str.mid(5, 2);
             } else
             {
                 char ch = str.at(6).toAscii();
-                ret = cli + " " + str.at(3) + "." + str.mid(4, 2).toUInt(&ok);
+                ret = cli + " " + str.at(3) + "." + str.mid(4, 2);
                 if ( (ch == 'Z') || (ch == 'X') )
                     ret += '+';
             }
@@ -152,9 +151,8 @@ QString TorrentClient::getClientName(const QString &origStr)
                 else
                 {
                     cli = azLikeClients2x2[sign];
-                    bool ok;
                     if (cli.size() > 0)
-                        ret = QString("%1 %2.%3").arg(cli).arg(str.mid(3, 2).toUInt(&ok)).arg(str.mid(5, 2));
+                        ret = QString("%1 %2.%3").arg(cli).arg(str.mid(3, 2)).arg(str.mid(5, 2));
                 }
             }
         }
@@ -190,7 +188,7 @@ QString TorrentClient::getClientName(const QString &origStr)
                 if (str.contains(QRegExp("AZ2500BT")))
                     ret = "BitTyrant (Azureus Mod)";
                 else if (str.contains(QRegExp("-FG\\d\\d\\d\\d")))
-                    ret = QString("FlashGet ") + str.mid(3, 2).toUInt(&ok) + "." + str.mid(5, 2).toUInt(&ok);
+                    ret = QString("FlashGet ") + str.mid(3, 2) + "." + str.mid(5, 2);
                 else if (str.contains(QRegExp("-SP\\d\\d\\d")))
                     ret = QString("BitSpirit ") + str.at(3) + "." + str.at(4) + "." + str.at(5);
                 else if (str.contains(QRegExp("346-")))
@@ -220,7 +218,7 @@ QString TorrentClient::getClientName(const QString &origStr)
                 else if (str.contains(QRegExp("AP")))
                     ret = "AllPeers " + str.mid(2, 4);
                 else if (str.contains(QRegExp("DNA\\d\\d\\d\\d\\d\\d")))
-                    ret = QString("BitTorrent DNA ") + str.mid(3, 2).toUInt(&ok) + "." + str.mid(5, 2).toUInt(&ok) + "." + str.mid(7, 2).toUInt(&ok);
+                    ret = QString("BitTorrent DNA ") + str.mid(3, 2) + "." + str.mid(5, 2) + "." + str.mid(7, 2);
                 else if (str.contains(QRegExp("Plus")))
                     ret = QString("Plus! v2 ") + str.at(4) + "." + str.at(5) + str.at(6);
                 else if (str.contains(QRegExp("XBT\\d\\d\\d")))
