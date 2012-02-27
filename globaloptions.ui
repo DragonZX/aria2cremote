@@ -577,10 +577,10 @@
         <string>Max download result:</string>
        </property>
        <property name="buddy">
-        <cstring>spinBox_MaxConnectionPerServer</cstring>
+        <cstring>spinBox_MaxDownloadResult</cstring>
        </property>
       </widget>
-      <widget class="QSpinBox" name="spinBox_MaxConnectionPerServer_2">
+      <widget class="QSpinBox" name="spinBox_MaxDownloadResult">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -615,7 +615,7 @@
         <string>Min split size:</string>
        </property>
        <property name="buddy">
-        <cstring>spinBox_MaxConnectionPerServer</cstring>
+        <cstring>spinBox_MinSplitSize</cstring>
        </property>
       </widget>
       <widget class="QSpinBox" name="spinBox_MinSplitSize">
@@ -2887,7 +2887,7 @@
   <tabstop>spinBox_MaxOverallDownloadLimit</tabstop>
   <tabstop>spinBox_MaxOverallUploadLimit</tabstop>
   <tabstop>spinBox_MaxConcurrentDownloads</tabstop>
-  <tabstop>spinBox_MaxConnectionPerServer_2</tabstop>
+  <tabstop>spinBox_MaxDownloadResult</tabstop>
   <tabstop>spinBox_MaxConnectionPerServer</tabstop>
   <tabstop>checkBox_ContinueDownload</tabstop>
   <tabstop>spinBox_Split</tabstop>
