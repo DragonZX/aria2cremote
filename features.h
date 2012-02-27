@@ -29,6 +29,8 @@ namespace util
     const quint32 ARIA2C_VERSION_1120 = 0x00010C00;
     const quint32 ARIA2C_VERSION_1121 = 0x00010C01;
     const quint32 ARIA2C_VERSION_1130 = 0x00010D00;
+    const quint32 ARIA2C_VERSION_1140 = 0x00010E00;
+    const quint32 ARIA2C_VERSION_1141 = 0x00010E01;
     const quint32 ARIA2C_VERSION_MASK = 0x00FFFFFF;
 
     //Aria2c Features
@@ -42,6 +44,7 @@ namespace util
     const quint32 ARIA2C_FEATURES_METALINK       = 0x40000000;
     const quint32 ARIA2C_FEATURES_XMLRPC         = 0x80000000;
     const quint32 ARIA2C_FEATURES_ALL            = 0xFF000000;
+    const quint32 ARIA2C_FEATURES_OBSOLETE       = 0x01000000;
 
 }
 #endif // FEATURES_H
