@@ -104,7 +104,7 @@ void LocalOptions::changeEvent(QEvent *e)
     }
 }
 
-template <class T> T LocalOptions::SetProperties(T widget, quint32 uiAria2cProperties)
+template <class T> T LocalOptions::SetProperties(T widget, quint32 uiAria2cProperties, quint32 uiState)
 {
     quint32 uiMinAria2cVersion = uiAria2cProperties & util::ARIA2C_VERSION_MASK;
     quint32 uiAria2cFeatures = uiAria2cProperties & util::ARIA2C_FEATURES_ALL;
@@ -117,7 +117,12 @@ template <class T> T LocalOptions::SetProperties(T widget, quint32 uiAria2cPrope
     if (uiMinAria2cVersion > (g_uiAria2cVersion))
     {
         QString tooltip(tr("Minimum Aria2c version: <b>%1.%2.%3</b>").arg(uiMinAria2cVersion >> 16).arg((uiMinAria2cVersion & 0x00FF00) >> 8).arg(uiMinAria2cVersion & 0xFF));
-
+        widget->setToolTip(tooltip);
+        widget->setEnabled(false);
+    } else if (uiState & util::ARIA2C_FEATURES_OBSOLETE)
+    {
+        quint32 version = uiState & util::ARIA2C_VERSION_MASK;
+        QString tooltip = tr("Obsolete option<br>Last Aria2c version to supporting: <b>%1.%2.%3</b>").arg(version >> 16).arg((version & 0x00FF00) >> 8).arg(version & 0xFF);
         widget->setToolTip(tooltip);
         widget->setEnabled(false);
     } else if (!(g_uiAria2cFeatures & uiAria2cFeatures))
@@ -806,7 +811,7 @@ void LocalOptions::SetMetalinkOptions()
 
     SetProperties(ui->checkBox_FollowMetalink, util::ARIA2C_FEATURES_METALINK)->setCheckState(Update("follow-metalink", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     SetProperties(ui->checkBox_UniqueProtocol, util::ARIA2C_FEATURES_METALINK)->setCheckState(Update("metalink-enable-unique-protocol", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
-    SetProperties(ui->spinBox_MetalinkServers, util::ARIA2C_FEATURES_METALINK)->setValue(Update("metalink-servers", 5).toInt());
+    SetProperties(ui->spinBox_MetalinkServers, util::ARIA2C_FEATURES_METALINK, ARIA2C_VERSION_1130 | ARIA2C_FEATURES_OBSOLETE)->setValue(Update("metalink-servers", 5).toInt());
     SetProperties(ui->lineEdit_BaseURI, util::ARIA2C_VERSION_1112 | util::ARIA2C_FEATURES_METALINK)->setText(Update("metalink-base-uri", QString("")).toString());
 
     // ------- new elems ----------
