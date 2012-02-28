@@ -840,6 +840,7 @@ void LocalOptions::SetAdvancedOptions()
     SetProperties(ui->checkBox_CheckIntegrity)->setCheckState(Update("check-integrity", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     SetProperties(ui->checkBox_DryRun)->setCheckState(Update("dry-run", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     SetProperties(ui->checkBox_RpcAllowOriginAll, util::ARIA2C_VERSION_1130)->setCheckState(Update("rpc-allow-origin-all", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
+    SetProperties(ui->checkBox_DeferredInput, util::ARIA2C_VERSION_1142)->setCheckState(Update("deferred-input", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
 
     SetProperties(ui->checkBox_ReuseURI, util::ARIA2C_VERSION_190)->setCheckState(Update("reuse-uri", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     SetProperties(ui->checkBox_RemoveControlFile, util::ARIA2C_VERSION_191)->setCheckState(Update("remove-control-file", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
@@ -1102,6 +1103,7 @@ void LocalOptions::on_buttonBox_accepted()
     getUpdate("check-integrity", QVariant(ui->checkBox_CheckIntegrity->checkState() == Qt::Checked).toString());
     getUpdate("dry-run", QVariant(ui->checkBox_DryRun->checkState() == Qt::Checked).toString());
     getUpdate("rpc-allow-origin-all", QVariant(ui->checkBox_RpcAllowOriginAll->checkState() == Qt::Checked).toString());
+    getUpdate("deferred-input", QVariant(ui->checkBox_DeferredInput->checkState() == Qt::Checked).toString());
 
     getUpdate("reuse-uri", QVariant(ui->checkBox_ReuseURI->checkState() == Qt::Checked).toString());
     getUpdate("remove-control-file", QVariant(ui->checkBox_RemoveControlFile->checkState() == Qt::Checked).toString());

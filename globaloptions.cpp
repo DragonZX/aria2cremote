@@ -61,6 +61,13 @@ void GlobalOptions::SetGlobalOptions(QMap<QString, Variant> options)
     SetMetalinkOptions();
     SetAdvancedOptions();
     SetAdvanced1Options();
+
+    if (g_uiAria2cVersion >= util::ARIA2C_VERSION_1140)
+    {
+        ui->comboBox_LogLevel->setEnabled(true);
+        ui->spinBox_MaxDownloadResult->setEnabled(true);
+        ui->comboBox_DownloadResult->setEnabled(true);
+    }
 }
 
 void GlobalOptions::MaxOverallDownloadLimitChanged(int iValue)
@@ -78,13 +85,31 @@ void GlobalOptions::MaxConcurrentDownloadsChanged(int iValue)
     m_newGlobalOptions["max-concurrent-downloads"] = Variant(iValue);
 }
 
+void GlobalOptions::LogLevelChanged(QString sLogLevel)
+{
+    m_newGlobalOptions["log-level"] = Variant(sLogLevel);
+}
+
+void GlobalOptions::MaxDownloadResult(int iValue)
+{
+    m_newGlobalOptions["max-download-result"] = Variant(iValue);
+}
+
+void GlobalOptions::DownloadResult(int iValue)
+{
+    Aria2cParameter param = Aria2cParams["download-result"];
+    m_newGlobalOptions["download-result"] = Variant(param.getList()[iValue]);
+}
+
 void GlobalOptions::SetBasicOptions()
 {
     int iValue;
 
     ui->lineEdit_Dir->setText(m_globalOptions.value("dir", QString("")).toString());
     ui->lineEdit_Help->setText(m_globalOptions.value("help", QString("#basic")).toString());
-    ui->lineEdit_LogLevel->setText(m_globalOptions.value("log-level", QString("debug")).toString());
+
+    Aria2cParameter param = Aria2cParams["log-level"];
+    ui->comboBox_LogLevel->setCurrentIndex(param.getList().indexOf(m_globalOptions.value("log-level", QString("debug")).toString()));
 
     iValue = m_globalOptions.value("max-overall-download-limit", 0).toInt() / 1024;
     ui->spinBox_MaxOverallDownloadLimit->setValue(iValue);
@@ -104,6 +129,7 @@ void GlobalOptions::SetBasicOptions()
     ui->spinBox_Timeout->setValue(m_globalOptions.value("timeout", 60).toInt());
     ui->spinBox_MaxConnectionPerServer->setValue(m_globalOptions.value("max-connection-per-server", 1).toInt());
     ui->spinBox_MinSplitSize->setValue(m_globalOptions.value("min-split-size", 20971520).toInt() / 1024);
+    ui->spinBox_MaxDownloadResult->setValue(m_globalOptions.value("max-download-result", 1000).toInt());
 }
 
 void GlobalOptions::SetFTPOptions()
@@ -249,6 +275,7 @@ void GlobalOptions::SetAdvanced1Options()
     ui->checkBox_ShowConsoleReadout->setCheckState(m_globalOptions.value("show-console-readout", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     ui->checkBox_TruncateConsoleReadout->setCheckState(m_globalOptions.value("truncate-console-readout", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     ui->checkBox_RpcAllowOriginAll->setCheckState(m_globalOptions.value("rpc-allow-origin-all", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
+    ui->checkBox_DeferredInput->setCheckState(m_globalOptions.value("deferred-input", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     ui->spinBox_SummaryInterval->setValue(m_globalOptions.value("summary-interval", 60).toInt());
     ui->spinBox_ServerStatTimeout->setValue(m_globalOptions.value("server-stat-timeout", 86400).toInt());
     ui->spinBox_NoFileAllocationLimit->setValue(m_globalOptions.value("no-file-allocation-limit", 5242880).toInt() / 1024);

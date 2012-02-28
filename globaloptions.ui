@@ -138,20 +138,7 @@
         <string>Log-level:</string>
        </property>
        <property name="buddy">
-        <cstring>lineEdit_LogLevel</cstring>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="lineEdit_LogLevel">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="geometry">
-        <rect>
-         <x>140</x>
-         <y>73</y>
-         <width>133</width>
-         <height>20</height>
-        </rect>
+        <cstring>comboBox_LogLevel</cstring>
        </property>
       </widget>
       <widget class="QLabel" name="label_9">
@@ -645,6 +632,47 @@
        <property name="value">
         <number>0</number>
        </property>
+      </widget>
+      <widget class="QComboBox" name="comboBox_LogLevel">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>140</x>
+         <y>70</y>
+         <width>131</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="editable">
+        <bool>false</bool>
+       </property>
+       <item>
+        <property name="text">
+         <string>debug</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>info</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>notice</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>warn</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>error</string>
+        </property>
+       </item>
       </widget>
      </widget>
      <widget class="QWidget" name="tab_2">
@@ -2874,6 +2902,22 @@
         <string>RPC allow origin all</string>
        </property>
       </widget>
+      <widget class="QCheckBox" name="checkBox_DeferredInput">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>185</x>
+         <y>147</y>
+         <width>140</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Deferred input</string>
+       </property>
+      </widget>
      </widget>
     </widget>
    </item>
@@ -2883,7 +2927,7 @@
   <tabstop>tabWidget</tabstop>
   <tabstop>lineEdit_Dir</tabstop>
   <tabstop>lineEdit_Help</tabstop>
-  <tabstop>lineEdit_LogLevel</tabstop>
+  <tabstop>comboBox_LogLevel</tabstop>
   <tabstop>spinBox_MaxOverallDownloadLimit</tabstop>
   <tabstop>spinBox_MaxOverallUploadLimit</tabstop>
   <tabstop>spinBox_MaxConcurrentDownloads</tabstop>
@@ -2900,9 +2944,9 @@
   <tabstop>spinBox_MinSplitSize</tabstop>
   <tabstop>radioButton_Mode_Passive</tabstop>
   <tabstop>radioButton_Mode_Active</tabstop>
+  <tabstop>checkBox_ReuseConnection</tabstop>
   <tabstop>radioButton_Type_Binary</tabstop>
   <tabstop>radioButton_Type_ASCII</tabstop>
-  <tabstop>checkBox_ReuseConnection</tabstop>
   <tabstop>spinBox_FTP_ConnectTimeout</tabstop>
   <tabstop>checkBox_HTTPKeepAlive</tabstop>
   <tabstop>checkBox_HTTPPipelining</tabstop>
@@ -2954,6 +2998,7 @@
   <tabstop>checkBox_CheckIntegrity</tabstop>
   <tabstop>checkBox_Daemon</tabstop>
   <tabstop>checkBox_HumanReadable</tabstop>
+  <tabstop>checkBox_HashCheckOnly</tabstop>
   <tabstop>radioButton_EventPoll_Epoll</tabstop>
   <tabstop>radioButton_EventPoll_Select</tabstop>
   <tabstop>spinBox_RetryWait</tabstop>
@@ -2964,6 +3009,7 @@
   <tabstop>spinBox_DHT_MessageTimeout</tabstop>
   <tabstop>checkBox_EnableDHT</tabstop>
   <tabstop>checkBox_EnableDHT6</tabstop>
+  <tabstop>comboBox_DownloadResult</tabstop>
   <tabstop>checkBox_NoConf</tabstop>
   <tabstop>checkBox_UseHead</tabstop>
   <tabstop>checkBox_NoNetrc</tabstop>
@@ -2971,21 +3017,24 @@
   <tabstop>checkBox_Quiet</tabstop>
   <tabstop>checkBox_RealtimeChunkChecksum</tabstop>
   <tabstop>checkBox_RemoteTime</tabstop>
-  <tabstop>spinBox_SummaryInterval</tabstop>
-  <tabstop>spinBox_ServerStatTimeout</tabstop>
   <tabstop>checkBox_RemoveControlFile</tabstop>
   <tabstop>checkBox_ReuseURI</tabstop>
   <tabstop>checkBox_ShowFiles</tabstop>
   <tabstop>checkBox_ShowConsoleReadout</tabstop>
   <tabstop>checkBox_TruncateConsoleReadout</tabstop>
+  <tabstop>checkBox_RpcAllowOriginAll</tabstop>
+  <tabstop>checkBox_DeferredInput</tabstop>
+  <tabstop>spinBox_SummaryInterval</tabstop>
+  <tabstop>spinBox_ServerStatTimeout</tabstop>
+  <tabstop>spinBox_Stop</tabstop>
   <tabstop>comboBox_URISelector</tabstop>
   <tabstop>comboBox_ProxyMethod</tabstop>
-  <tabstop>spinBox_Stop</tabstop>
   <tabstop>checkBox_XMLRPC_Enable</tabstop>
   <tabstop>checkBox_XMLRPC_ListenAll</tabstop>
   <tabstop>spinBox_XMLRPC_ListenPort</tabstop>
   <tabstop>spinBox_XMLRPC_MaxRequestSize</tabstop>
   <tabstop>spinBox_NoFileAllocationLimit</tabstop>
+  <tabstop>spinBox_PieceLength</tabstop>
   <tabstop>buttonBox_OK</tabstop>
  </tabstops>
  <resources>
@@ -3003,8 +3052,8 @@
      <y>386</y>
     </hint>
     <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
+     <x>305</x>
+     <y>292</y>
     </hint>
    </hints>
   </connection>
@@ -3019,8 +3068,8 @@
      <y>386</y>
     </hint>
     <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
+     <x>447</x>
+     <y>313</y>
     </hint>
    </hints>
   </connection>
@@ -3072,10 +3121,61 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>comboBox_LogLevel</sender>
+   <signal>currentIndexChanged(QString)</signal>
+   <receiver>GlobalOptions</receiver>
+   <slot>LogLevelChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>169</x>
+     <y>110</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>507</x>
+     <y>116</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spinBox_MaxDownloadResult</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>GlobalOptions</receiver>
+   <slot>MaxDownloadResult(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>218</x>
+     <y>228</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>509</x>
+     <y>183</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>comboBox_DownloadResult</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>GlobalOptions</receiver>
+   <slot>DownloadResult(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>400</x>
+     <y>328</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>510</x>
+     <y>324</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>MaxOverallDownloadLimitChanged(int)</slot>
   <slot>MaxOverallUploadLimitChanged(int)</slot>
   <slot>MaxConcurrentDownloadsChanged(int)</slot>
+  <slot>LogLevelChanged(QString)</slot>
+  <slot>MaxDownloadResult(int)</slot>
+  <slot>DownloadResult(int)</slot>
  </slots>
 </ui>

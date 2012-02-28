@@ -58,6 +58,7 @@ using namespace xmlrpc;
         m["min-split-size"] = Aria2cParameter().addType(QVariant::Int).addMinMax(0, 1024 * 1024 * 1024).addSuffix(" KiB").addDiv(1024);
         m["max-connection-per-server"] = Aria2cParameter().addType(QVariant::Int).addMinMax(0, 1024);
         m["continue"] = Aria2cParameter().addType(QVariant::Bool);
+        m["log-level"] = Aria2cParameter().addType(QVariant::StringList).addList(QList<QString> () << QString("debug") << QString("info") << QString("notice") << QString("warn") << QString("error"));
         //FTP
         m["ftp-pasv"] = Aria2cParameter().addType(QVariant::StringList).addList(QList<QString> () << QString("active") << QString("passive"));
         m["connect-timeout"] = Aria2cParameter().addType(QVariant::Int).addMinMax(1, 64 * 1024).addSuffix(" s");;
