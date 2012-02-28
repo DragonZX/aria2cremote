@@ -62,6 +62,9 @@ private slots:
     void MaxOverallDownloadLimitChanged( int );
     void MaxOverallUploadLimitChanged( int );
     void MaxConcurrentDownloadsChanged( int );
+    void LogLevelChanged( QString );
+    void MaxDownloadResult( int );
+    void DownloadResult( int );
 };
 
 #endif // GlobalOptions_H

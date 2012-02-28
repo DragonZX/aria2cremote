@@ -2421,6 +2421,22 @@
       <string>RPC allow origin all</string>
      </property>
     </widget>
+    <widget class="QCheckBox" name="checkBox_DeferredInput">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>216</y>
+       <width>140</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Deferred input</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="tab_Server">
     <attribute name="title">
@@ -2782,6 +2798,8 @@
   <tabstop>checkBox_AutoFileRenaming</tabstop>
   <tabstop>checkBox_CheckIntegrity</tabstop>
   <tabstop>checkBox_DryRun</tabstop>
+  <tabstop>checkBox_RpcAllowOriginAll</tabstop>
+  <tabstop>checkBox_DeferredInput</tabstop>
   <tabstop>checkBox_ReuseURI</tabstop>
   <tabstop>checkBox_RemoveControlFile</tabstop>
   <tabstop>checkBox_RemoteTime</tabstop>
@@ -2790,27 +2808,29 @@
   <tabstop>checkBox_ParameterizedURI</tabstop>
   <tabstop>checkBox_UseHead</tabstop>
   <tabstop>checkBox_Pause</tabstop>
+  <tabstop>checkBox_HashCheckOnly</tabstop>
   <tabstop>spinBox_NoFileAllocationLimit</tabstop>
-  <tabstop>comboBox_FileAllocation</tabstop>
-  <tabstop>comboBox_ProxyMethod</tabstop>
-  <tabstop>spinBox_RetryWait</tabstop>
-  <tabstop>lineEdit_Referer</tabstop>
-  <tabstop>lineEdit_Header</tabstop>
   <tabstop>comboBox_StreamPieceSelector</tabstop>
-  <tabstop>tabWidget_Proxy</tabstop>
+  <tabstop>comboBox_FileAllocation</tabstop>
+  <tabstop>spinBox_RetryWait</tabstop>
+  <tabstop>comboBox_ProxyMethod</tabstop>
+  <tabstop>spinBox_PieceLength</tabstop>
+  <tabstop>lineEdit_Header</tabstop>
+  <tabstop>lineEdit_Referer</tabstop>
+  <tabstop>treeWidget_Server_List</tabstop>
+  <tabstop>pushButton_Servers_Add</tabstop>
+  <tabstop>pushButton_Servers_Delete</tabstop>
+  <tabstop>pushButton_Servers_Modify</tabstop>
   <tabstop>checkBox_Proxy_All_Enabled</tabstop>
   <tabstop>treeWidget_Proxy_All_List</tabstop>
   <tabstop>pushButton_Proxy_Add</tabstop>
   <tabstop>pushButton_Proxy_Delete</tabstop>
   <tabstop>pushButton_Proxy_Modify</tabstop>
-  <tabstop>pushButton_Servers_Add</tabstop>
-  <tabstop>pushButton_Servers_Delete</tabstop>
-  <tabstop>treeWidget_Proxy_HTTPS_List</tabstop>
-  <tabstop>buttonBox</tabstop>
-  <tabstop>treeWidget_Proxy_FTP_List</tabstop>
-  <tabstop>treeWidget_Server_List</tabstop>
   <tabstop>treeWidget_Proxy_HTTP_List</tabstop>
-  <tabstop>pushButton_Servers_Modify</tabstop>
+  <tabstop>tabWidget_Proxy</tabstop>
+  <tabstop>treeWidget_Proxy_HTTPS_List</tabstop>
+  <tabstop>treeWidget_Proxy_FTP_List</tabstop>
+  <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources>
   <include location="Aria2cRemote.qrc"/>

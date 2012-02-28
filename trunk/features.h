@@ -31,6 +31,7 @@ namespace util
     const quint32 ARIA2C_VERSION_1130 = 0x00010D00;
     const quint32 ARIA2C_VERSION_1140 = 0x00010E00;
     const quint32 ARIA2C_VERSION_1141 = 0x00010E01;
+    const quint32 ARIA2C_VERSION_1142 = 0x00010E02;
     const quint32 ARIA2C_VERSION_MASK = 0x00FFFFFF;
 
     //Aria2c Features
