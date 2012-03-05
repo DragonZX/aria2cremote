@@ -169,7 +169,6 @@ Aria2cRemote::Aria2cRemote(QWidget *parent) :
     m_listView->setItemDelegate(new ProgressBarViewDelegate(this));
 
     //Working thread init
-    m_requestThread.EnablePeriodicRequest();
     m_requestThread.setConnection(m_connection);
     m_requestThread.SetSleep(5000);
     qRegisterMetaType <XML_RPC_RESPONSE_MAP>("XML_RPC_RESPONSE_MAP");
@@ -215,6 +214,13 @@ Aria2cRemote::Aria2cRemote(QWidget *parent) :
     m_mainListView->setEnabled(false);
     m_DetailsTab->setEnabled(false);
     m_listView->setEnabled(false);
+
+    //get Aria2c version
+    Download d;
+    QMap<QString, Variant> vCurrentParam;
+    d.addVersionInfo(vCurrentParam);
+    m_requestThread.addRequest(d);
+    m_requestThread.wakeUp();
 }
 
 Aria2cRemote::~Aria2cRemote()
@@ -746,9 +752,7 @@ void Aria2cRemote::ResponseVersionInfo(QVariant params)
         g_uiAria2cVersion = (g_uiAria2cVersion << 8 ) + sVer.toUInt(&ok);
     }
 
-    m_connectStateText.setText("Aria2c " + vInfo.version);
     QString tooltip(QString("<b>%1:</b>").arg(tr("Enabled features")));
-
     g_uiAria2cFeatures = util::ARIA2C_FEATURES_NONE;
     foreach (QString t, vInfo.enabledFeatures)
     {
@@ -780,11 +784,22 @@ void Aria2cRemote::ResponseVersionInfo(QVariant params)
         tooltip += ("<br/>" + t);
     }
 
+    if ( (g_uiAria2cVersion == util::ARIA2C_VERSION_1140) || (g_uiAria2cVersion == util::ARIA2C_VERSION_1141) )
+    {
+        QMessageBox::critical(this, tr("Error"), tr("Aria2c this version XML-RPC interface has is bug\nPlease update to 1.14.2 or above version"));
+    }
+    else
+    {
+        //set statusbar and toolbar connect state
+        setToolBarIcon(true);
+        m_requestThread.EnablePeriodicRequest();
+    }
+
     if (g_uiAria2cFeatures & ARIA2C_FEATURES_GZIP)
     {
         m_requestThread.SetGZipEnabled();
-        m_requestThread.SetGZipEnabled();
     }
+    m_connectStateText.setText("Aria2c " + vInfo.version);
     m_connectStateText.setToolTip(tooltip);
 }
 
@@ -816,15 +831,6 @@ void Aria2cRemote::ResponseXML(XML_RPC_RESPONSE_MAP tellActive, XML_RPC_RESPONSE
         m_mainListView->setEnabled(m_bConnected);
         m_DetailsTab->setEnabled(m_bConnected);
         m_listView->setEnabled(m_bConnected);
-
-        //set statusbar and toolbar connect state
-        setToolBarIcon(true);
-
-        Download d;
-        QMap<QString, Variant> vCurrentParam;
-        d.addVersionInfo(vCurrentParam);
-        m_requestThread.addRequest(d);
-        m_requestThread.wakeUp();
     }
 
     //clear
