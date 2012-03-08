@@ -27,7 +27,7 @@
      <x>0</x>
      <y>0</y>
      <width>617</width>
-     <height>21</height>
+     <height>18</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuDownload">
@@ -69,7 +69,7 @@
    </widget>
    <widget class="QMenu" name="menuAction">
     <property name="title">
-     <string notr="true">Action</string>
+     <string>Action</string>
     </property>
     <addaction name="action_Start"/>
     <addaction name="actionStart_all"/>

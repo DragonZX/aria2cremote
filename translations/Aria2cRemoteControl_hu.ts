@@ -424,6 +424,11 @@ p, li { white-space: pre-wrap; }
         <translation>Nyelvek</translation>
     </message>
     <message>
+        <location filename="../aria2cremote.ui" line="72"/>
+        <source>Action</source>
+        <translation>Művelet</translation>
+    </message>
+    <message>
         <location filename="../aria2cremote.ui" line="149"/>
         <source>&amp;URI...</source>
         <translation>&amp;URI...</translation>
