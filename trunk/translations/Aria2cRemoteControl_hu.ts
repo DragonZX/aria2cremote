@@ -399,7 +399,7 @@ p, li { white-space: pre-wrap; }
     <name>Aria2cRemote</name>
     <message>
         <location filename="../aria2cremote.ui" line="21"/>
-        <location filename="../aria2cremote.cpp" line="1488"/>
+        <location filename="../aria2cremote.cpp" line="1494"/>
         <source>English</source>
         <translation>Magyar</translation>
     </message>
@@ -590,138 +590,139 @@ p, li { white-space: pre-wrap; }
         <translation>Aria2c Remote</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="321"/>
+        <location filename="../aria2cremote.cpp" line="327"/>
         <source>Add new multi downloads</source>
         <translation>Új töbszörös letöltés hozzáadása</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="338"/>
+        <location filename="../aria2cremote.cpp" line="344"/>
         <source>Open torrent file</source>
         <translation>Torrent fájl megnyitás</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="340"/>
+        <location filename="../aria2cremote.cpp" line="346"/>
         <source>Torrent Files (*.torrent)</source>
         <translation>Torrent fájlok (*.torrent)</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="372"/>
-        <location filename="../aria2cremote.cpp" line="702"/>
-        <location filename="../aria2cremote.cpp" line="1027"/>
-        <location filename="../aria2cremote.cpp" line="1588"/>
-        <location filename="../aria2cremote.cpp" line="1597"/>
+        <location filename="../aria2cremote.cpp" line="378"/>
+        <location filename="../aria2cremote.cpp" line="708"/>
+        <location filename="../aria2cremote.cpp" line="789"/>
+        <location filename="../aria2cremote.cpp" line="1033"/>
+        <location filename="../aria2cremote.cpp" line="1594"/>
+        <location filename="../aria2cremote.cpp" line="1603"/>
         <source>Error</source>
         <translation>Hiba</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="372"/>
+        <location filename="../aria2cremote.cpp" line="378"/>
         <source>Torrent file read error</source>
         <translation>Torrent fájl olvasási hiba</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="379"/>
+        <location filename="../aria2cremote.cpp" line="385"/>
         <source>Add new torrent download</source>
         <translation>Új torrent letöltés hozzáadása</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="424"/>
+        <location filename="../aria2cremote.cpp" line="430"/>
         <source>Add new HTTP/FTP download</source>
         <translation>Új HTTP/FTP letöltés hozzáadása</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="441"/>
+        <location filename="../aria2cremote.cpp" line="447"/>
         <source>Open URI link list file</source>
         <translation>URI link lista fájl megnyitása</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="443"/>
+        <location filename="../aria2cremote.cpp" line="449"/>
         <source>URI link list Files (*.txt);;All files (*.*)</source>
         <translation>URI link lista fájlok (*.txt);;All files (*.*)</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="568"/>
+        <location filename="../aria2cremote.cpp" line="574"/>
         <source>Multiple file open</source>
         <translation>Többszörös fájl megnyitás</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="568"/>
+        <location filename="../aria2cremote.cpp" line="574"/>
         <source>Unable open to %1</source>
         <translation>Nem lehet megnyitni %1</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="575"/>
+        <location filename="../aria2cremote.cpp" line="581"/>
         <source>Add new multi HTTP/FTP download</source>
         <translation>Új többszörös HTTP/FTP letöltés hozzáadása</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="590"/>
+        <location filename="../aria2cremote.cpp" line="596"/>
         <source>Open metalink files</source>
         <translation>Metalink fájlok megnyitása</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="592"/>
+        <location filename="../aria2cremote.cpp" line="598"/>
         <source>Metalink Files (*.metalink)</source>
         <translation>Metalink fájlok (*.metalink)</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="614"/>
+        <location filename="../aria2cremote.cpp" line="620"/>
         <source>Add new metalink download</source>
         <translation>Új metalink letöltés hozzáadása</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="638"/>
+        <location filename="../aria2cremote.cpp" line="644"/>
         <source>Add new magnetlink download</source>
         <translation>Új magnetlink letöltés hozzáadása</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="697"/>
-        <location filename="../aria2cremote.cpp" line="1022"/>
+        <location filename="../aria2cremote.cpp" line="703"/>
+        <location filename="../aria2cremote.cpp" line="1028"/>
         <source>All</source>
         <translation>Összes</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="698"/>
-        <location filename="../aria2cremote.cpp" line="1023"/>
+        <location filename="../aria2cremote.cpp" line="704"/>
+        <location filename="../aria2cremote.cpp" line="1029"/>
         <source>Seeding</source>
         <translation>Seedelés</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="699"/>
-        <location filename="../aria2cremote.cpp" line="1024"/>
+        <location filename="../aria2cremote.cpp" line="705"/>
+        <location filename="../aria2cremote.cpp" line="1030"/>
         <source>Downloading</source>
         <translation>Letöltés</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="700"/>
-        <location filename="../aria2cremote.cpp" line="1025"/>
+        <location filename="../aria2cremote.cpp" line="706"/>
+        <location filename="../aria2cremote.cpp" line="1031"/>
         <source>Complete</source>
         <translation>Elkészült</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="701"/>
-        <location filename="../aria2cremote.cpp" line="1026"/>
+        <location filename="../aria2cremote.cpp" line="707"/>
+        <location filename="../aria2cremote.cpp" line="1032"/>
         <source>Pause</source>
         <translation>Megállított</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="703"/>
-        <location filename="../aria2cremote.cpp" line="1028"/>
+        <location filename="../aria2cremote.cpp" line="709"/>
+        <location filename="../aria2cremote.cpp" line="1034"/>
         <source>Waiting</source>
         <translation>Várakozik</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="704"/>
-        <location filename="../aria2cremote.cpp" line="1029"/>
+        <location filename="../aria2cremote.cpp" line="710"/>
+        <location filename="../aria2cremote.cpp" line="1035"/>
         <source>Remove</source>
         <translation>Törölt</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="713"/>
+        <location filename="../aria2cremote.cpp" line="719"/>
         <source>Request failed</source>
         <translation>Kérési hiba</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="713"/>
+        <location filename="../aria2cremote.cpp" line="719"/>
         <source>XML-RPC request  failed.
 
 Fault code: %1
@@ -733,152 +734,159 @@ Hiba kód: %1
 %2</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="750"/>
+        <location filename="../aria2cremote.cpp" line="755"/>
         <source>Enabled features</source>
         <translation>Engedélyezett funkciók</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1022"/>
+        <location filename="../aria2cremote.cpp" line="789"/>
+        <source>Aria2c this version XML-RPC interface has is bug
+Please update to 1.14.2 or above version</source>
+        <translation>Az Aria2c ezen verziójának XML-RPC interfészében van egy hiba
+Kérem frissítse 1.14.2-s vagy nagyobb verzióra</translation>
+    </message>
+    <message>
+        <location filename="../aria2cremote.cpp" line="1028"/>
         <source>All (%1)</source>
         <translation>Összes (%1)</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1023"/>
+        <location filename="../aria2cremote.cpp" line="1029"/>
         <source>Seeding (%1)</source>
         <translation>Seedelés (%1)</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1024"/>
+        <location filename="../aria2cremote.cpp" line="1030"/>
         <source>Downloading (%1)</source>
         <translation>Letöltés (%1)</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1025"/>
+        <location filename="../aria2cremote.cpp" line="1031"/>
         <source>Complete (%1)</source>
         <translation>Elkészült (%1)</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1026"/>
+        <location filename="../aria2cremote.cpp" line="1032"/>
         <source>Pause (%1)</source>
         <translation>Megállított (%1)</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1027"/>
+        <location filename="../aria2cremote.cpp" line="1033"/>
         <source>Error (%1)</source>
         <translation>Hibás (%1)</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1028"/>
+        <location filename="../aria2cremote.cpp" line="1034"/>
         <source>Waiting (%1)</source>
         <translation>Várakozik (%1)</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1029"/>
+        <location filename="../aria2cremote.cpp" line="1035"/>
         <source>Remove (%1)</source>
         <translation>Törölt (%1)</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1121"/>
+        <location filename="../aria2cremote.cpp" line="1127"/>
         <source>Download finished</source>
         <translation>Letöltés befejeződött</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1265"/>
+        <location filename="../aria2cremote.cpp" line="1271"/>
         <source>Start URI</source>
         <translation>URI indítása</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1276"/>
+        <location filename="../aria2cremote.cpp" line="1282"/>
         <source>Start all URIs</source>
         <translation>Összes URI indítása</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1294"/>
+        <location filename="../aria2cremote.cpp" line="1300"/>
         <source>Pause URI</source>
         <translation>URI megállítása</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1305"/>
+        <location filename="../aria2cremote.cpp" line="1311"/>
         <source>Pause all URIs</source>
         <translation>Összes URI megállítása</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1323"/>
+        <location filename="../aria2cremote.cpp" line="1329"/>
         <source>Remove URI</source>
         <translation>URI törlése</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1334"/>
+        <location filename="../aria2cremote.cpp" line="1340"/>
         <source>Purge completed/error/removed URIs</source>
         <translation>Elkészült/hibás/törölt URI-k eltávolítása</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1340"/>
+        <location filename="../aria2cremote.cpp" line="1346"/>
         <source>Shutdown</source>
         <translation>Leállítás</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1340"/>
+        <location filename="../aria2cremote.cpp" line="1346"/>
         <source>Do you really shutdown to Aria2c?</source>
         <translation>Valóban le akarja állítani az Aria2c-t?</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1347"/>
+        <location filename="../aria2cremote.cpp" line="1353"/>
         <source>Shutdown Aria2c</source>
         <translation>Aria2c leállítása</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1366"/>
+        <location filename="../aria2cremote.cpp" line="1372"/>
         <source>Force pause URI</source>
         <translation>URI azonnali megállítása</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1377"/>
+        <location filename="../aria2cremote.cpp" line="1383"/>
         <source>Force pause all URIs</source>
         <translation>Összes URI azonnali megállítása</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1395"/>
+        <location filename="../aria2cremote.cpp" line="1401"/>
         <source>Force remove URI</source>
         <translation>URI azonnali törlése</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1401"/>
+        <location filename="../aria2cremote.cpp" line="1407"/>
         <source>Force Shutdown</source>
         <translation>Azonnali leállítás</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1401"/>
+        <location filename="../aria2cremote.cpp" line="1407"/>
         <source>Do you really force shutdown to Aria2c?</source>
         <translation>Valóban azonnal le akarja állítani az Aria2c-t?</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1408"/>
+        <location filename="../aria2cremote.cpp" line="1414"/>
         <source>Force shutdown Aria2c</source>
         <translation>Azonnali Aria2c leállítás</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1421"/>
+        <location filename="../aria2cremote.cpp" line="1427"/>
         <source>Get global variables</source>
         <translation>Globális változók lekérdezése</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1455"/>
+        <location filename="../aria2cremote.cpp" line="1461"/>
         <source>Change global variables</source>
         <translation>Globális változók módosítása</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1542"/>
+        <location filename="../aria2cremote.cpp" line="1548"/>
         <source>Connected</source>
         <translation>Csatlakozva</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1542"/>
+        <location filename="../aria2cremote.cpp" line="1548"/>
         <source>Disconnected</source>
         <translation>Szétkapcsolva</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1562"/>
+        <location filename="../aria2cremote.cpp" line="1568"/>
         <source>Fault Code: %1
 Fault string: %2
 </source>
@@ -887,32 +895,32 @@ Hiba szöveg: %2
 </translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1565"/>
+        <location filename="../aria2cremote.cpp" line="1571"/>
         <source>Aria2c fault parameter</source>
         <translation>Aria2c hibás paraméter</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1576"/>
+        <location filename="../aria2cremote.cpp" line="1582"/>
         <source>Download GeoIP database</source>
         <translation>GeoIP adatbázis letöltés</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1588"/>
+        <location filename="../aria2cremote.cpp" line="1594"/>
         <source>Could not open GeoIP database for writing</source>
         <translation>Nem lehet megnyitni a GeoIP adatbázis fájlt</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1592"/>
+        <location filename="../aria2cremote.cpp" line="1598"/>
         <source>Success</source>
         <translation>Kész</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1592"/>
+        <location filename="../aria2cremote.cpp" line="1598"/>
         <source>Updated GeoIP database</source>
         <translation>GeoIP adatbázis frissítés</translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1597"/>
+        <location filename="../aria2cremote.cpp" line="1603"/>
         <source>Download of %1 failed: %2</source>
         <translation>A %1 letöltési hiba: %2</translation>
     </message>
@@ -2283,10 +2291,10 @@ Hiba szöveg: %2
     </message>
     <message>
         <location filename="../globaloptions.ui" line="122"/>
-        <location filename="../globaloptions.ui" line="189"/>
-        <location filename="../globaloptions.ui" line="224"/>
-        <location filename="../globaloptions.ui" line="294"/>
-        <location filename="../globaloptions.ui" line="1286"/>
+        <location filename="../globaloptions.ui" line="176"/>
+        <location filename="../globaloptions.ui" line="211"/>
+        <location filename="../globaloptions.ui" line="281"/>
+        <location filename="../globaloptions.ui" line="1314"/>
         <source>unrestricted</source>
         <translation>Korlátlan</translation>
     </message>
@@ -2296,584 +2304,614 @@ Hiba szöveg: %2
         <translation>Log szint:</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="167"/>
+        <location filename="../globaloptions.ui" line="154"/>
         <source>Max download limit:</source>
         <translation>Max letöltési korlát:</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="205"/>
+        <location filename="../globaloptions.ui" line="192"/>
         <source>Max overall download limit:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="243"/>
+        <location filename="../globaloptions.ui" line="230"/>
         <source>Max file not found:</source>
         <translation>Max nem talált fájlok:</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="275"/>
+        <location filename="../globaloptions.ui" line="262"/>
         <source>Max overall upload limit:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="313"/>
+        <location filename="../globaloptions.ui" line="300"/>
         <source>Max resume failure tries:</source>
-        <translation type="unfinished"></translation>
+        <translation>Max hibás próbálkozások:</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="345"/>
+        <location filename="../globaloptions.ui" line="332"/>
         <source>Max concurrent downloads:</source>
         <translation>Max egyszerre letöltések:</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="386"/>
+        <location filename="../globaloptions.ui" line="373"/>
         <source>Max tries:</source>
         <translation>Max próbálkozások:</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="405"/>
+        <location filename="../globaloptions.ui" line="392"/>
         <source>Continue download</source>
         <translation>Letöltés folytatása</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="418"/>
+        <location filename="../globaloptions.ui" line="405"/>
         <source>Timeout:</source>
         <translation>Időtúllépés:</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="440"/>
-        <location filename="../globaloptions.ui" line="1248"/>
+        <location filename="../globaloptions.ui" line="427"/>
+        <location filename="../globaloptions.ui" line="1276"/>
         <source>unlimited</source>
         <translation>Korlátlan</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="494"/>
+        <location filename="../globaloptions.ui" line="481"/>
         <source>Split:</source>
         <translation>Szelet:</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="523"/>
+        <location filename="../globaloptions.ui" line="510"/>
         <source>Dir:</source>
         <translation>Könyvtár:</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="539"/>
+        <location filename="../globaloptions.ui" line="526"/>
         <source>Max connection per server:</source>
         <translation>Max kapcsolat szerverenként:</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="577"/>
+        <location filename="../globaloptions.ui" line="564"/>
         <source>Max download result:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="615"/>
+        <location filename="../globaloptions.ui" line="602"/>
         <source>Min split size:</source>
         <translation>Min szelet méret:</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="652"/>
-        <location filename="../globaloptions.ui" line="1579"/>
+        <location filename="../globaloptions.ui" line="653"/>
+        <source>debug</source>
+        <translation>debug</translation>
+    </message>
+    <message>
+        <location filename="../globaloptions.ui" line="658"/>
+        <source>info</source>
+        <translation>info</translation>
+    </message>
+    <message>
+        <location filename="../globaloptions.ui" line="663"/>
+        <source>notice</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../globaloptions.ui" line="668"/>
+        <source>warn</source>
+        <translation>figyelmeztetés</translation>
+    </message>
+    <message>
+        <location filename="../globaloptions.ui" line="673"/>
+        <source>error</source>
+        <translation>hiba</translation>
+    </message>
+    <message>
+        <location filename="../globaloptions.ui" line="680"/>
+        <location filename="../globaloptions.ui" line="1607"/>
         <source>FTP</source>
         <translation>FTP</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="667"/>
+        <location filename="../globaloptions.ui" line="695"/>
         <source>Mode:</source>
         <translation>Mód:</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="673"/>
+        <location filename="../globaloptions.ui" line="701"/>
         <source>Passive</source>
         <translation>Passzív</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="680"/>
+        <location filename="../globaloptions.ui" line="708"/>
         <source>Active</source>
         <translation>Aktív</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="699"/>
+        <location filename="../globaloptions.ui" line="727"/>
         <source>Reuse connection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="715"/>
+        <location filename="../globaloptions.ui" line="743"/>
         <source>Type:</source>
         <translation>Típus:</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="724"/>
+        <location filename="../globaloptions.ui" line="752"/>
         <source>Binary</source>
         <translation>Bináris</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="731"/>
+        <location filename="../globaloptions.ui" line="759"/>
         <source>ASCII</source>
         <translation>ASCII</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="769"/>
-        <location filename="../globaloptions.ui" line="921"/>
+        <location filename="../globaloptions.ui" line="797"/>
+        <location filename="../globaloptions.ui" line="949"/>
         <source>Connect timeout:</source>
         <translation>Kapcsolat időtúllépés:</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="778"/>
-        <location filename="../globaloptions.ui" line="1565"/>
+        <location filename="../globaloptions.ui" line="806"/>
+        <location filename="../globaloptions.ui" line="1593"/>
         <source>HTTP</source>
         <translation>HTTP</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="793"/>
+        <location filename="../globaloptions.ui" line="821"/>
         <source>Keep alive</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="809"/>
+        <location filename="../globaloptions.ui" line="837"/>
         <source>Pipelining</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="825"/>
+        <location filename="../globaloptions.ui" line="853"/>
         <source>Accept gzip</source>
         <translation>gzip elfogadás</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="841"/>
+        <location filename="../globaloptions.ui" line="869"/>
         <source>Auth challange</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="857"/>
+        <location filename="../globaloptions.ui" line="885"/>
         <source>No cache</source>
         <translation>Nincs gyorsítótár</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="870"/>
+        <location filename="../globaloptions.ui" line="898"/>
         <source>User agent:</source>
         <translation>Hálózati kliens:</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="940"/>
+        <location filename="../globaloptions.ui" line="968"/>
         <source>Conditional get</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="946"/>
+        <location filename="../globaloptions.ui" line="974"/>
         <source>Bittorrent</source>
         <translation>Bittorrent</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="961"/>
+        <location filename="../globaloptions.ui" line="989"/>
         <source>LPD</source>
         <translation>LPD</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="977"/>
+        <location filename="../globaloptions.ui" line="1005"/>
         <source>Has check seed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="993"/>
+        <location filename="../globaloptions.ui" line="1021"/>
         <source>Save metadata</source>
         <translation>Metadata mentése</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="1009"/>
+        <location filename="../globaloptions.ui" line="1037"/>
         <source>Seed unverified</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="1025"/>
+        <location filename="../globaloptions.ui" line="1053"/>
         <source>Metadata only</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="1041"/>
+        <location filename="../globaloptions.ui" line="1069"/>
         <source>Follow torrent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="1057"/>
+        <location filename="../globaloptions.ui" line="1085"/>
         <source>Require crypto</source>
         <translation>Szükséges titkosítás</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="1073"/>
+        <location filename="../globaloptions.ui" line="1101"/>
         <source>Peer exchange</source>
         <translation>Peer kicserélés</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="1086"/>
+        <location filename="../globaloptions.ui" line="1114"/>
         <source>Seed ratio:</source>
         <translation>Seed arány:</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="1118"/>
-        <location filename="../globaloptions.ui" line="1907"/>
-        <location filename="../globaloptions.ui" line="2338"/>
+        <location filename="../globaloptions.ui" line="1146"/>
+        <location filename="../globaloptions.ui" line="1935"/>
+        <location filename="../globaloptions.ui" line="2366"/>
         <source>Listen port:</source>
-        <translation type="unfinished"></translation>
+        <translation>Port:</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="1156"/>
+        <location filename="../globaloptions.ui" line="1184"/>
         <source>Max upload limit:</source>
         <translation>Max feltöltési korlát:</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="1191"/>
+        <location filename="../globaloptions.ui" line="1219"/>
         <source>Max open files:</source>
         <translation>Max megnyitott fájlok:</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="1226"/>
+        <location filename="../globaloptions.ui" line="1254"/>
         <source>Max peers:</source>
         <translation>Max peerek:</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="1264"/>
+        <location filename="../globaloptions.ui" line="1292"/>
         <source>Request peer speed limit:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="1305"/>
+        <location filename="../globaloptions.ui" line="1333"/>
         <source>Stop timeout:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="1343"/>
+        <location filename="../globaloptions.ui" line="1371"/>
         <source>Tracker connect timeout:</source>
         <translation>Tracker időtúllépése:</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="1381"/>
+        <location filename="../globaloptions.ui" line="1409"/>
         <source>Tracker interval:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="1416"/>
+        <location filename="../globaloptions.ui" line="1444"/>
         <source>Peer id prefix:</source>
         <translation>Peer id előtag:</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="1468"/>
+        <location filename="../globaloptions.ui" line="1496"/>
         <source>Min crypto level:</source>
         <translation>Min titkosítási szint:</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="1481"/>
+        <location filename="../globaloptions.ui" line="1509"/>
         <source>Tracker timeout:</source>
-        <translation type="unfinished"></translation>
+        <translation>Tracker időtúllépés:</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="1512"/>
+        <location filename="../globaloptions.ui" line="1540"/>
         <source>Metalink</source>
         <translation>Metalink</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="1527"/>
+        <location filename="../globaloptions.ui" line="1555"/>
         <source>Follow metalink</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="1543"/>
+        <location filename="../globaloptions.ui" line="1571"/>
         <source>Enable unique protocol</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Egyedi protokoll engedélyezése</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="1559"/>
+        <location filename="../globaloptions.ui" line="1587"/>
         <source>Preferred protocol:</source>
         <translation>Előnyben részesített protokol:</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="1572"/>
+        <location filename="../globaloptions.ui" line="1600"/>
         <source>HTTPS</source>
         <translation>HTTPS</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="1586"/>
+        <location filename="../globaloptions.ui" line="1614"/>
         <source>None</source>
         <translation>Nincs</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="1602"/>
+        <location filename="../globaloptions.ui" line="1630"/>
         <source>Servers:</source>
         <translation>Szerver:</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="1627"/>
+        <location filename="../globaloptions.ui" line="1655"/>
         <source>Advanced</source>
         <translation>Bővített</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="1642"/>
+        <location filename="../globaloptions.ui" line="1670"/>
         <source>Allow overwrite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="1658"/>
+        <location filename="../globaloptions.ui" line="1686"/>
         <source>Allow piece length change</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="1674"/>
+        <location filename="../globaloptions.ui" line="1702"/>
         <source>Always resume</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="1690"/>
+        <location filename="../globaloptions.ui" line="1718"/>
         <source>Async DNS</source>
         <translation>Asszinkron DNS</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="1706"/>
+        <location filename="../globaloptions.ui" line="1734"/>
         <source>Auto file renaming</source>
         <translation>Autómatikus fájl átnevezés</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="1719"/>
+        <location filename="../globaloptions.ui" line="1747"/>
         <source>Auto save interval:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="1757"/>
+        <location filename="../globaloptions.ui" line="1785"/>
         <source>Disable IPv6</source>
         <translation>IPv6 tiltás</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="1773"/>
+        <location filename="../globaloptions.ui" line="1801"/>
         <source>Dry run</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="1789"/>
+        <location filename="../globaloptions.ui" line="1817"/>
         <source>Check certificate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="1805"/>
+        <location filename="../globaloptions.ui" line="1833"/>
         <source>Check integrity</source>
         <translation>Integritás ellenőzés</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="1818"/>
+        <location filename="../globaloptions.ui" line="1846"/>
         <source>Conf path:</source>
-        <translation type="unfinished"></translation>
+        <translation>Konfiguráció útvonal:</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="1850"/>
+        <location filename="../globaloptions.ui" line="1878"/>
         <source>Daemon</source>
         <translation>Daemon</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="1866"/>
+        <location filename="../globaloptions.ui" line="1894"/>
         <source>DHT:</source>
         <translation>DHT:</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="1878"/>
+        <location filename="../globaloptions.ui" line="1906"/>
         <source>File path:</source>
         <translation>Fájl útvonal:</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="1945"/>
+        <location filename="../globaloptions.ui" line="1973"/>
         <source>Message timeout:</source>
-        <translation type="unfinished"></translation>
+        <translation>Üzenet időtúllépés:</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="1977"/>
+        <location filename="../globaloptions.ui" line="2005"/>
         <source>File path IPv6:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="2042"/>
+        <location filename="../globaloptions.ui" line="2070"/>
         <source>Event poll:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="2054"/>
+        <location filename="../globaloptions.ui" line="2082"/>
         <source>Epoll</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="2067"/>
+        <location filename="../globaloptions.ui" line="2095"/>
         <source>Select</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="2084"/>
+        <location filename="../globaloptions.ui" line="2112"/>
         <source>Human readable</source>
         <translation>Könnyen olvasható</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="2101"/>
+        <location filename="../globaloptions.ui" line="2129"/>
         <source>none</source>
         <translation>Egyiksem</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="2125"/>
+        <location filename="../globaloptions.ui" line="2153"/>
         <source>File allocation:</source>
         <translation>Fájl lefoglalás:</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="2144"/>
+        <location filename="../globaloptions.ui" line="2172"/>
         <source>Async DNS6</source>
         <translation>Asszinkron DNS6</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="2157"/>
+        <location filename="../globaloptions.ui" line="2185"/>
         <source>Retry wait:</source>
         <translation>Újra próbálkozási idő:</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="2196"/>
-        <location filename="../globaloptions.ui" line="2251"/>
+        <location filename="../globaloptions.ui" line="2224"/>
+        <location filename="../globaloptions.ui" line="2279"/>
         <source>Default</source>
         <translation>Alapértelmezett</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="2215"/>
+        <location filename="../globaloptions.ui" line="2243"/>
         <source>Stream piece selector:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="2231"/>
+        <location filename="../globaloptions.ui" line="2259"/>
         <source>Download result:</source>
         <translation>Letöltés eredménye:</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="2256"/>
+        <location filename="../globaloptions.ui" line="2284"/>
         <source>Full</source>
         <translation>Teljes</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="2273"/>
+        <location filename="../globaloptions.ui" line="2301"/>
         <source>Hash check only</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="2279"/>
+        <location filename="../globaloptions.ui" line="2307"/>
         <source>Advanced 1</source>
         <translation>Bővített 1</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="2294"/>
+        <location filename="../globaloptions.ui" line="2322"/>
         <source>XML-RPC:</source>
         <translation>XML-RPC:</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="2309"/>
+        <location filename="../globaloptions.ui" line="2337"/>
         <source>Enable</source>
         <translation>Engedélyezve</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="2325"/>
+        <location filename="../globaloptions.ui" line="2353"/>
         <source>Listen all</source>
         <translation>Figyelés minden</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="2376"/>
+        <location filename="../globaloptions.ui" line="2404"/>
         <source>Max request size:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="2804"/>
+        <location filename="../globaloptions.ui" line="2832"/>
         <source>Show console readout</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="2820"/>
+        <location filename="../globaloptions.ui" line="2848"/>
         <source>Truncate console readout</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="2855"/>
+        <location filename="../globaloptions.ui" line="2883"/>
         <source>Piece length:</source>
         <translation>Szelet méret:</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="2874"/>
+        <location filename="../globaloptions.ui" line="2902"/>
         <source>RPC allow origin all</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="2418"/>
+        <location filename="../globaloptions.ui" line="2918"/>
+        <source>Deferred input</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../globaloptions.ui" line="2446"/>
         <source>No conf</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="2434"/>
+        <location filename="../globaloptions.ui" line="2462"/>
         <source>Use head</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="2450"/>
+        <location filename="../globaloptions.ui" line="2478"/>
         <source>No netrc</source>
         <translation>Nincs netrc</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="2466"/>
+        <location filename="../globaloptions.ui" line="2494"/>
         <source>Realtime chunk checksum</source>
         <translation>Valósidejű rész ellenőzés</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="2482"/>
+        <location filename="../globaloptions.ui" line="2510"/>
         <source>Remote time</source>
         <translation>Távoli idő</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="2498"/>
+        <location filename="../globaloptions.ui" line="2526"/>
         <source>Parameterized URI</source>
         <translation>Paraméterezett URI</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="2514"/>
+        <location filename="../globaloptions.ui" line="2542"/>
         <source>Quiet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="2530"/>
+        <location filename="../globaloptions.ui" line="2558"/>
         <source>Reuse URI</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="2546"/>
+        <location filename="../globaloptions.ui" line="2574"/>
         <source>Remove control file</source>
         <translation>Ellenőrző fájl törlése</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="2562"/>
+        <location filename="../globaloptions.ui" line="2590"/>
         <source>Show files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="2575"/>
+        <location filename="../globaloptions.ui" line="2603"/>
         <source>Stop:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="2607"/>
+        <location filename="../globaloptions.ui" line="2635"/>
         <source>Summary interval:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="2642"/>
+        <location filename="../globaloptions.ui" line="2670"/>
         <source>Server stat timeout:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="2680"/>
+        <location filename="../globaloptions.ui" line="2708"/>
         <source>No file allocation limit:</source>
         <translation>Nincs fájl lefoglalási korlát:</translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="2746"/>
+        <location filename="../globaloptions.ui" line="2774"/>
         <source>URI selector:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../globaloptions.ui" line="2785"/>
+        <location filename="../globaloptions.ui" line="2813"/>
         <source>Proxy method:</source>
         <translation>Proxy módszer:</translation>
     </message>
@@ -2969,7 +3007,7 @@ Hiba szöveg: %2
     <message>
         <location filename="../localoptions.ui" line="203"/>
         <source>Max resume failure tries:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Max hibás próbálkozások:</translation>
     </message>
     <message>
         <location filename="../localoptions.ui" line="241"/>
@@ -3016,7 +3054,7 @@ Hiba szöveg: %2
     <message>
         <location filename="../localoptions.ui" line="481"/>
         <location filename="../localoptions.ui" line="1659"/>
-        <location filename="../localoptions.ui" line="2634"/>
+        <location filename="../localoptions.ui" line="2650"/>
         <source>FTP</source>
         <translation>FTP</translation>
     </message>
@@ -3065,7 +3103,7 @@ Hiba szöveg: %2
     <message>
         <location filename="../localoptions.ui" line="613"/>
         <location filename="../localoptions.ui" line="1645"/>
-        <location filename="../localoptions.ui" line="2562"/>
+        <location filename="../localoptions.ui" line="2578"/>
         <source>HTTP</source>
         <translation>HTTP</translation>
     </message>
@@ -3249,7 +3287,7 @@ Hiba szöveg: %2
     <message>
         <location filename="../localoptions.ui" line="1623"/>
         <source>Enable unique protocol</source>
-        <translation type="unfinished"></translation>
+        <translation>Egyedi protokoll engedélyezése</translation>
     </message>
     <message>
         <location filename="../localoptions.ui" line="1639"/>
@@ -3258,7 +3296,7 @@ Hiba szöveg: %2
     </message>
     <message>
         <location filename="../localoptions.ui" line="1652"/>
-        <location filename="../localoptions.ui" line="2598"/>
+        <location filename="../localoptions.ui" line="2614"/>
         <source>HTTPS</source>
         <translation>HTTPS</translation>
     </message>
@@ -3443,65 +3481,70 @@ Hiba szöveg: %2
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../localoptions.ui" line="2497"/>
+        <location filename="../localoptions.ui" line="2437"/>
+        <source>Deferred input</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../localoptions.ui" line="2513"/>
         <source>Proxy</source>
         <translation>Proxy</translation>
     </message>
     <message>
-        <location filename="../localoptions.ui" line="2513"/>
+        <location filename="../localoptions.ui" line="2529"/>
         <source>All</source>
         <translation>Összes</translation>
     </message>
     <message>
-        <location filename="../localoptions.ui" line="2525"/>
+        <location filename="../localoptions.ui" line="2541"/>
         <source>Enabled</source>
         <translation>Engedélyezve</translation>
     </message>
     <message>
-        <location filename="../localoptions.ui" line="2545"/>
-        <location filename="../localoptions.ui" line="2581"/>
-        <location filename="../localoptions.ui" line="2617"/>
-        <location filename="../localoptions.ui" line="2653"/>
+        <location filename="../localoptions.ui" line="2561"/>
+        <location filename="../localoptions.ui" line="2597"/>
+        <location filename="../localoptions.ui" line="2633"/>
+        <location filename="../localoptions.ui" line="2669"/>
         <source>Server</source>
         <translation>Szerver</translation>
     </message>
     <message>
-        <location filename="../localoptions.ui" line="2451"/>
-        <location filename="../localoptions.ui" line="2550"/>
-        <location filename="../localoptions.ui" line="2586"/>
-        <location filename="../localoptions.ui" line="2622"/>
-        <location filename="../localoptions.ui" line="2658"/>
+        <location filename="../localoptions.ui" line="2467"/>
+        <location filename="../localoptions.ui" line="2566"/>
+        <location filename="../localoptions.ui" line="2602"/>
+        <location filename="../localoptions.ui" line="2638"/>
+        <location filename="../localoptions.ui" line="2674"/>
         <source>User</source>
         <translation>Felhasználói név</translation>
     </message>
     <message>
-        <location filename="../localoptions.ui" line="2555"/>
-        <location filename="../localoptions.ui" line="2591"/>
-        <location filename="../localoptions.ui" line="2627"/>
-        <location filename="../localoptions.ui" line="2663"/>
+        <location filename="../localoptions.ui" line="2571"/>
+        <location filename="../localoptions.ui" line="2607"/>
+        <location filename="../localoptions.ui" line="2643"/>
+        <location filename="../localoptions.ui" line="2679"/>
         <source>Port</source>
         <translation>Port</translation>
     </message>
     <message>
-        <location filename="../localoptions.ui" line="2478"/>
-        <location filename="../localoptions.ui" line="2679"/>
+        <location filename="../localoptions.ui" line="2494"/>
+        <location filename="../localoptions.ui" line="2695"/>
         <source>Add</source>
         <translation>Hozzáadás</translation>
     </message>
     <message>
-        <location filename="../localoptions.ui" line="2465"/>
-        <location filename="../localoptions.ui" line="2692"/>
+        <location filename="../localoptions.ui" line="2481"/>
+        <location filename="../localoptions.ui" line="2708"/>
         <source>Delete</source>
         <translation>Törlés</translation>
     </message>
     <message>
-        <location filename="../localoptions.ui" line="2491"/>
-        <location filename="../localoptions.ui" line="2705"/>
+        <location filename="../localoptions.ui" line="2507"/>
+        <location filename="../localoptions.ui" line="2721"/>
         <source>Modify</source>
         <translation>Módosítás</translation>
     </message>
     <message>
-        <location filename="../localoptions.ui" line="2427"/>
+        <location filename="../localoptions.ui" line="2443"/>
         <source>Servers</source>
         <translation>Szerverek</translation>
     </message>
@@ -3512,27 +3555,32 @@ Hiba szöveg: %2
     </message>
     <message>
         <location filename="../localoptions.cpp" line="125"/>
+        <source>Obsolete option&lt;br&gt;Last Aria2c version to supporting: &lt;b&gt;%1.%2.%3&lt;/b&gt;</source>
+        <translation>Elavult beállítás&lt;br&gt;Az utolsó Aria2c verzió amelyik még támogatta: &lt;b&gt;%1.%2.%3&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <location filename="../localoptions.cpp" line="130"/>
         <source>Aria2c not support this feature</source>
         <translation>Aria2c nem támogatja ezt a funkciót</translation>
     </message>
     <message>
-        <location filename="../localoptions.cpp" line="181"/>
+        <location filename="../localoptions.cpp" line="186"/>
         <source>Add %1 server</source>
         <translation>%1 szerver hozzáadása</translation>
     </message>
     <message>
-        <location filename="../localoptions.cpp" line="283"/>
-        <location filename="../localoptions.cpp" line="538"/>
+        <location filename="../localoptions.cpp" line="288"/>
+        <location filename="../localoptions.cpp" line="543"/>
         <source>Modify %1 server</source>
         <translation>%1 szerver módosítása</translation>
     </message>
     <message>
-        <location filename="../localoptions.cpp" line="621"/>
+        <location filename="../localoptions.cpp" line="626"/>
         <source>default</source>
         <translation>alapértelmezett</translation>
     </message>
     <message>
-        <location filename="../localoptions.cpp" line="629"/>
+        <location filename="../localoptions.cpp" line="634"/>
         <source>undefinied</source>
         <translation>ismeretlen</translation>
     </message>
@@ -3904,8 +3952,8 @@ Hiba szöveg: %2
 <context>
     <name>TorrentClient</name>
     <message>
-        <location filename="../torrentclient.cpp" line="75"/>
-        <location filename="../torrentclient.cpp" line="275"/>
+        <location filename="../torrentclient.cpp" line="74"/>
+        <location filename="../torrentclient.cpp" line="273"/>
         <source>Unknown</source>
         <translation>Ismeretlen</translation>
     </message>
