@@ -418,6 +418,11 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../aria2cremote.ui" line="72"/>
+        <source>Action</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../aria2cremote.ui" line="149"/>
         <source>&amp;URI...</source>
         <translation type="unfinished"></translation>
