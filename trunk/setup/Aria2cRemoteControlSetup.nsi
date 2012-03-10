@@ -77,7 +77,14 @@ Section "MainSection" SEC01
   CreateDirectory "$INSTDIR\imageformats"
   SetOutPath "$INSTDIR\imageformats"
   File "imageformats\qmng4.dll"
+  
+  ;Languages files
+  CreateDirectory "$INSTDIR\languages"
+  SetOutPath "$INSTDIR\languages"
+  File "languages\Aria2cRemoteControl_hu.qm"
+  File "languages\Aria2cRemoteControl_en.qm"
 
+  ;GeoIP dat file
   CreateDirectory "$APPDATA\${PRODUCT_NAME}"
   SetOutPath "$APPDATA\${PRODUCT_NAME}"
   File "GeoIP.dat"
@@ -118,6 +125,8 @@ Section Uninstall
   Delete "$INSTDIR\${PRODUCT_NAME}.url"
   Delete "$INSTDIR\uninst.exe"
   Delete "$INSTDIR\imageformats\qmng4.dll"
+  Delete "$INSTDIR\languages\Aria2cRemoteControl_hu.qm"
+  Delete "$INSTDIR\languages\Aria2cRemoteControl_en.qm"
   Delete "$INSTDIR\QtXml4.dll"
   Delete "$INSTDIR\Aria2cRemoteControl.exe"
   Delete "$APPDATA\${PRODUCT_NAME}\configuration.xml"
