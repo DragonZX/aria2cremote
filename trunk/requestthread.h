@@ -49,7 +49,7 @@ public:
     void run();
     void stop(){ m_exit = true; }
     void SetSleep(quint32 sleep) { m_sleep = sleep;}
-    void EnablePeriodicRequest() { m_periodicRequest = true; }
+    void EnablePeriodicRequest() { m_periodicRequest = true; wakeUp(); }
     void setCurrentGID(int gid) { m_currentGID = gid; }
     void setConnection(const util::CONNECTION &connection);
     void SetGZipEnabled() { client.setGZipEnabled(); }
