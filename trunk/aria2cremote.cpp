@@ -831,6 +831,15 @@ void Aria2cRemote::ResponseXML(XML_RPC_RESPONSE_MAP tellActive, XML_RPC_RESPONSE
         m_mainListView->setEnabled(m_bConnected);
         m_DetailsTab->setEnabled(m_bConnected);
         m_listView->setEnabled(m_bConnected);
+
+        //set statusbar and toolbar connect state
+        setToolBarIcon(true);
+
+        Download d;
+        QMap<QString, Variant> vCurrentParam;
+        d.addVersionInfo(vCurrentParam);
+        m_requestThread.addRequest(d);
+        m_requestThread.wakeUp();
     }
 
     //clear
