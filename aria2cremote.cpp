@@ -1245,6 +1245,13 @@ void Aria2cRemote::on_actionOption_triggered()
 
         //set threads
         m_requestThread.setConnection(m_connection);
+
+        //get Aria2c version
+        Download d;
+        QMap<QString, Variant> vCurrentParam;
+        d.addVersionInfo(vCurrentParam);
+        m_requestThread.addRequest(d);
+        m_requestThread.wakeUp();
     }
 }
 
