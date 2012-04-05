@@ -1496,6 +1496,7 @@ void Aria2cRemote::createLanguageMenu(void)
     m_langPath.append("/languages");
     QDir dir(m_langPath);
     QStringList fileNames = dir.entryList(QStringList("Aria2cRemoteControl_*.qm"));
+    QString LoadLanguage = util::LoadSetting("Language", "Locale");
 
     for (int i = 0; i < fileNames.size(); ++i)
     {
@@ -1517,7 +1518,7 @@ void Aria2cRemote::createLanguageMenu(void)
         langGroup->addAction(action);
 
         // set default translators and language checked
-        if (defaultLocale == locale)
+        if ( ((defaultLocale == locale) && (LoadLanguage.size() == 0)) || (LoadLanguage == locale) )
         {
             action->setChecked(true);
             switchTranslator(m_translator, QString("%1/Aria2cRemoteControl_%2.qm").arg(m_langPath).arg(locale));
@@ -1531,6 +1532,7 @@ void Aria2cRemote::slotLanguageChanged(QAction* action)
     if (0 != action)
     {
         // load the language dependant on the action content
+        util::SaveSetting("Language", "Locale", action->data().toString());
         loadLanguage(action->data().toString());
     }
 }
