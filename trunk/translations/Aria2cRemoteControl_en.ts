@@ -393,7 +393,7 @@ p, li { white-space: pre-wrap; }
     <name>Aria2cRemote</name>
     <message>
         <location filename="../aria2cremote.ui" line="21"/>
-        <location filename="../aria2cremote.cpp" line="1494"/>
+        <location filename="../aria2cremote.cpp" line="1511"/>
         <source>English</source>
         <translation type="unfinished">English</translation>
     </message>
@@ -607,9 +607,9 @@ p, li { white-space: pre-wrap; }
         <location filename="../aria2cremote.cpp" line="378"/>
         <location filename="../aria2cremote.cpp" line="708"/>
         <location filename="../aria2cremote.cpp" line="789"/>
-        <location filename="../aria2cremote.cpp" line="1033"/>
-        <location filename="../aria2cremote.cpp" line="1594"/>
-        <location filename="../aria2cremote.cpp" line="1603"/>
+        <location filename="../aria2cremote.cpp" line="1042"/>
+        <location filename="../aria2cremote.cpp" line="1612"/>
+        <location filename="../aria2cremote.cpp" line="1621"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
@@ -675,43 +675,43 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../aria2cremote.cpp" line="703"/>
-        <location filename="../aria2cremote.cpp" line="1028"/>
+        <location filename="../aria2cremote.cpp" line="1037"/>
         <source>All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../aria2cremote.cpp" line="704"/>
-        <location filename="../aria2cremote.cpp" line="1029"/>
+        <location filename="../aria2cremote.cpp" line="1038"/>
         <source>Seeding</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../aria2cremote.cpp" line="705"/>
-        <location filename="../aria2cremote.cpp" line="1030"/>
+        <location filename="../aria2cremote.cpp" line="1039"/>
         <source>Downloading</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../aria2cremote.cpp" line="706"/>
-        <location filename="../aria2cremote.cpp" line="1031"/>
+        <location filename="../aria2cremote.cpp" line="1040"/>
         <source>Complete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../aria2cremote.cpp" line="707"/>
-        <location filename="../aria2cremote.cpp" line="1032"/>
+        <location filename="../aria2cremote.cpp" line="1041"/>
         <source>Pause</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../aria2cremote.cpp" line="709"/>
-        <location filename="../aria2cremote.cpp" line="1034"/>
+        <location filename="../aria2cremote.cpp" line="1043"/>
         <source>Waiting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../aria2cremote.cpp" line="710"/>
-        <location filename="../aria2cremote.cpp" line="1035"/>
+        <location filename="../aria2cremote.cpp" line="1044"/>
         <source>Remove</source>
         <translation type="unfinished"></translation>
     </message>
@@ -741,179 +741,179 @@ Please update to 1.14.2 or above version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1028"/>
+        <location filename="../aria2cremote.cpp" line="1037"/>
         <source>All (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1029"/>
+        <location filename="../aria2cremote.cpp" line="1038"/>
         <source>Seeding (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1030"/>
+        <location filename="../aria2cremote.cpp" line="1039"/>
         <source>Downloading (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1031"/>
+        <location filename="../aria2cremote.cpp" line="1040"/>
         <source>Complete (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1032"/>
+        <location filename="../aria2cremote.cpp" line="1041"/>
         <source>Pause (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1033"/>
+        <location filename="../aria2cremote.cpp" line="1042"/>
         <source>Error (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1034"/>
+        <location filename="../aria2cremote.cpp" line="1043"/>
         <source>Waiting (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1035"/>
+        <location filename="../aria2cremote.cpp" line="1044"/>
         <source>Remove (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1127"/>
+        <location filename="../aria2cremote.cpp" line="1136"/>
         <source>Download finished</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1271"/>
+        <location filename="../aria2cremote.cpp" line="1287"/>
         <source>Start URI</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1282"/>
+        <location filename="../aria2cremote.cpp" line="1298"/>
         <source>Start all URIs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1300"/>
+        <location filename="../aria2cremote.cpp" line="1316"/>
         <source>Pause URI</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1311"/>
+        <location filename="../aria2cremote.cpp" line="1327"/>
         <source>Pause all URIs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1329"/>
+        <location filename="../aria2cremote.cpp" line="1345"/>
         <source>Remove URI</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1340"/>
+        <location filename="../aria2cremote.cpp" line="1356"/>
         <source>Purge completed/error/removed URIs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1346"/>
+        <location filename="../aria2cremote.cpp" line="1362"/>
         <source>Shutdown</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1346"/>
+        <location filename="../aria2cremote.cpp" line="1362"/>
         <source>Do you really shutdown to Aria2c?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1353"/>
+        <location filename="../aria2cremote.cpp" line="1369"/>
         <source>Shutdown Aria2c</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1372"/>
+        <location filename="../aria2cremote.cpp" line="1388"/>
         <source>Force pause URI</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1383"/>
+        <location filename="../aria2cremote.cpp" line="1399"/>
         <source>Force pause all URIs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1401"/>
+        <location filename="../aria2cremote.cpp" line="1417"/>
         <source>Force remove URI</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1407"/>
+        <location filename="../aria2cremote.cpp" line="1423"/>
         <source>Force Shutdown</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1407"/>
+        <location filename="../aria2cremote.cpp" line="1423"/>
         <source>Do you really force shutdown to Aria2c?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1414"/>
+        <location filename="../aria2cremote.cpp" line="1430"/>
         <source>Force shutdown Aria2c</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1427"/>
+        <location filename="../aria2cremote.cpp" line="1443"/>
         <source>Get global variables</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1461"/>
+        <location filename="../aria2cremote.cpp" line="1477"/>
         <source>Change global variables</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1548"/>
+        <location filename="../aria2cremote.cpp" line="1566"/>
         <source>Connected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1548"/>
+        <location filename="../aria2cremote.cpp" line="1566"/>
         <source>Disconnected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1568"/>
+        <location filename="../aria2cremote.cpp" line="1586"/>
         <source>Fault Code: %1
 Fault string: %2
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1571"/>
+        <location filename="../aria2cremote.cpp" line="1589"/>
         <source>Aria2c fault parameter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1582"/>
+        <location filename="../aria2cremote.cpp" line="1600"/>
         <source>Download GeoIP database</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1594"/>
+        <location filename="../aria2cremote.cpp" line="1612"/>
         <source>Could not open GeoIP database for writing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1598"/>
+        <location filename="../aria2cremote.cpp" line="1616"/>
         <source>Success</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1598"/>
+        <location filename="../aria2cremote.cpp" line="1616"/>
         <source>Updated GeoIP database</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aria2cremote.cpp" line="1603"/>
+        <location filename="../aria2cremote.cpp" line="1621"/>
         <source>Download of %1 failed: %2</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3844,6 +3844,12 @@ Fault string: %2
     <message>
         <location filename="../tabwidget.ui" line="837"/>
         <source>Trackers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tabwidget.ui" line="856"/>
+        <location filename="../tabwidget.ui" line="946"/>
+        <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
