@@ -853,7 +853,7 @@ background-color: rgb(216, 216, 216);</string>
       </property>
       <column>
        <property name="text">
-        <string notr="true">Name</string>
+        <string>Name</string>
        </property>
       </column>
      </widget>
@@ -943,7 +943,7 @@ background-color: rgb(216, 216, 216);</string>
       </property>
       <column>
        <property name="text">
-        <string notr="true">Name</string>
+        <string>Name</string>
        </property>
       </column>
       <column>
