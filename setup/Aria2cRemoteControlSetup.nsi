@@ -2,7 +2,7 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "Aria2c Remote Control"
-!define PRODUCT_VERSION "0.1.1 beta 1"
+!define PRODUCT_VERSION "0.1.1"
 !define PRODUCT_PUBLISHER "Zoltan Molnar"
 !define PRODUCT_WEB_SITE "https://sourceforge.net/projects/aria2cremote/files"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\Aria2cRemoteControl.exe"
@@ -145,6 +145,7 @@ Section Uninstall
 
   RMDir "$APPDATA\${PRODUCT_NAME}"
   RMDir "$INSTDIR\imageformats"
+  RMDir "$INSTDIR\languages"
   RMDir "$SMPROGRAMS\${PRODUCT_NAME}"
   RMDir "$INSTDIR"
 
