@@ -1,4 +1,4 @@
-=== Aria2c Remote Control 0.1.1 (2012/03/xx) ===
+=== Aria2c Remote Control 0.1.1 (2012/04/08) ===
   * GeoIP database
   * Almost all Windows 7 new taskbar functions (Taskbar buttons, Overlay icons, Progress Bars)
   * Download templates
