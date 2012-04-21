@@ -728,6 +728,7 @@ void LocalOptions::SetBittorrentOptions()
     SetProperties(ui->checkBox_SeedUnverified, util::ARIA2C_FEATURES_BITTORRENT)->setCheckState(Update("bt-seed-unverified", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     SetProperties(ui->checkBox_FollowTorrent, util::ARIA2C_FEATURES_BITTORRENT)->setCheckState(Update("follow-torrent", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     SetProperties(ui->checkBox_PeerExchange, util::ARIA2C_FEATURES_BITTORRENT)->setCheckState(Update("enable-peer-exchange", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
+    SetProperties(ui->checkBox_RemoveUnselectedFile, util::ARIA2C_VERSION_1150 | util::ARIA2C_FEATURES_BITTORRENT)->setCheckState(Update("remove-unselected-file", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
 
     bool ok;
     SetProperties(ui->doubleSpinBox_SeedRatio, util::ARIA2C_FEATURES_BITTORRENT)->setValue(Update("seed-ratio", 1.0).toDouble(&ok));
@@ -941,6 +942,7 @@ void LocalOptions::on_buttonBox_accepted()
     getUpdate("bt-seed-unverified", QVariant(ui->checkBox_SeedUnverified->checkState() == Qt::Checked).toString());
     getUpdate("follow-torrent", QVariant(ui->checkBox_FollowTorrent->checkState() == Qt::Checked).toString());
     getUpdate("enable-peer-exchange", QVariant(ui->checkBox_PeerExchange->checkState() == Qt::Checked).toString());
+    getUpdate("remove-unselected-file", QVariant(ui->checkBox_RemoveUnselectedFile->checkState() == Qt::Checked).toString());
 
     bool ok;
     double dValue = ui->doubleSpinBox_SeedRatio->value();
