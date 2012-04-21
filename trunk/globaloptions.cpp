@@ -108,6 +108,8 @@ void GlobalOptions::SetBasicOptions()
     ui->lineEdit_Dir->setText(m_globalOptions.value("dir", QString("")).toString());
     ui->lineEdit_Help->setText(m_globalOptions.value("help", QString("#basic")).toString());
 
+    ui->lineEdit_LogFile->setText(m_globalOptions.value("log", QString("")).toString());
+
     Aria2cParameter param = Aria2cParams["log-level"];
     ui->comboBox_LogLevel->setCurrentIndex(param.getList().indexOf(m_globalOptions.value("log-level", QString("debug")).toString()));
 

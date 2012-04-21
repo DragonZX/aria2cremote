@@ -129,7 +129,7 @@
        <property name="geometry">
         <rect>
          <x>9</x>
-         <y>73</y>
+         <y>103</y>
          <width>131</width>
          <height>22</height>
         </rect>
@@ -183,7 +183,7 @@
        <property name="geometry">
         <rect>
          <x>9</x>
-         <y>103</y>
+         <y>133</y>
          <width>181</width>
          <height>22</height>
         </rect>
@@ -199,7 +199,7 @@
        <property name="geometry">
         <rect>
          <x>192</x>
-         <y>103</y>
+         <y>133</y>
          <width>81</width>
          <height>22</height>
         </rect>
@@ -253,7 +253,7 @@
        <property name="geometry">
         <rect>
          <x>9</x>
-         <y>133</y>
+         <y>163</y>
          <width>181</width>
          <height>22</height>
         </rect>
@@ -269,7 +269,7 @@
        <property name="geometry">
         <rect>
          <x>192</x>
-         <y>133</y>
+         <y>163</y>
          <width>81</width>
          <height>22</height>
         </rect>
@@ -323,7 +323,7 @@
        <property name="geometry">
         <rect>
          <x>9</x>
-         <y>163</y>
+         <y>193</y>
          <width>181</width>
          <height>22</height>
         </rect>
@@ -339,7 +339,7 @@
        <property name="geometry">
         <rect>
          <x>192</x>
-         <y>163</y>
+         <y>193</y>
          <width>81</width>
          <height>22</height>
         </rect>
@@ -383,7 +383,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>253</y>
+         <y>283</y>
          <width>181</width>
          <height>17</height>
         </rect>
@@ -517,7 +517,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>223</y>
+         <y>253</y>
          <width>181</width>
          <height>16</height>
         </rect>
@@ -536,7 +536,7 @@
        <property name="geometry">
         <rect>
          <x>192</x>
-         <y>223</y>
+         <y>253</y>
          <width>81</width>
          <height>22</height>
         </rect>
@@ -555,7 +555,7 @@
        <property name="geometry">
         <rect>
          <x>9</x>
-         <y>193</y>
+         <y>223</y>
          <width>181</width>
          <height>16</height>
         </rect>
@@ -574,7 +574,7 @@
        <property name="geometry">
         <rect>
          <x>192</x>
-         <y>193</y>
+         <y>223</y>
          <width>81</width>
          <height>22</height>
         </rect>
@@ -640,7 +640,7 @@
        <property name="geometry">
         <rect>
          <x>140</x>
-         <y>70</y>
+         <y>103</y>
          <width>131</width>
          <height>22</height>
         </rect>
@@ -673,6 +673,35 @@
          <string>error</string>
         </property>
        </item>
+      </widget>
+      <widget class="QLabel" name="label_52">
+       <property name="geometry">
+        <rect>
+         <x>9</x>
+         <y>73</y>
+         <width>131</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Log file:</string>
+       </property>
+       <property name="buddy">
+        <cstring>lineEdit_Help</cstring>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="lineEdit_LogFile">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>140</x>
+         <y>73</y>
+         <width>133</width>
+         <height>20</height>
+        </rect>
+       </property>
       </widget>
      </widget>
      <widget class="QWidget" name="tab_2">
@@ -2927,6 +2956,7 @@
   <tabstop>tabWidget</tabstop>
   <tabstop>lineEdit_Dir</tabstop>
   <tabstop>lineEdit_Help</tabstop>
+  <tabstop>lineEdit_LogFile</tabstop>
   <tabstop>comboBox_LogLevel</tabstop>
   <tabstop>spinBox_MaxOverallDownloadLimit</tabstop>
   <tabstop>spinBox_MaxOverallUploadLimit</tabstop>
@@ -2945,9 +2975,9 @@
   <tabstop>radioButton_Mode_Passive</tabstop>
   <tabstop>radioButton_Mode_Active</tabstop>
   <tabstop>checkBox_ReuseConnection</tabstop>
+  <tabstop>spinBox_FTP_ConnectTimeout</tabstop>
   <tabstop>radioButton_Type_Binary</tabstop>
   <tabstop>radioButton_Type_ASCII</tabstop>
-  <tabstop>spinBox_FTP_ConnectTimeout</tabstop>
   <tabstop>checkBox_HTTPKeepAlive</tabstop>
   <tabstop>checkBox_HTTPPipelining</tabstop>
   <tabstop>checkBox_AcceptGzip</tabstop>
