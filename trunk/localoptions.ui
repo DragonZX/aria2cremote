@@ -1586,6 +1586,22 @@
       <cstring>lineEdit_ExternalIP</cstring>
      </property>
     </widget>
+    <widget class="QCheckBox" name="checkBox_RemoveUnselectedFile">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>100</y>
+       <width>141</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Remove unselected file</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="tab_Metalink">
     <attribute name="title">
@@ -2755,6 +2771,7 @@
   <tabstop>checkBox_HashCheckSeed</tabstop>
   <tabstop>checkBox_MetadataOnly</tabstop>
   <tabstop>checkBox_RequireCrypto</tabstop>
+  <tabstop>checkBox_RemoveUnselectedFile</tabstop>
   <tabstop>checkBox_SaveMetadata</tabstop>
   <tabstop>checkBox_SeedUnverified</tabstop>
   <tabstop>checkBox_FollowTorrent</tabstop>
@@ -2821,16 +2838,16 @@
   <tabstop>pushButton_Servers_Add</tabstop>
   <tabstop>pushButton_Servers_Delete</tabstop>
   <tabstop>pushButton_Servers_Modify</tabstop>
+  <tabstop>tabWidget_Proxy</tabstop>
   <tabstop>checkBox_Proxy_All_Enabled</tabstop>
   <tabstop>treeWidget_Proxy_All_List</tabstop>
   <tabstop>pushButton_Proxy_Add</tabstop>
   <tabstop>pushButton_Proxy_Delete</tabstop>
   <tabstop>pushButton_Proxy_Modify</tabstop>
-  <tabstop>treeWidget_Proxy_HTTP_List</tabstop>
-  <tabstop>tabWidget_Proxy</tabstop>
-  <tabstop>treeWidget_Proxy_HTTPS_List</tabstop>
-  <tabstop>treeWidget_Proxy_FTP_List</tabstop>
   <tabstop>buttonBox</tabstop>
+  <tabstop>treeWidget_Proxy_FTP_List</tabstop>
+  <tabstop>treeWidget_Proxy_HTTPS_List</tabstop>
+  <tabstop>treeWidget_Proxy_HTTP_List</tabstop>
  </tabstops>
  <resources>
   <include location="Aria2cRemote.qrc"/>
