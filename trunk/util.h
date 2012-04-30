@@ -90,6 +90,7 @@ using namespace xmlrpc;
         m["seed-time"] = Aria2cParameter().addType(QVariant::Int).addMinMax(0, 365*24*3600).addFeatures(util::ARIA2C_FEATURES_BITTORRENT);
         m["bt-external-ip"] = Aria2cParameter().addType(QVariant::String).addFeatures(util::ARIA2C_FEATURES_BITTORRENT);
         m["bt-prioritize-piece"] = Aria2cParameter().addType(QVariant::String).addFeatures(util::ARIA2C_FEATURES_BITTORRENT);
+        m["bt-remove-unselected-file"] = Aria2cParameter().addType(QVariant::String).addFeatures(util::ARIA2C_VERSION_1150 | util::ARIA2C_FEATURES_BITTORRENT);
 
         m["bt-tracker-interval"] = Aria2cParameter().addType(QVariant::Int).addMinMax(1, 64 * 1024).addFeatures(util::ARIA2C_FEATURES_BITTORRENT);
         m["bt-tracker-timeout"] = Aria2cParameter().addType(QVariant::Int).addMinMax(1, 64 * 1024).addFeatures(util::ARIA2C_VERSION_191 | util::ARIA2C_FEATURES_BITTORRENT);

@@ -166,7 +166,7 @@ void GlobalOptions::SetBittorrentOptions()
     ui->checkBox_SeedUnverified->setCheckState(m_globalOptions.value("bt-seed-unverified", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     ui->checkBox_FollowTorrent->setCheckState(m_globalOptions.value("follow-torrent", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
     ui->checkBox_PeerExchange->setCheckState(m_globalOptions.value("enable-peer-exchange", true).toBool() ? (Qt::Checked) : (Qt::Unchecked));
-    ui->checkBox_RemoveUnselectedFile->setCheckState(m_globalOptions.value("remove-unselected-file", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
+    ui->checkBox_RemoveUnselectedFile->setCheckState(m_globalOptions.value("bt-remove-unselected-file", false).toBool() ? (Qt::Checked) : (Qt::Unchecked));
 
     bool ok;
     ui->doubleSpinBox_SeedRatio->setValue(m_globalOptions.value("seed-ratio", 1.0).toDouble(&ok));
