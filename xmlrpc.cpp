@@ -200,7 +200,7 @@ namespace xmlrpc
                     } else if (key == "length")
                     {
                         bool ok;
-                        f.length = it.value().toUInt(&ok);
+                        f.length = it.value().toULongLong(&ok);
                     } else if (key == "path")
                     {
                         f.path = it.value().toString();
