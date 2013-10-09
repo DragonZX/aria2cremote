@@ -133,7 +133,7 @@ namespace xmlrpc
         QString getName();
         //Download information
         XML_TYPE getType() { return m_download_type; }
-        qint64 getGID() {return m_gid;}
+        QString getGID() {return m_gid;}
         std::vector<quint64> getBitfield() { return m_bitfield; }
         quint64 getCompletedLength() {return m_completedLength;}
         quint32 getConnections() {return m_connections;}
@@ -200,7 +200,7 @@ namespace xmlrpc
         QString m_dir;
         quint32 m_downloadSpeed;
         QList<XMLRPC_FILES> m_files;
-        qint64 m_gid;
+        QString m_gid;
         quint32 m_numPieces;
         quint32 m_pieceLength;
         QString m_status;
