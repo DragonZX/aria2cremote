@@ -34,7 +34,7 @@ QMutex RequestThread::conditionMutex;
 RequestThread::RequestThread() :
         m_exit(false),
         m_sleep(10000),
-        m_currentGID(-1),
+        m_currentGID(""),
         m_periodicRequest(false)
 {
     m_connection.host = "";
@@ -49,7 +49,7 @@ RequestThread::RequestThread() :
     client.setHost(m_connection.host, m_connection.port, "/rpc");
     client.setUser(m_connection.user, m_connection.password);
 
-    connect( &client, SIGNAL(done( int, qint64, int, QVariant )), this, SLOT(processReturnValue( int, qint64, int, QVariant )) );
+    connect( &client, SIGNAL(done( int, QString, int, QVariant )), this, SLOT(processReturnValue( int, QString, int, QVariant )) );
     connect( &client, SIGNAL(failed( int, int, QString )), this, SLOT(processFault( int, int, QString )) );
 }
 
@@ -137,7 +137,7 @@ void RequestThread::run()
             v += Variant(methodTellActive);
             v += Variant(methodTellStopped);
             v += Variant(methodTellWaiting);
-            if (m_currentGID != -1)
+            if (m_currentGID.length() != 0)
             {
                 QMap<QString, Variant> methodGetPeers;
                 QVariantList paramsGetPeers;
@@ -145,11 +145,11 @@ void RequestThread::run()
                 QVariantList paramsGetServers;
 
                 methodGetPeers["methodName"] = QString("aria2.getPeers");
-                paramsGetPeers << Variant(QString::number(m_currentGID));
+                paramsGetPeers << Variant(m_currentGID);
                 methodGetPeers["params"] = paramsGetPeers;
 
                 methodGetServers["methodName"] = QString("aria2.getServers");
-                paramsGetServers << Variant(QString::number(m_currentGID));
+                paramsGetServers << Variant(m_currentGID);
                 methodGetServers["params"] = paramsGetServers;
 
                 v += Variant(methodGetPeers);
@@ -169,7 +169,7 @@ void RequestThread::run()
     }
 }
 
-void RequestThread::processReturnValue( int iTypes, qint64 iGID, int requestId, QVariant value )
+void RequestThread::processReturnValue( int iTypes, QString sGID, int requestId, QVariant value )
 {
     QVariantList vl;
     QString errorMessage;
@@ -221,7 +221,7 @@ void RequestThread::processReturnValue( int iTypes, qint64 iGID, int requestId, 
                      {
                          xmlrpc::XmlRPC x;
                          x.ParseResponseXML(item);
-                         qint64 gid = x.getGID();
+                         QString gid = x.getGID();
                          responseTellActive[gid] = x;
                      }
                 }
@@ -239,7 +239,7 @@ void RequestThread::processReturnValue( int iTypes, qint64 iGID, int requestId, 
                      {
                          xmlrpc::XmlRPC x;
                          x.ParseResponseXML(item);
-                         qint64 gid = x.getGID();
+                         QString gid = x.getGID();
                          responseTellStopped[gid] = x;
                      }
                 }
@@ -257,7 +257,7 @@ void RequestThread::processReturnValue( int iTypes, qint64 iGID, int requestId, 
                      {
                          xmlrpc::XmlRPC x;
                          x.ParseResponseXML(item);
-                         qint64 gid = x.getGID();
+                         QString gid = x.getGID();
                          responseTellWaiting[gid] = x;
                      }
                 }
@@ -279,15 +279,15 @@ void RequestThread::processReturnValue( int iTypes, qint64 iGID, int requestId, 
                          QVariant &item(itemtellPeersList[i]);
                          if (Variant::Map == item.type())
                          {
-                             if (responseTellActive.contains(iGID))
+                             if (responseTellActive.contains(sGID))
                              {
-                                 responseTellActive[iGID].setPeers(item);
-                             } else if (responseTellStopped.contains(iGID))
+                                 responseTellActive[sGID].setPeers(item);
+                             } else if (responseTellStopped.contains(sGID))
                              {
-                                 responseTellStopped[iGID].setPeers(item);
-                             } else if (responseTellWaiting.contains(iGID))
+                                 responseTellStopped[sGID].setPeers(item);
+                             } else if (responseTellWaiting.contains(sGID))
                              {
-                                 responseTellWaiting[iGID].setPeers(item);
+                                 responseTellWaiting[sGID].setPeers(item);
                              }
                          }
                     }
@@ -306,15 +306,15 @@ void RequestThread::processReturnValue( int iTypes, qint64 iGID, int requestId, 
                          QVariant &item(itemtellServersList[i]);
                          if (Variant::Map == item.type())
                          {
-                             if (responseTellActive.contains(iGID))
+                             if (responseTellActive.contains(sGID))
                              {
-                                 responseTellActive[iGID].setServers(item);
-                             } else if (responseTellStopped.contains(iGID))
+                                 responseTellActive[sGID].setServers(item);
+                             } else if (responseTellStopped.contains(sGID))
                              {
-                                 responseTellStopped[iGID].setServers(item);
-                             } else if (responseTellWaiting.contains(iGID))
+                                 responseTellStopped[sGID].setServers(item);
+                             } else if (responseTellWaiting.contains(sGID))
                              {
-                                 responseTellWaiting[iGID].setServers(item);
+                                 responseTellWaiting[sGID].setServers(item);
                              }
                          }
                     }
@@ -324,7 +324,7 @@ void RequestThread::processReturnValue( int iTypes, qint64 iGID, int requestId, 
         }
     } else
     {
-        QList<quint64> gids;
+        QList<QString> gids;
         QList<FAULT_MESSAGE> faultMessages;
         foreach(QVariant elem, value.toList())
         {
@@ -360,10 +360,7 @@ void RequestThread::processReturnValue( int iTypes, qint64 iGID, int requestId, 
                     }
                     else
                     {
-                        bool ok;
-                        quint64 gid = subElem.toULongLong(&ok);
-                        if (ok)
-                            gids.push_back(gid);
+                      gids.push_back(subElem.toString());
                     }
                 }
             }

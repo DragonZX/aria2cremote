@@ -57,7 +57,7 @@ public:
 
 	virtual ~Client();
 
-    int request( QList<Variant> &params, QString methodName, int iTypes, qint64 iGID = -1 );
+    int request( QList<Variant> &params, QString methodName, int iTypes, QString sGID = "" );
 
     /* overloaded methods */
     int request( QString methodName );
@@ -68,7 +68,7 @@ public:
 
 signals:
     //! request requestId is done with return value res
-    void done( int iTypes, qint64 iGID, int requestId, QVariant res );
+    void done( int iTypes, QString sGID, int requestId, QVariant res );
     //! request requestId is failed with fault code faultCode and fault description faultString
     void failed( int requestId, int faultCode, QString faultString );
 

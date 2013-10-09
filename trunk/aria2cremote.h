@@ -101,7 +101,7 @@ private slots:
     void HideTransferDialog();
     void GetGlobalOptions(QVariant value);
     void slotLanguageChanged(QAction* action);
-    void RequestGID(QList<quint64> gids);
+    void RequestGID(QList<QString> gids);
     void RequestFault(QList<FAULT_MESSAGE> faultMessages);
     void GeoIPDBdownloadFinished(QList<QNetworkReply*> listReply);
 
@@ -126,7 +126,7 @@ private:
     bool m_bConnected;
 
     //current item
-    qint64 m_currentGID;
+    QString m_currentGID;
 
     //Connection options + proxy
     util::CONNECTION m_connection;
@@ -135,7 +135,7 @@ private:
     XML_RPC_RESPONSE_MAP m_tellStopped;
     XML_RPC_RESPONSE_MAP m_tellWaiting;
 
-    QMap<qint64, DOWNLOAD_LIST> m_downloadView;
+    QMap<QString, DOWNLOAD_LIST> m_downloadView;
 
     //Downloads status
     quint64 m_seeding;
@@ -165,14 +165,14 @@ private:
     unsigned int m_IDTaskbarButtonCreated;
     #endif
 
-    QMap<quint64, quint32> m_currentDownloadProgress;
+    QMap<QString, quint32> m_currentDownloadProgress;
 
     GeoIP geoip;
     DownloadProgressDialog *progressDialog;
 private:
     void setTreeWidgetItem(QTreeWidgetItemEx *item, XmlRPC& x);
     void setInitTreeWidgetItem(QTreeWidgetItemEx *item);
-    qint64 getCurrentGIDFromListView();
+    QString getCurrentGIDFromListView();
     #ifdef Q_WS_WIN
     bool winEvent(MSG * message, long * result);
     #endif

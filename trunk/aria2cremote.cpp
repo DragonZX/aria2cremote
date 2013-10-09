@@ -42,7 +42,7 @@ Aria2cRemote::Aria2cRemote(QWidget *parent) :
     m_transfer(NULL),
     bValidGlobalOption(false),
     m_bConnected(false),
-    m_currentGID(-1),
+    m_currentGID(""),
     m_seeding(0),
     m_downloading(0),
     m_complete(0),
@@ -177,7 +177,7 @@ Aria2cRemote::Aria2cRemote(QWidget *parent) :
     connect(&m_requestThread, SIGNAL(ShowTransferDialog(QString)), this, SLOT(ShowTransferDialog(QString)));
     connect(&m_requestThread, SIGNAL(HideTransferDialog()), this, SLOT(HideTransferDialog()));
     connect(&m_requestThread, SIGNAL(ResponseVersionInfo(QVariant)), this, SLOT(ResponseVersionInfo(QVariant)));
-    connect(&m_requestThread, SIGNAL(RequestGID(QList<quint64>)), this, SLOT(RequestGID(QList<quint64>)));
+    connect(&m_requestThread, SIGNAL(RequestGID(QList<QString>)), this, SLOT(RequestGID(QList<QString>)));
     connect(&m_requestThread, SIGNAL(RequestFault(QList<FAULT_MESSAGE>)), this, SLOT(RequestFault(QList<FAULT_MESSAGE>)));
     m_requestThread.start();
 
@@ -656,7 +656,7 @@ void Aria2cRemote::processFaultToUI( int requestId, int errorCode, QString error
     bValidGlobalOption = false;
     if (m_bConnected)
     {
-        m_currentGID = -1;
+        m_currentGID.clear();
         m_bConnected = false;
 
         ui->action_AddURI->setEnabled(m_bConnected);
@@ -686,7 +686,7 @@ void Aria2cRemote::processFaultToUI( int requestId, int errorCode, QString error
         m_Windows7.ToolbarButtonEnabled(3, m_bConnected);
         #endif
         //erase all items
-        foreach(qint64 gid, m_downloadView.keys() )
+        foreach(QString gid, m_downloadView.keys() )
         {
             DOWNLOAD_LIST list;
             list.item = 0;
@@ -805,7 +805,7 @@ void Aria2cRemote::ResponseVersionInfo(QVariant params)
 
 void Aria2cRemote::ResponseXML(XML_RPC_RESPONSE_MAP tellActive, XML_RPC_RESPONSE_MAP tellStopped, XML_RPC_RESPONSE_MAP tellWaiting)
 {
-    QMap<qint64, DOWNLOAD_LIST> d;
+    QMap<QString, DOWNLOAD_LIST> d;
     int iCurrentMode = m_mainListView->currentRow();
 
     //Set states
@@ -864,7 +864,7 @@ void Aria2cRemote::ResponseXML(XML_RPC_RESPONSE_MAP tellActive, XML_RPC_RESPONSE
     foreach(xmlrpc::XmlRPC dw, tellActive)
     {
         DOWNLOAD_LIST list;
-        qint64 gid = dw.getGID();
+        QString gid = dw.getGID();
         bool bSeeding = (dw.getCompletedLength() != 0) && ( dw.getCompletedLength() == dw.getTotalLength() );
         //All or Seeding or Downloading
         if ( (iCurrentMode == 0) ||
@@ -901,7 +901,7 @@ void Aria2cRemote::ResponseXML(XML_RPC_RESPONSE_MAP tellActive, XML_RPC_RESPONSE
     foreach(xmlrpc::XmlRPC dw, tellStopped)
     {
         DOWNLOAD_LIST list;
-        qint64 gid = dw.getGID();
+        QString gid = dw.getGID();
         URI_STATUS status = dw.getiStatus();
         //All or Seeding or Downloading or Paused or Error or Remove
         if ( (iCurrentMode == 0) ||
@@ -952,7 +952,7 @@ void Aria2cRemote::ResponseXML(XML_RPC_RESPONSE_MAP tellActive, XML_RPC_RESPONSE
     foreach(xmlrpc::XmlRPC dw, tellWaiting)
     {
         DOWNLOAD_LIST list;
-        qint64 gid = dw.getGID();
+        QString gid = dw.getGID();
         if ( (iCurrentMode == 0) || (iCurrentMode == 6) )
         {
             if (!m_downloadView.contains(gid))
@@ -977,7 +977,7 @@ void Aria2cRemote::ResponseXML(XML_RPC_RESPONSE_MAP tellActive, XML_RPC_RESPONSE
     }
 
     //erase not visibled download
-    foreach(qint64 gid, m_downloadView.keys() )
+    foreach(QString gid, m_downloadView.keys() )
     {
         if (!d.contains(gid))
         {
@@ -1007,7 +1007,7 @@ void Aria2cRemote::ResponseXML(XML_RPC_RESPONSE_MAP tellActive, XML_RPC_RESPONSE
     quint64 uOverAllDownloadSpeed = 0;
     quint64 uOverAllUploadSpeed = 0;
 
-    m_currentGID = -1;
+    m_currentGID.clear();
     foreach(DOWNLOAD_LIST dl, m_downloadView)
     {
         URI_STATUS status = dl.list.getiStatus();
@@ -1121,7 +1121,7 @@ void Aria2cRemote::setTreeWidgetItem(QTreeWidgetItemEx *item, XmlRPC& x)
         icon.addFile(":/icon/uri/metalink.png");
     }
     item->setIcon(0, icon);
-    item->setText(0, QString::number(x.getGID())); //GID
+    item->setText(0, x.getGID()); //GID
     item->setData(0, Qt::UserRole, x.getGID());
     item->setText(1, x.getName()); //Name
     item->setText(2, util::ConvertNumberToSuffixString(x.getTotalLength())); //Size
@@ -1130,7 +1130,7 @@ void Aria2cRemote::setTreeWidgetItem(QTreeWidgetItemEx *item, XmlRPC& x)
     if (status == STATUS_COMPLETE)
     {
         item->setText(3, "100%"); //Done
-        quint64 gid = x.getGID();
+        QString gid = x.getGID();
         if (m_currentDownloadProgress.contains(gid))
         {
             m_SystemTrayIcon->showMessage(tr("Download finished"), (x.getFiles().size() > 1) ? x.getDir() : x.getFiles()[0].path, QSystemTrayIcon::Information);
@@ -1255,9 +1255,9 @@ void Aria2cRemote::on_actionOption_triggered()
     }
 }
 
-qint64 Aria2cRemote::getCurrentGIDFromListView()
+QString Aria2cRemote::getCurrentGIDFromListView()
 {
-    qint64 gid = -1;
+    QString gid("");
     QTreeWidgetItem *currentItem = (QTreeWidgetItem *)m_listView->currentItem();
     foreach(DOWNLOAD_LIST dl, m_downloadView)
     {
@@ -1275,11 +1275,11 @@ void Aria2cRemote::on_action_Start_triggered()
     Download d;
     QMap<QString, Variant> vCurrentParam;
 
-    qint64 gid = getCurrentGIDFromListView();
+    QString gid = getCurrentGIDFromListView();
 
-    if (gid != -1)
+    if (gid.length() != 0)
     {
-        vCurrentParam["gid"] = Variant(QString::number(gid));
+        vCurrentParam["gid"] = Variant(gid);
     }
 
     d.addUnPause(vCurrentParam);
@@ -1304,11 +1304,11 @@ void Aria2cRemote::on_action_Pause_triggered()
     Download d;
     QMap<QString, Variant> vCurrentParam;
 
-    qint64 gid = getCurrentGIDFromListView();
+    QString gid = getCurrentGIDFromListView();
 
-    if (gid != -1)
+    if (gid.length() != 0)
     {
-        vCurrentParam["gid"] = Variant(QString::number(gid));
+        vCurrentParam["gid"] = Variant(gid);
     }
 
     d.addPause(vCurrentParam);
@@ -1333,11 +1333,11 @@ void Aria2cRemote::on_action_Remove_triggered()
     Download d;
     QMap<QString, Variant> vCurrentParam;
 
-    qint64 gid = getCurrentGIDFromListView();
+    QString gid = getCurrentGIDFromListView();
 
-    if (gid != -1)
+    if (gid.length() != 0)
     {
-        vCurrentParam["gid"] = Variant(QString::number(gid));
+        vCurrentParam["gid"] = Variant(gid);
     }
 
     d.addRemove(vCurrentParam);
@@ -1376,11 +1376,11 @@ void Aria2cRemote::on_actionForce_pause_triggered()
     Download d;
     QMap<QString, Variant> vCurrentParam;
 
-    qint64 gid = getCurrentGIDFromListView();
+    QString gid = getCurrentGIDFromListView();
 
-    if (gid != -1)
+    if (gid.length() != 0)
     {
-        vCurrentParam["gid"] = Variant(QString::number(gid));
+        vCurrentParam["gid"] = Variant(gid);
     }
 
     d.addForcePause(vCurrentParam);
@@ -1405,11 +1405,11 @@ void Aria2cRemote::on_actionForce_remove_triggered()
     Download d;
     QMap<QString, Variant> vCurrentParam;
 
-    qint64 gid = getCurrentGIDFromListView();
+    QString gid = getCurrentGIDFromListView();
 
-    if (gid != -1)
+    if (gid.length() != 0)
     {
-        vCurrentParam["gid"] = Variant(QString::number(gid));
+        vCurrentParam["gid"] = Variant(gid);
     }
 
     d.addForceRemove(vCurrentParam);
@@ -1570,9 +1570,9 @@ void Aria2cRemote::setToolBarIcon(bool bState)
     m_connectStateIcon.setPixmap(icon.pixmap(size));
 }
 
-void Aria2cRemote::RequestGID(QList<quint64> gids)
+void Aria2cRemote::RequestGID(QList<QString> gids)
 {
-    foreach (quint64 gid, gids)
+    foreach (QString gid, gids)
     {
         m_currentDownloadProgress[gid] = 0;
     }

@@ -29,7 +29,7 @@ namespace xmlrpc
             m_completedLength(0),
             m_connections(0),
             m_downloadSpeed(0),
-            m_gid(0),
+            m_gid(""),
             m_numPieces(0),
             m_pieceLength(0),
             m_status(""),
@@ -74,8 +74,7 @@ namespace xmlrpc
                 GetFiles(it.value());
             } else if (key == "gid")
             {
-                bool ok;
-                m_gid = it.value().toULongLong(&ok);
+                m_gid = it.value().toString();
             } else if (key == "numPieces")
             {
                 bool ok;

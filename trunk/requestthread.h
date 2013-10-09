@@ -29,7 +29,7 @@
 #include "download.h"
 #include "util.h"
 
-typedef QMap<qint64, xmlrpc::XmlRPC> XML_RPC_RESPONSE_MAP;
+typedef QMap<QString, xmlrpc::XmlRPC> XML_RPC_RESPONSE_MAP;
 
 typedef struct TFAULT_MESSAGE
 {
@@ -50,7 +50,7 @@ public:
     void stop(){ m_exit = true; }
     void SetSleep(quint32 sleep) { m_sleep = sleep;}
     void EnablePeriodicRequest() { m_periodicRequest = true; wakeUp(); }
-    void setCurrentGID(int gid) { m_currentGID = gid; }
+    void setCurrentGID(QString gid) { m_currentGID = gid; }
     void setConnection(const util::CONNECTION &connection);
     void SetGZipEnabled() { client.setGZipEnabled(); }
     void wakeUp() {condition.wakeAll();}
@@ -64,13 +64,13 @@ signals:
     void ResponseVersionInfo(QVariant params);
     void ShowTransferDialog(QString sDescription);
     void HideTransferDialog();
-    void RequestGID(QList<quint64>);
+    void RequestGID(QList<QString>);
     void RequestFault(QList<FAULT_MESSAGE>);
     void Response(XML_RPC_RESPONSE_MAP tellActive, XML_RPC_RESPONSE_MAP tellStopped, XML_RPC_RESPONSE_MAP tellWaiting);
     void processFaultToUI( int requestId, int errorCode, QString errorString );
 
 public slots:
-    void processReturnValue( int iTypes, qint64 iGID, int requestId, QVariant value );
+    void processReturnValue( int iTypes, QString sGID, int requestId, QVariant value );
     void processFault( int requestId, int errorCode, QString errorString );
 
 private:
@@ -82,7 +82,7 @@ private:
 
     util::CONNECTION m_connection;
 
-    qint64 m_currentGID;
+    QString m_currentGID;
 
     QQueue<Download> m_request;
     QString m_sDescription;

@@ -36,7 +36,7 @@ public:
     bool bGZip;
 
     //current selected download item
-    qint64 iGID;
+    QString sGID;
 };
 
 /**
@@ -170,7 +170,7 @@ void Client::setUserAgent( const QString & userAgent )
  * but to avoid such kind of bugs, the parameters order in
  * overloaded methods was changed.
  */
-int Client::request( QList<Variant> &params, QString methodName, int iTypes, qint64 iGID )
+int Client::request( QList<Variant> &params, QString methodName, int iTypes, QString sGID )
 {
     QBuffer *outBuffer = new QBuffer;
 
@@ -199,7 +199,7 @@ int Client::request( QList<Variant> &params, QString methodName, int iTypes, qin
     int id = d->http->request( header, data, outBuffer );
     d->serverResponses[id] = outBuffer;
     d->iTypes = iTypes;
-    d->iGID = iGID;
+    d->sGID = sGID;
     d->bGZip = m_bHeaderGZip;
     d->http->close();
 
@@ -341,7 +341,7 @@ void Client::requestFinished(int id, bool error)
 #ifdef QT_DEBUG
                 qDebug() << response.returnValue().pprint();
 #endif
-                emit done( d->iTypes, d->iGID, id, response.returnValue() );
+                emit done( d->iTypes, d->sGID, id, response.returnValue() );
             }
 
         } else {
